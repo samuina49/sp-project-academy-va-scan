@@ -1,0 +1,87 @@
+# Docker ignore file - prevents unnecessary files from being copied to Docker image
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+ENV/
+.conda/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Local development
+*.log
+*.local
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ML model training artifacts (keep only final models)
+runs/
+wandb/
+mlruns/
+
+# Test samples (not needed in production)
+test_samples/
+
+# Large datasets
+MSR_20_Code_vulnerability_CSV_Dataset/
+data/raw/
+data/training/
+*.csv
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# IDE specific
+.mypy_cache/
+.dmypy.json
+dmypy.json

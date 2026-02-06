@@ -1,0 +1,8 @@
+{
+  "best_f1": 0.9901315789473685,
+  "best_acc": 0.9909977494373593,
+  "epoch": 12,
+  "vuln_count": 2860,
+  "safe_count": 3362,
+  "vocab_size": 5319
+}

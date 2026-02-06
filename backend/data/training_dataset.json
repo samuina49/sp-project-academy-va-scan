@@ -1,0 +1,1922 @@
+[
+  {
+    "code": "def calculate_sum(a, b):\n    return a + b",
+    "label": 0,
+    "file_path": "synthetic_safe_0.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "def greet_user(name):\n    print(f\"Hello, {name}\")",
+    "label": 0,
+    "file_path": "synthetic_safe_1.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "import math\ndef circle_area(r):\n    return math.pi * r * r",
+    "label": 0,
+    "file_path": "synthetic_safe_2.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "def get_user_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "synthetic_safe_3.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "class User:\n    def __init__(self, name):\n        self.name = name",
+    "label": 0,
+    "file_path": "synthetic_safe_4.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "def safe_query(cursor, user_id):\n    cursor.execute(\"SELECT * FROM users WHERE id = ?\", (user_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "file_path": "synthetic_safe_5.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "import subprocess\ndef list_files_safe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "synthetic_safe_6.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "def process_data(data):\n    if not data:\n        return None\n    return data.strip()",
+    "label": 0,
+    "file_path": "synthetic_safe_7.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "import os\ndef run_command(cmd):\n    os.system(\"echo \" + cmd)",
+    "label": 1,
+    "file_path": "synthetic_vuln_0.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_vuln"
+      ]
+    }
+  },
+  {
+    "code": "def get_user(cursor, name):\n    cursor.execute(\"SELECT * FROM users WHERE name = '\" + name + \"'\")",
+    "label": 1,
+    "file_path": "synthetic_vuln_1.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_vuln"
+      ]
+    }
+  },
+  {
+    "code": "def eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "synthetic_vuln_2.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_vuln"
+      ]
+    }
+  },
+  {
+    "code": "import subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "synthetic_vuln_3.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_vuln"
+      ]
+    }
+  },
+  {
+    "code": "def load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "synthetic_vuln_4.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_vuln"
+      ]
+    }
+  },
+  {
+    "code": "import pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "synthetic_vuln_5.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_vuln"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 0\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_0.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 1\n\nimport os\ndef run_command(cmd_1):\n    os.system(\"echo \" + cmd_1)",
+    "label": 1,
+    "file_path": "generated_1.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 2\n\ndef process_dvar_2tvar_2(dvar_2tvar_2):\n    if not dvar_2tvar_2:\n        return None\n    return dvar_2tvar_2.strip()",
+    "label": 0,
+    "file_path": "generated_2.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 3\n\nimport os\ndef run_command(cmd_3):\n    os.system(\"echo \" + cmd_3)",
+    "label": 1,
+    "file_path": "generated_3.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 4\n\ndef process_dvar_4tvar_4(dvar_4tvar_4):\n    if not dvar_4tvar_4:\n        return None\n    return dvar_4tvar_4.strip()",
+    "label": 0,
+    "file_path": "generated_4.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 5\n\ndef greet_user_5(nvar_5me):\n    print(f\"Hello, {nvar_5me}\")",
+    "label": 0,
+    "file_path": "generated_5.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 6\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_6.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 7\n\ndef svar_7fe_query(cursor, user_7_id):\n    cursor.execute(\"SELECT * FROM user_7s WHERE id = ?\", (user_7_id,))\n    return cursor.fetchvar_7ll()",
+    "label": 0,
+    "file_path": "generated_7.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 8\n\nimport subprocess\ndef list_files_svar_8fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_8.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 9\n\ndef get_user_9_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_9.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 10\n\ndef get_user_10_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_10.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 11\n\ndef svar_11fe_query(cursor, user_11_id):\n    cursor.execute(\"SELECT * FROM user_11s WHERE id = ?\", (user_11_id,))\n    return cursor.fetchvar_11ll()",
+    "label": 0,
+    "file_path": "generated_11.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 12\n\nclvar_12ss User:\n    def __init__(self, nvar_12me):\n        self.nvar_12me = nvar_12me",
+    "label": 0,
+    "file_path": "generated_12.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 13\n\nimport os\ndef run_command(cmd_13):\n    os.system(\"echo \" + cmd_13)",
+    "label": 1,
+    "file_path": "generated_13.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 14\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_14.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 15\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_15.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 16\n\ndef get_user(cursor, name_16):\n    cursor.execute(\"SELECT * FROM users WHERE name_16 = '\" + name_16 + \"'\")",
+    "label": 1,
+    "file_path": "generated_16.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 17\n\ndef process_dvar_17tvar_17(dvar_17tvar_17):\n    if not dvar_17tvar_17:\n        return None\n    return dvar_17tvar_17.strip()",
+    "label": 0,
+    "file_path": "generated_17.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 18\n\nimport os\ndef run_command(cmd_18):\n    os.system(\"echo \" + cmd_18)",
+    "label": 1,
+    "file_path": "generated_18.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 19\n\ndef get_user(cursor, name_19):\n    cursor.execute(\"SELECT * FROM users WHERE name_19 = '\" + name_19 + \"'\")",
+    "label": 1,
+    "file_path": "generated_19.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 20\n\ndef process_dvar_20tvar_20(dvar_20tvar_20):\n    if not dvar_20tvar_20:\n        return None\n    return dvar_20tvar_20.strip()",
+    "label": 0,
+    "file_path": "generated_20.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 21\n\nclvar_21ss User:\n    def __init__(self, nvar_21me):\n        self.nvar_21me = nvar_21me",
+    "label": 0,
+    "file_path": "generated_21.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 22\n\ndef cvar_22lculvar_22te_sum(var_22, b):\n    return var_22 + b",
+    "label": 0,
+    "file_path": "generated_22.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 23\n\nclvar_23ss User:\n    def __init__(self, nvar_23me):\n        self.nvar_23me = nvar_23me",
+    "label": 0,
+    "file_path": "generated_23.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 24\n\ndef svar_24fe_query(cursor, user_24_id):\n    cursor.execute(\"SELECT * FROM user_24s WHERE id = ?\", (user_24_id,))\n    return cursor.fetchvar_24ll()",
+    "label": 0,
+    "file_path": "generated_24.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 25\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_25.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 26\n\nclvar_26ss User:\n    def __init__(self, nvar_26me):\n        self.nvar_26me = nvar_26me",
+    "label": 0,
+    "file_path": "generated_26.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 27\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_27.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 28\n\nimport mvar_28th\ndef circle_var_28revar_28(r):\n    return mvar_28th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_28.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 29\n\nimport subprocess\ndef list_files_svar_29fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_29.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 30\n\ndef get_user(cursor, name_30):\n    cursor.execute(\"SELECT * FROM users WHERE name_30 = '\" + name_30 + \"'\")",
+    "label": 1,
+    "file_path": "generated_30.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 31\n\ndef process_dvar_31tvar_31(dvar_31tvar_31):\n    if not dvar_31tvar_31:\n        return None\n    return dvar_31tvar_31.strip()",
+    "label": 0,
+    "file_path": "generated_31.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 32\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_32.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 33\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_33.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 34\n\ndef process_dvar_34tvar_34(dvar_34tvar_34):\n    if not dvar_34tvar_34:\n        return None\n    return dvar_34tvar_34.strip()",
+    "label": 0,
+    "file_path": "generated_34.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 35\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_35.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 36\n\ndef process_dvar_36tvar_36(dvar_36tvar_36):\n    if not dvar_36tvar_36:\n        return None\n    return dvar_36tvar_36.strip()",
+    "label": 0,
+    "file_path": "generated_36.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 37\n\ndef cvar_37lculvar_37te_sum(var_37, b):\n    return var_37 + b",
+    "label": 0,
+    "file_path": "generated_37.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 38\n\ndef process_dvar_38tvar_38(dvar_38tvar_38):\n    if not dvar_38tvar_38:\n        return None\n    return dvar_38tvar_38.strip()",
+    "label": 0,
+    "file_path": "generated_38.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 39\n\ndef svar_39fe_query(cursor, user_39_id):\n    cursor.execute(\"SELECT * FROM user_39s WHERE id = ?\", (user_39_id,))\n    return cursor.fetchvar_39ll()",
+    "label": 0,
+    "file_path": "generated_39.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 40\n\ndef process_dvar_40tvar_40(dvar_40tvar_40):\n    if not dvar_40tvar_40:\n        return None\n    return dvar_40tvar_40.strip()",
+    "label": 0,
+    "file_path": "generated_40.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 41\n\ndef svar_41fe_query(cursor, user_41_id):\n    cursor.execute(\"SELECT * FROM user_41s WHERE id = ?\", (user_41_id,))\n    return cursor.fetchvar_41ll()",
+    "label": 0,
+    "file_path": "generated_41.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 42\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_42.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 43\n\ndef process_dvar_43tvar_43(dvar_43tvar_43):\n    if not dvar_43tvar_43:\n        return None\n    return dvar_43tvar_43.strip()",
+    "label": 0,
+    "file_path": "generated_43.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 44\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_44.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 45\n\ndef svar_45fe_query(cursor, user_45_id):\n    cursor.execute(\"SELECT * FROM user_45s WHERE id = ?\", (user_45_id,))\n    return cursor.fetchvar_45ll()",
+    "label": 0,
+    "file_path": "generated_45.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 46\n\ndef svar_46fe_query(cursor, user_46_id):\n    cursor.execute(\"SELECT * FROM user_46s WHERE id = ?\", (user_46_id,))\n    return cursor.fetchvar_46ll()",
+    "label": 0,
+    "file_path": "generated_46.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 47\n\ndef cvar_47lculvar_47te_sum(var_47, b):\n    return var_47 + b",
+    "label": 0,
+    "file_path": "generated_47.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 48\n\ndef greet_user_48(nvar_48me):\n    print(f\"Hello, {nvar_48me}\")",
+    "label": 0,
+    "file_path": "generated_48.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 49\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_49.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 50\n\nimport subprocess\ndef list_files_svar_50fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_50.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 51\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_51.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 52\n\nclvar_52ss User:\n    def __init__(self, nvar_52me):\n        self.nvar_52me = nvar_52me",
+    "label": 0,
+    "file_path": "generated_52.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 53\n\ndef get_user(cursor, name_53):\n    cursor.execute(\"SELECT * FROM users WHERE name_53 = '\" + name_53 + \"'\")",
+    "label": 1,
+    "file_path": "generated_53.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 54\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_54.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 55\n\nimport subprocess\ndef list_files_svar_55fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_55.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 56\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_56.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 57\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_57.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 58\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_58.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 59\n\nimport mvar_59th\ndef circle_var_59revar_59(r):\n    return mvar_59th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_59.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 60\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_60.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 61\n\ndef process_dvar_61tvar_61(dvar_61tvar_61):\n    if not dvar_61tvar_61:\n        return None\n    return dvar_61tvar_61.strip()",
+    "label": 0,
+    "file_path": "generated_61.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 62\n\ndef get_user(cursor, name_62):\n    cursor.execute(\"SELECT * FROM users WHERE name_62 = '\" + name_62 + \"'\")",
+    "label": 1,
+    "file_path": "generated_62.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 63\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_63.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 64\n\ndef process_dvar_64tvar_64(dvar_64tvar_64):\n    if not dvar_64tvar_64:\n        return None\n    return dvar_64tvar_64.strip()",
+    "label": 0,
+    "file_path": "generated_64.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 65\n\nimport os\ndef run_command(cmd_65):\n    os.system(\"echo \" + cmd_65)",
+    "label": 1,
+    "file_path": "generated_65.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 66\n\ndef process_dvar_66tvar_66(dvar_66tvar_66):\n    if not dvar_66tvar_66:\n        return None\n    return dvar_66tvar_66.strip()",
+    "label": 0,
+    "file_path": "generated_66.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 67\n\ndef greet_user_67(nvar_67me):\n    print(f\"Hello, {nvar_67me}\")",
+    "label": 0,
+    "file_path": "generated_67.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 68\n\nimport os\ndef run_command(cmd_68):\n    os.system(\"echo \" + cmd_68)",
+    "label": 1,
+    "file_path": "generated_68.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 69\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_69.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 70\n\ndef get_user(cursor, name_70):\n    cursor.execute(\"SELECT * FROM users WHERE name_70 = '\" + name_70 + \"'\")",
+    "label": 1,
+    "file_path": "generated_70.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 71\n\ndef greet_user_71(nvar_71me):\n    print(f\"Hello, {nvar_71me}\")",
+    "label": 0,
+    "file_path": "generated_71.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 72\n\ndef get_user(cursor, name_72):\n    cursor.execute(\"SELECT * FROM users WHERE name_72 = '\" + name_72 + \"'\")",
+    "label": 1,
+    "file_path": "generated_72.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 73\n\ndef greet_user_73(nvar_73me):\n    print(f\"Hello, {nvar_73me}\")",
+    "label": 0,
+    "file_path": "generated_73.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 74\n\ndef get_user_74_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_74.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 75\n\ndef get_user_75_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_75.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 76\n\ndef get_user(cursor, name_76):\n    cursor.execute(\"SELECT * FROM users WHERE name_76 = '\" + name_76 + \"'\")",
+    "label": 1,
+    "file_path": "generated_76.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 77\n\nclvar_77ss User:\n    def __init__(self, nvar_77me):\n        self.nvar_77me = nvar_77me",
+    "label": 0,
+    "file_path": "generated_77.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 78\n\ndef cvar_78lculvar_78te_sum(var_78, b):\n    return var_78 + b",
+    "label": 0,
+    "file_path": "generated_78.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 79\n\nimport subprocess\ndef list_files_svar_79fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_79.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 80\n\ndef greet_user_80(nvar_80me):\n    print(f\"Hello, {nvar_80me}\")",
+    "label": 0,
+    "file_path": "generated_80.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 81\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_81.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 82\n\ndef get_user(cursor, name_82):\n    cursor.execute(\"SELECT * FROM users WHERE name_82 = '\" + name_82 + \"'\")",
+    "label": 1,
+    "file_path": "generated_82.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 83\n\nclvar_83ss User:\n    def __init__(self, nvar_83me):\n        self.nvar_83me = nvar_83me",
+    "label": 0,
+    "file_path": "generated_83.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 84\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_84.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 85\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_85.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 86\n\ndef get_user(cursor, name_86):\n    cursor.execute(\"SELECT * FROM users WHERE name_86 = '\" + name_86 + \"'\")",
+    "label": 1,
+    "file_path": "generated_86.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 87\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_87.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 88\n\ndef greet_user_88(nvar_88me):\n    print(f\"Hello, {nvar_88me}\")",
+    "label": 0,
+    "file_path": "generated_88.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 89\n\ndef svar_89fe_query(cursor, user_89_id):\n    cursor.execute(\"SELECT * FROM user_89s WHERE id = ?\", (user_89_id,))\n    return cursor.fetchvar_89ll()",
+    "label": 0,
+    "file_path": "generated_89.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 90\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_90.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 91\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_91.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 92\n\ndef get_user(cursor, name_92):\n    cursor.execute(\"SELECT * FROM users WHERE name_92 = '\" + name_92 + \"'\")",
+    "label": 1,
+    "file_path": "generated_92.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 93\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_93.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 94\n\ndef svar_94fe_query(cursor, user_94_id):\n    cursor.execute(\"SELECT * FROM user_94s WHERE id = ?\", (user_94_id,))\n    return cursor.fetchvar_94ll()",
+    "label": 0,
+    "file_path": "generated_94.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 95\n\ndef greet_user_95(nvar_95me):\n    print(f\"Hello, {nvar_95me}\")",
+    "label": 0,
+    "file_path": "generated_95.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 96\n\ndef get_user(cursor, name_96):\n    cursor.execute(\"SELECT * FROM users WHERE name_96 = '\" + name_96 + \"'\")",
+    "label": 1,
+    "file_path": "generated_96.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 97\n\ndef get_user(cursor, name_97):\n    cursor.execute(\"SELECT * FROM users WHERE name_97 = '\" + name_97 + \"'\")",
+    "label": 1,
+    "file_path": "generated_97.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 98\n\ndef process_dvar_98tvar_98(dvar_98tvar_98):\n    if not dvar_98tvar_98:\n        return None\n    return dvar_98tvar_98.strip()",
+    "label": 0,
+    "file_path": "generated_98.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 99\n\ndef svar_99fe_query(cursor, user_99_id):\n    cursor.execute(\"SELECT * FROM user_99s WHERE id = ?\", (user_99_id,))\n    return cursor.fetchvar_99ll()",
+    "label": 0,
+    "file_path": "generated_99.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 100\n\ndef greet_user_100(nvar_100me):\n    print(f\"Hello, {nvar_100me}\")",
+    "label": 0,
+    "file_path": "generated_100.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 101\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_101.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 102\n\ndef get_user(cursor, name_102):\n    cursor.execute(\"SELECT * FROM users WHERE name_102 = '\" + name_102 + \"'\")",
+    "label": 1,
+    "file_path": "generated_102.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 103\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_103.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 104\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_104.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 105\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_105.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 106\n\ndef greet_user_106(nvar_106me):\n    print(f\"Hello, {nvar_106me}\")",
+    "label": 0,
+    "file_path": "generated_106.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 107\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_107.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 108\n\nimport mvar_108th\ndef circle_var_108revar_108(r):\n    return mvar_108th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_108.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 109\n\nimport os\ndef run_command(cmd_109):\n    os.system(\"echo \" + cmd_109)",
+    "label": 1,
+    "file_path": "generated_109.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 110\n\nclvar_110ss User:\n    def __init__(self, nvar_110me):\n        self.nvar_110me = nvar_110me",
+    "label": 0,
+    "file_path": "generated_110.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 111\n\ndef greet_user_111(nvar_111me):\n    print(f\"Hello, {nvar_111me}\")",
+    "label": 0,
+    "file_path": "generated_111.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 112\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_112.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 113\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_113.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 114\n\ndef greet_user_114(nvar_114me):\n    print(f\"Hello, {nvar_114me}\")",
+    "label": 0,
+    "file_path": "generated_114.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 115\n\ndef process_dvar_115tvar_115(dvar_115tvar_115):\n    if not dvar_115tvar_115:\n        return None\n    return dvar_115tvar_115.strip()",
+    "label": 0,
+    "file_path": "generated_115.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 116\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_116.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 117\n\nimport subprocess\ndef list_files_svar_117fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_117.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 118\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_118.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 119\n\ndef process_dvar_119tvar_119(dvar_119tvar_119):\n    if not dvar_119tvar_119:\n        return None\n    return dvar_119tvar_119.strip()",
+    "label": 0,
+    "file_path": "generated_119.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 120\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_120.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 121\n\nimport os\ndef run_command(cmd_121):\n    os.system(\"echo \" + cmd_121)",
+    "label": 1,
+    "file_path": "generated_121.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 122\n\ndef process_dvar_122tvar_122(dvar_122tvar_122):\n    if not dvar_122tvar_122:\n        return None\n    return dvar_122tvar_122.strip()",
+    "label": 0,
+    "file_path": "generated_122.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 123\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_123.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 124\n\ndef get_user_124_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_124.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 125\n\ndef cvar_125lculvar_125te_sum(var_125, b):\n    return var_125 + b",
+    "label": 0,
+    "file_path": "generated_125.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 126\n\ndef get_user(cursor, name_126):\n    cursor.execute(\"SELECT * FROM users WHERE name_126 = '\" + name_126 + \"'\")",
+    "label": 1,
+    "file_path": "generated_126.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 127\n\ndef get_user(cursor, name_127):\n    cursor.execute(\"SELECT * FROM users WHERE name_127 = '\" + name_127 + \"'\")",
+    "label": 1,
+    "file_path": "generated_127.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 128\n\ndef process_dvar_128tvar_128(dvar_128tvar_128):\n    if not dvar_128tvar_128:\n        return None\n    return dvar_128tvar_128.strip()",
+    "label": 0,
+    "file_path": "generated_128.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 129\n\ndef get_user(cursor, name_129):\n    cursor.execute(\"SELECT * FROM users WHERE name_129 = '\" + name_129 + \"'\")",
+    "label": 1,
+    "file_path": "generated_129.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 130\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_130.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 131\n\nimport subprocess\ndef list_files_svar_131fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_131.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 132\n\ndef greet_user_132(nvar_132me):\n    print(f\"Hello, {nvar_132me}\")",
+    "label": 0,
+    "file_path": "generated_132.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 133\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_133.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 134\n\ndef process_dvar_134tvar_134(dvar_134tvar_134):\n    if not dvar_134tvar_134:\n        return None\n    return dvar_134tvar_134.strip()",
+    "label": 0,
+    "file_path": "generated_134.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 135\n\nimport mvar_135th\ndef circle_var_135revar_135(r):\n    return mvar_135th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_135.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 136\n\ndef cvar_136lculvar_136te_sum(var_136, b):\n    return var_136 + b",
+    "label": 0,
+    "file_path": "generated_136.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 137\n\nimport subprocess\ndef list_files_svar_137fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_137.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 138\n\nimport mvar_138th\ndef circle_var_138revar_138(r):\n    return mvar_138th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_138.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 139\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_139.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 140\n\ndef svar_140fe_query(cursor, user_140_id):\n    cursor.execute(\"SELECT * FROM user_140s WHERE id = ?\", (user_140_id,))\n    return cursor.fetchvar_140ll()",
+    "label": 0,
+    "file_path": "generated_140.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 141\n\ndef cvar_141lculvar_141te_sum(var_141, b):\n    return var_141 + b",
+    "label": 0,
+    "file_path": "generated_141.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 142\n\ndef get_user(cursor, name_142):\n    cursor.execute(\"SELECT * FROM users WHERE name_142 = '\" + name_142 + \"'\")",
+    "label": 1,
+    "file_path": "generated_142.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 143\n\nclvar_143ss User:\n    def __init__(self, nvar_143me):\n        self.nvar_143me = nvar_143me",
+    "label": 0,
+    "file_path": "generated_143.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 144\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_144.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 145\n\nimport os\ndef run_command(cmd_145):\n    os.system(\"echo \" + cmd_145)",
+    "label": 1,
+    "file_path": "generated_145.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 146\n\nclvar_146ss User:\n    def __init__(self, nvar_146me):\n        self.nvar_146me = nvar_146me",
+    "label": 0,
+    "file_path": "generated_146.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 147\n\ndef greet_user_147(nvar_147me):\n    print(f\"Hello, {nvar_147me}\")",
+    "label": 0,
+    "file_path": "generated_147.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 148\n\ndef get_user_148_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_148.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 149\n\ndef get_user(cursor, name_149):\n    cursor.execute(\"SELECT * FROM users WHERE name_149 = '\" + name_149 + \"'\")",
+    "label": 1,
+    "file_path": "generated_149.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 150\n\ndef get_user(cursor, name_150):\n    cursor.execute(\"SELECT * FROM users WHERE name_150 = '\" + name_150 + \"'\")",
+    "label": 1,
+    "file_path": "generated_150.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 151\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_151.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 152\n\ndef get_user(cursor, name_152):\n    cursor.execute(\"SELECT * FROM users WHERE name_152 = '\" + name_152 + \"'\")",
+    "label": 1,
+    "file_path": "generated_152.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 153\n\nclvar_153ss User:\n    def __init__(self, nvar_153me):\n        self.nvar_153me = nvar_153me",
+    "label": 0,
+    "file_path": "generated_153.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 154\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_154.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 155\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_155.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 156\n\ndef process_dvar_156tvar_156(dvar_156tvar_156):\n    if not dvar_156tvar_156:\n        return None\n    return dvar_156tvar_156.strip()",
+    "label": 0,
+    "file_path": "generated_156.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 157\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_157.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 158\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_158.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 159\n\nclvar_159ss User:\n    def __init__(self, nvar_159me):\n        self.nvar_159me = nvar_159me",
+    "label": 0,
+    "file_path": "generated_159.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 160\n\nimport subprocess\ndef list_files_svar_160fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_160.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 161\n\ndef cvar_161lculvar_161te_sum(var_161, b):\n    return var_161 + b",
+    "label": 0,
+    "file_path": "generated_161.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 162\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_162.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 163\n\ndef greet_user_163(nvar_163me):\n    print(f\"Hello, {nvar_163me}\")",
+    "label": 0,
+    "file_path": "generated_163.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 164\n\nimport os\ndef run_command(cmd_164):\n    os.system(\"echo \" + cmd_164)",
+    "label": 1,
+    "file_path": "generated_164.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 165\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_165.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 166\n\nclvar_166ss User:\n    def __init__(self, nvar_166me):\n        self.nvar_166me = nvar_166me",
+    "label": 0,
+    "file_path": "generated_166.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 167\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_167.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 168\n\nimport subprocess\ndef list_files_svar_168fe():\n    subprocess.run([\"ls\", \"-l\"])",
+    "label": 0,
+    "file_path": "generated_168.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 169\n\ndef get_user(cursor, name_169):\n    cursor.execute(\"SELECT * FROM users WHERE name_169 = '\" + name_169 + \"'\")",
+    "label": 1,
+    "file_path": "generated_169.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 170\n\ndef cvar_170lculvar_170te_sum(var_170, b):\n    return var_170 + b",
+    "label": 0,
+    "file_path": "generated_170.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 171\n\nimport os\ndef run_command(cmd_171):\n    os.system(\"echo \" + cmd_171)",
+    "label": 1,
+    "file_path": "generated_171.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 172\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_172.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 173\n\nimport os\ndef run_command(cmd_173):\n    os.system(\"echo \" + cmd_173)",
+    "label": 1,
+    "file_path": "generated_173.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 174\n\nimport mvar_174th\ndef circle_var_174revar_174(r):\n    return mvar_174th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_174.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 175\n\nimport mvar_175th\ndef circle_var_175revar_175(r):\n    return mvar_175th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_175.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 176\n\nimport os\ndef run_command(cmd_176):\n    os.system(\"echo \" + cmd_176)",
+    "label": 1,
+    "file_path": "generated_176.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 177\n\ndef process_dvar_177tvar_177(dvar_177tvar_177):\n    if not dvar_177tvar_177:\n        return None\n    return dvar_177tvar_177.strip()",
+    "label": 0,
+    "file_path": "generated_177.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 178\n\nimport mvar_178th\ndef circle_var_178revar_178(r):\n    return mvar_178th.pi * r * r",
+    "label": 0,
+    "file_path": "generated_178.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 179\n\ndef load_yaml(data):\n    import yaml\n    return yaml.load(data)  # Unsafe load",
+    "label": 1,
+    "file_path": "generated_179.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 180\n\ndef process_dvar_180tvar_180(dvar_180tvar_180):\n    if not dvar_180tvar_180:\n        return None\n    return dvar_180tvar_180.strip()",
+    "label": 0,
+    "file_path": "generated_180.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 181\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_181.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 182\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_182.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 183\n\ndef get_user_183_id(request):\n    return request.get('id', 0)",
+    "label": 0,
+    "file_path": "generated_183.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 184\n\ndef get_user(cursor, name_184):\n    cursor.execute(\"SELECT * FROM users WHERE name_184 = '\" + name_184 + \"'\")",
+    "label": 1,
+    "file_path": "generated_184.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 185\n\ndef greet_user_185(nvar_185me):\n    print(f\"Hello, {nvar_185me}\")",
+    "label": 0,
+    "file_path": "generated_185.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 186\n\ndef cvar_186lculvar_186te_sum(var_186, b):\n    return var_186 + b",
+    "label": 0,
+    "file_path": "generated_186.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Safe variation 187\n\nclvar_187ss User:\n    def __init__(self, nvar_187me):\n        self.nvar_187me = nvar_187me",
+    "label": 0,
+    "file_path": "generated_187.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 188\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_188.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 189\n\ndef get_user(cursor, name_189):\n    cursor.execute(\"SELECT * FROM users WHERE name_189 = '\" + name_189 + \"'\")",
+    "label": 1,
+    "file_path": "generated_189.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 190\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_190.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 191\n\ndef svar_191fe_query(cursor, user_191_id):\n    cursor.execute(\"SELECT * FROM user_191s WHERE id = ?\", (user_191_id,))\n    return cursor.fetchvar_191ll()",
+    "label": 0,
+    "file_path": "generated_191.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 192\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_192.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 193\n\ndef cvar_193lculvar_193te_sum(var_193, b):\n    return var_193 + b",
+    "label": 0,
+    "file_path": "generated_193.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 194\n\ndef get_user(cursor, name_194):\n    cursor.execute(\"SELECT * FROM users WHERE name_194 = '\" + name_194 + \"'\")",
+    "label": 1,
+    "file_path": "generated_194.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Random variation 195\n\nimport pickle\ndef load_obj(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "file_path": "generated_195.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 196\n\nclvar_196ss User:\n    def __init__(self, nvar_196me):\n        self.nvar_196me = nvar_196me",
+    "label": 0,
+    "file_path": "generated_196.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 197\n\nimport subprocess\ndef ping_host(host):\n    subprocess.call(\"ping \" + host, shell=True)",
+    "label": 1,
+    "file_path": "generated_197.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  },
+  {
+    "code": "# Safe variation 198\n\ndef cvar_198lculvar_198te_sum(var_198, b):\n    return var_198 + b",
+    "label": 0,
+    "file_path": "generated_198.py",
+    "metadata": {
+      "vulnerability_types": []
+    }
+  },
+  {
+    "code": "# Random variation 199\n\ndef eval_code(code):\n    eval(code)",
+    "label": 1,
+    "file_path": "generated_199.py",
+    "metadata": {
+      "vulnerability_types": [
+        "synthetic_injection"
+      ]
+    }
+  }
+]

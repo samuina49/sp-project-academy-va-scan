@@ -1,0 +1,241 @@
+{
+    "A01-BrokenAccessControl": {
+        "name": "Broken Access Control",
+        "description": "Restrictions on what authenticated users are allowed to do are often not properly enforced",
+        "semgrep_patterns": [
+            "insecure-file-permissions",
+            "path-traversal",
+            "missing-authorization",
+            "authorization-bypass",
+            "unsafe-file-upload"
+        ],
+        "bandit_tests": [
+            "B103",
+            "B108"
+        ],
+        "ml_keywords": [
+            "ACCESS_CONTROL",
+            "AUTHORIZATION",
+            "PATH_TRAVERSAL"
+        ]
+    },
+    "A02-CryptographicFailures": {
+        "name": "Cryptographic Failures",
+        "description": "Failures related to cryptography which often lead to exposure of sensitive data",
+        "semgrep_patterns": [
+            "weak-crypto",
+            "hardcoded-password",
+            "hardcoded-secret",
+            "weak-hash",
+            "insecure-random"
+        ],
+        "bandit_tests": [
+            "B101",
+            "B105",
+            "B106",
+            "B107",
+            "B110",
+            "B303",
+            "B304",
+            "B305",
+            "B311",
+            "B320",
+            "B321",
+            "B322",
+            "B323",
+            "B324"
+        ],
+        "ml_keywords": [
+            "CRYPTO",
+            "PASSWORD",
+            "HASH",
+            "ENCRYPTION"
+        ]
+    },
+    "A03-Injection": {
+        "name": "Injection",
+        "description": "SQL, command, OS command, LDAP injection and similar injection flaws",
+        "semgrep_patterns": [
+            "sql-injection",
+            "command-injection",
+            "code-injection",
+            "ldap-injection",
+            "xpath-injection",
+            "eval-injection",
+            "exec-use",
+            "dangerous-function-use"
+        ],
+        "bandit_tests": [
+            "B101",
+            "B102",
+            "B202",
+            "B605",
+            "B606",
+            "B607",
+            "B608",
+            "B609"
+        ],
+        "ml_keywords": [
+            "SQL_INJ",
+            "CMD_INJ",
+            "CODE_INJ",
+            "EVAL",
+            "EXEC"
+        ]
+    },
+    "A04-InsecureDesign": {
+        "name": "Insecure Design",
+        "description": "Missing or ineffective control design",
+        "semgrep_patterns": [
+            "insecure-design",
+            "missing-validation",
+            "insufficient-logging"
+        ],
+        "bandit_tests": [],
+        "ml_keywords": [
+            "DESIGN_FLAW",
+            "VALIDATION"
+        ]
+    },
+    "A05-SecurityMisconfiguration": {
+        "name": "Security Misconfiguration",
+        "description": "Security misconfiguration is commonly a result of insecure default configurations",
+        "semgrep_patterns": [
+            "debug-enabled",
+            "insecure-config",
+            "default-credentials",
+            "verbose-errors"
+        ],
+        "bandit_tests": [
+            "B201",
+            "B501",
+            "B502",
+            "B503"
+        ],
+        "ml_keywords": [
+            "CONFIG",
+            "DEBUG",
+            "DEFAULT"
+        ]
+    },
+    "A06-VulnerableComponents": {
+        "name": "Vulnerable and Outdated Components",
+        "description": "Using components with known vulnerabilities",
+        "semgrep_patterns": [
+            "vulnerable-dependency",
+            "outdated-library",
+            "insecure-import"
+        ],
+        "bandit_tests": [
+            "B401",
+            "B402",
+            "B403",
+            "B404",
+            "B405",
+            "B406",
+            "B407",
+            "B408",
+            "B409",
+            "B410",
+            "B411"
+        ],
+        "ml_keywords": [
+            "DEPENDENCY",
+            "IMPORT"
+        ]
+    },
+    "A07-IdentificationAuthenticationFailures": {
+        "name": "Identification and Authentication Failures",
+        "description": "Confirmation of the user's identity, authentication, and session management",
+        "semgrep_patterns": [
+            "weak-authentication",
+            "session-fixation",
+            "insecure-session",
+            "missing-authentication",
+            "jwt-none-algorithm"
+        ],
+        "bandit_tests": [
+            "B105",
+            "B106",
+            "B107"
+        ],
+        "ml_keywords": [
+            "AUTH",
+            "SESSION",
+            "JWT",
+            "TOKEN"
+        ]
+    },
+    "A08-SoftwareDataIntegrityFailures": {
+        "name": "Software and Data Integrity Failures",
+        "description": "Code and infrastructure that does not protect against integrity violations",
+        "semgrep_patterns": [
+            "insecure-deserialization",
+            "untrusted-data",
+            "yaml-load",
+            "pickle-use"
+        ],
+        "bandit_tests": [
+            "B301",
+            "B302",
+            "B303",
+            "B304",
+            "B305",
+            "B306",
+            "B307",
+            "B308",
+            "B309",
+            "B310",
+            "B312",
+            "B313",
+            "B314",
+            "B315",
+            "B316",
+            "B317",
+            "B318",
+            "B319",
+            "B320",
+            "B321",
+            "B323",
+            "B324",
+            "B325"
+        ],
+        "ml_keywords": [
+            "DESERIALIZE",
+            "PICKLE",
+            "YAML"
+        ]
+    },
+    "A09-SecurityLoggingMonitoringFailures": {
+        "name": "Security Logging and Monitoring Failures",
+        "description": "Insufficient logging and monitoring",
+        "semgrep_patterns": [
+            "missing-logging",
+            "insufficient-logging",
+            "log-injection"
+        ],
+        "bandit_tests": [],
+        "ml_keywords": [
+            "LOGGING",
+            "MONITORING"
+        ]
+    },
+    "A10-ServerSideRequestForgery": {
+        "name": "Server-Side Request Forgery (SSRF)",
+        "description": "SSRF flaws occur whenever a web application is fetching a remote resource without validating the user-supplied URL",
+        "semgrep_patterns": [
+            "ssrf",
+            "open-redirect",
+            "url-injection",
+            "unsafe-url"
+        ],
+        "bandit_tests": [
+            "B310"
+        ],
+        "ml_keywords": [
+            "SSRF",
+            "REQUEST",
+            "URL"
+        ]
+    }
+}

@@ -1,0 +1,113 @@
+# GitHub Actions Workflow for AI Vulnerability Scanner
+# Place this file in .github/workflows/security-scan.yml
+
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  security-scan:
+    name: AI Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    services:
+      # Run the vulnerability scanner backend as a service
+      vuln-scanner:
+        image: python:3.10-slim
+        # In production, use your own Docker image
+        
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Install Scanner Dependencies
+        run: |
+          pip install requests
+      
+      - name: Start Scanner Backend
+        run: |
+          cd backend
+          pip install -r requirements.txt
+          uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 10  # Wait for server to start
+        env:
+          ML_ENABLED: "true"
+      
+      - name: Run Security Scan
+        run: |
+          python backend/scripts/cicd_scanner.py ./backend \
+            --threshold 0.5 \
+            --fail-on critical,high \
+            --json security-report.json
+      
+      - name: Upload Security Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-report
+          path: security-report.json
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('security-report.json', 'utf8'));
+            
+            let body = '## 🔒 Security Scan Results\n\n';
+            body += `| Severity | Count |\n|----------|-------|\n`;
+            body += `| 🔴 Critical | ${report.severity_counts.CRITICAL} |\n`;
+            body += `| 🟠 High | ${report.severity_counts.HIGH} |\n`;
+            body += `| 🟡 Medium | ${report.severity_counts.MEDIUM} |\n`;
+            body += `| ⚪ Low | ${report.severity_counts.LOW} |\n\n`;
+            
+            if (report.vulnerabilities.length > 0) {
+              body += '### Findings\n\n';
+              for (const vuln of report.vulnerabilities.slice(0, 10)) {
+                body += `- **${vuln.severity}** in \`${vuln.file}\` (Line ${vuln.line}): ${vuln.message}\n`;
+              }
+              if (report.vulnerabilities.length > 10) {
+                body += `\n_...and ${report.vulnerabilities.length - 10} more_\n`;
+              }
+            }
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
+
+
+# Alternative: Minimal scan for quick PRs
+  quick-scan:
+    name: Quick Pattern Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install semgrep
+        run: pip install semgrep
+      
+      - name: Run Semgrep
+        run: |
+          semgrep --config auto --json --output semgrep-results.json . || true
+      
+      - name: Upload Semgrep Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep-results.json

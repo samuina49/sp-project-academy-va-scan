@@ -1,0 +1,101 @@
+.container {
+    display: flex;
+    background: #1e1e1e;
+    border: 2px solid var(--border, #2d3748);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container:hover {
+    border-color: rgba(79, 70, 229, 0.5);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+}
+
+.lineNumbers {
+    background: #252525;
+    padding: 1rem 0.5rem;
+    text-align: right;
+    color: #858585;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    user-select: none;
+    min-width: 3.5rem;
+    border-right: 1px solid #333;
+}
+
+.lineNumbers div {
+    padding: 0 0.5rem;
+}
+
+.editorWrapper {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+}
+
+.highlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 1rem;
+    overflow: auto;
+    pointer-events: none;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre;
+    word-wrap: normal;
+}
+
+.highlight code {
+    display: block;
+    min-height: 100%;
+}
+
+.textarea {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    background: transparent;
+    color: transparent;
+    caret-color: white;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre;
+    word-wrap: normal;
+    overflow: auto;
+}
+
+.textarea::selection {
+    background: rgba(79, 70, 229, 0.3);
+}
+
+.textarea::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.textarea::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+    background: #424242;
+    border-radius: 6px;
+}
+
+.textarea::-webkit-scrollbar-thumb:hover {
+    background: #4f46e5;
+}

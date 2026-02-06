@@ -1,0 +1,170 @@
+{
+    "name": "ai-vulnerability-scanner",
+    "displayName": "AI Vulnerability Scanner",
+    "description": "AI-powered security vulnerability detection for your code",
+    "version": "1.0.0",
+    "publisher": "ai-vuln-scanner",
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Linters",
+        "Programming Languages",
+        "Other"
+    ],
+    "keywords": [
+        "security",
+        "vulnerability",
+        "OWASP",
+        "SQL injection",
+        "XSS",
+        "AI",
+        "machine learning"
+    ],
+    "activationEvents": [
+        "onLanguage:python",
+        "onLanguage:javascript",
+        "onLanguage:typescript",
+        "onLanguage:java",
+        "onLanguage:php",
+        "onLanguage:go",
+        "onLanguage:ruby",
+        "onLanguage:csharp"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "aiVulnScanner.scanCurrentFile",
+                "title": "AI Vuln Scanner: Scan Current File"
+            },
+            {
+                "command": "aiVulnScanner.scanWorkspace",
+                "title": "AI Vuln Scanner: Scan Entire Workspace"
+            },
+            {
+                "command": "aiVulnScanner.scanSelection",
+                "title": "AI Vuln Scanner: Scan Selected Code"
+            },
+            {
+                "command": "aiVulnScanner.showDashboard",
+                "title": "AI Vuln Scanner: Open Dashboard"
+            },
+            {
+                "command": "aiVulnScanner.configure",
+                "title": "AI Vuln Scanner: Configure Settings"
+            }
+        ],
+        "configuration": {
+            "title": "AI Vulnerability Scanner",
+            "properties": {
+                "aiVulnScanner.serverUrl": {
+                    "type": "string",
+                    "default": "http://localhost:8000",
+                    "description": "URL of the AI Vulnerability Scanner backend server"
+                },
+                "aiVulnScanner.apiKey": {
+                    "type": "string",
+                    "default": "",
+                    "description": "API key for authentication"
+                },
+                "aiVulnScanner.autoScan": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Automatically scan files on save"
+                },
+                "aiVulnScanner.autoScanDelay": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "Delay (ms) before auto-scanning after file change"
+                },
+                "aiVulnScanner.minSeverity": {
+                    "type": "string",
+                    "enum": ["critical", "high", "medium", "low", "info"],
+                    "default": "medium",
+                    "description": "Minimum severity level to display"
+                },
+                "aiVulnScanner.enableInlineHints": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show inline hints for vulnerabilities"
+                },
+                "aiVulnScanner.enableCodeLens": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Show CodeLens indicators above vulnerable code"
+                },
+                "aiVulnScanner.useMLModel": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use ML model for enhanced detection"
+                }
+            }
+        },
+        "keybindings": [
+            {
+                "command": "aiVulnScanner.scanCurrentFile",
+                "key": "ctrl+shift+v",
+                "mac": "cmd+shift+v",
+                "when": "editorTextFocus"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "aiVulnScanner.scanSelection",
+                    "when": "editorHasSelection",
+                    "group": "security"
+                }
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "aiVulnScanner",
+                    "title": "Vulnerability Scanner",
+                    "icon": "resources/shield.svg"
+                }
+            ]
+        },
+        "views": {
+            "aiVulnScanner": [
+                {
+                    "id": "vulnerabilities",
+                    "name": "Vulnerabilities"
+                },
+                {
+                    "id": "scanHistory",
+                    "name": "Scan History"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile",
+        "test": "node ./out/test/runTest.js",
+        "lint": "eslint src --ext ts",
+        "package": "vsce package"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.85.0",
+        "@types/node": "^20.10.0",
+        "@typescript-eslint/eslint-plugin": "^6.13.0",
+        "@typescript-eslint/parser": "^6.13.0",
+        "eslint": "^8.54.0",
+        "typescript": "^5.3.2",
+        "@vscode/test-electron": "^2.3.8",
+        "vsce": "^2.15.0"
+    },
+    "dependencies": {
+        "axios": "^1.6.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/your-org/ai-vulnerability-scanner-vscode"
+    },
+    "license": "MIT"
+}

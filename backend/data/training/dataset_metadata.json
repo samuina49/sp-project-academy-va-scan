@@ -1,0 +1,10 @@
+{
+  "train_size": 6222,
+  "val_size": 1333,
+  "test_size": 1335,
+  "train_vuln": 2860,
+  "val_vuln": 613,
+  "test_vuln": 614,
+  "augmentation_ratio": 0.15,
+  "pipeline": "improved_dataset_prep.py"
+}

@@ -1,0 +1,23 @@
+{
+  "total_samples": 9734,
+  "train_size": 6813,
+  "val_size": 1460,
+  "test_size": 1461,
+  "statistics": {
+    "total_processed": 9734,
+    "successful": 9734,
+    "failed": 0,
+    "by_language": {
+      "javascript": 2802,
+      "python": 6932
+    },
+    "by_label": {
+      "vulnerable": 4932,
+      "safe": 4802
+    },
+    "avg_nodes": 3248905,
+    "avg_edges": 3630414,
+    "avg_cfg_edges": 63324,
+    "avg_dfg_edges": 327919
+  }
+}

@@ -1,0 +1,50 @@
+/* Hybrid Scan Toggle Styles */
+.hybridToggle {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.toggleButton {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(30, 41, 59, 0.5);
+    border: 2px solid rgba(148, 163, 184, 0.2);
+    border-radius: 10px;
+    color: #94a3b8;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle Icon {
+    font-size: 1.25rem;
+}
+
+.toggleButton:hover {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+.toggleButton.active {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.1));
+    border-color: #3b82f6;
+    color: #3b82f6;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.toggleButton.active .toggleIcon {
+    filter: brightness(1.2);
+}
+
+.toggleButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

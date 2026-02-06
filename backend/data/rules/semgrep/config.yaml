@@ -1,0 +1,90 @@
+rules:
+  # ============================================================
+  # A05:2021 - Security Misconfiguration
+  # ============================================================
+  
+  - id: debug-mode-enabled
+    pattern: DEBUG = True
+    message: "Debug mode enabled. Must be False in production."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-489"
+      owasp: "A05:2021-Security Misconfiguration"
+      confidence: HIGH
+  
+  - id: secret-key-hardcoded
+    patterns:
+      - pattern: SECRET_KEY = "$VALUE"
+      - metavariable-regex:
+          metavariable: $VALUE
+          regex: ^.{10,}$
+    message: "Hardcoded SECRET_KEY. Use environment variables."
+    severity: CRITICAL
+    languages: [python]
+    metadata:
+      cwe: "CWE-798"
+      owasp: "A05:2021-Security Misconfiguration"
+  
+  - id: allowed-hosts-wildcard
+    pattern-either:
+      - pattern: ALLOWED_HOSTS = ['*']
+      - pattern: ALLOWED_HOSTS = ["*"]
+    message: "Wildcard in ALLOWED_HOSTS allows any domain"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-942"
+      owasp: "A05:2021-Security Misconfiguration"
+  
+  - id: cors-allow-all-origins
+    pattern: CORS_ORIGIN_ALLOW_ALL = True
+    message: "CORS allows all origins - security risk"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-942"
+      owasp: "A05:2021-Security Misconfiguration"
+  
+  - id: insecure-cookie-settings
+    patterns:
+      - pattern-either:
+          - pattern: SESSION_COOKIE_SECURE = False
+          - pattern: SESSION_COOKIE_HTTPONLY = False
+          - pattern: CSRF_COOKIE_SECURE = False
+    message: "Insecure cookie settings in production"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-614"
+      owasp: "A05:2021-Security Misconfiguration"
+  
+  - id: exposed-error-details
+    patterns:
+      - pattern: |
+          except $EXC:
+              print($ERROR)
+      - pattern-not: |
+          except $EXC:
+              logger.error($ERROR)
+    message: "Error details exposed via print(). Use logging instead."
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-209"
+      owasp: "A05:2021-Security Misconfiguration"
+  
+  - id: ssl-verification-disabled
+    patterns:
+      - pattern-either:
+          - pattern: requests.$METHOD(..., verify=False, ...)
+          - pattern: urllib.request.urlopen(..., context=$CTX)
+      - metavariable-pattern:
+          metavariable: $CTX
+          pattern: ssl._create_unverified_context()
+    message: "SSL certificate verification disabled"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-295"
+      owasp: "A05:2021-Security Misconfiguration"

@@ -1,0 +1,49 @@
+{
+  "results": {
+    "big_vul": true,
+    "devign": false,
+    "cvefixes": true,
+    "codexglue_defect": true,
+    "diversevul": true
+  },
+  "verification": {
+    "big_vul": {
+      "downloaded": true,
+      "files_found": [],
+      "files_missing": [
+        "Vulnerability.csv"
+      ]
+    },
+    "devign": {
+      "downloaded": false,
+      "files_found": [],
+      "files_missing": [
+        "function.json"
+      ]
+    },
+    "cvefixes": {
+      "downloaded": true,
+      "files_found": [],
+      "files_missing": [
+        "Data/CVEfixes.json"
+      ]
+    },
+    "codexglue_defect": {
+      "downloaded": true,
+      "files_found": [],
+      "files_missing": [
+        "dataset/train.jsonl",
+        "dataset/valid.jsonl",
+        "dataset/test.jsonl"
+      ]
+    },
+    "diversevul": {
+      "downloaded": true,
+      "files_found": [],
+      "files_missing": [
+        "data/diversevul_20220702.json"
+      ]
+    }
+  },
+  "timestamp": "2026-02-05 03:48:29"
+}

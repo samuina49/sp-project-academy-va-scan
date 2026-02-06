@@ -1,0 +1,186 @@
+# ==============================================================================
+# AI-Based Vulnerability Scanner - Docker Compose
+# ==============================================================================
+# Full stack deployment with backend, frontend, and supporting services
+# 
+# Usage:
+#   Development:  docker-compose up -d
+#   Production:   docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#   Logs:         docker-compose logs -f
+#   Stop:         docker-compose down
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  # ============================================================================
+  # Backend API Service
+  # ============================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vuln-scanner-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=${DEBUG:-false}
+      - APP_NAME=AI Vulnerability Scanner
+      - CORS_ORIGINS=http://localhost:3000,http://frontend:3000
+      - ML_ENABLED=${ML_ENABLED:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      # Persist feedback data
+      - feedback-data:/app/data/feedback
+      # Persist ML models
+      - ml-models:/app/ml/models
+      # Development: mount source code
+      # - ./backend:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - scanner-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=PathPrefix(`/api`)"
+
+  # ============================================================================
+  # Frontend Web Application
+  # ============================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vuln-scanner-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NODE_ENV=production
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - scanner-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+
+  # ============================================================================
+  # Redis (Optional - for distributed rate limiting)
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: vuln-scanner-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - scanner-network
+    profiles:
+      - with-redis  # Only start with: docker-compose --profile with-redis up
+
+  # ============================================================================
+  # PostgreSQL (Optional - for scan history)
+  # ============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: vuln-scanner-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER:-scanner}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-scanner_secret}
+      - POSTGRES_DB=${DB_NAME:-vuln_scanner}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-scanner}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - scanner-network
+    profiles:
+      - with-db  # Only start with: docker-compose --profile with-db up
+
+  # ============================================================================
+  # Traefik Reverse Proxy (Optional - for production)
+  # ============================================================================
+  traefik:
+    image: traefik:v2.10
+    container_name: vuln-scanner-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik:/etc/traefik
+      - traefik-certs:/letsencrypt
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    networks:
+      - scanner-network
+    profiles:
+      - production  # Only start with: docker-compose --profile production up
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  scanner-network:
+    driver: bridge
+    name: vuln-scanner-network
+
+# ==============================================================================
+# Volumes
+# ==============================================================================
+volumes:
+  feedback-data:
+    name: vuln-scanner-feedback
+  ml-models:
+    name: vuln-scanner-models
+  redis-data:
+    name: vuln-scanner-redis
+  postgres-data:
+    name: vuln-scanner-postgres
+  traefik-certs:
+    name: vuln-scanner-certs
+
+# ==============================================================================
+# Environment Variables (create .env file):
+# 
+# DEBUG=false
+# ML_ENABLED=true
+# LOG_LEVEL=INFO
+# DB_USER=scanner
+# DB_PASSWORD=your_secure_password
+# DB_NAME=vuln_scanner
+# ==============================================================================

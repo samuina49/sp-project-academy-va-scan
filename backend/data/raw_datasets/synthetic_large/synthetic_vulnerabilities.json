@@ -1,0 +1,5502 @@
+[
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 36,
+      "variation": 35
+    }
+  },
+  {
+    "code": "def search_user(uname):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n\n    return db.execute(query, (uname,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 79,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 276\n\nimport subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 276,
+      "variation": 25
+    }
+  },
+  {
+    "code": "# Auto-generated sample 174\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 174,
+      "variation": 23
+    }
+  },
+  {
+    "code": "# Auto-generated sample 45\ndef search_user(user):\n    query = f\"SELECT * FROM users WHERE name = '{user}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 45,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 287\nimport subprocess\ndef backup_file(filepath):\n    subprocess.run([\"cp\", filepath, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 287,
+      "variation": 36
+    }
+  },
+  {
+    "code": "# Auto-generated sample 436\n\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 436,
+      "variation": 35
+    }
+  },
+  {
+    "code": "# Auto-generated sample 416\nimport pickle\ndef load_input_data(input_data):\n    return pickle.loads(input_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 416,
+      "variation": 15
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 39,
+      "variation": 38
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 52,
+      "variation": 1
+    }
+  },
+  {
+    "code": "# Auto-generated sample 118\n\nfunction renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 118,
+      "variation": 17
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 260,
+      "variation": 9
+    }
+  },
+  {
+    "code": "# Auto-generated sample 226\n\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 226,
+      "variation": 25
+    }
+  },
+  {
+    "code": "# Auto-generated sample 261\n\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 261,
+      "variation": 10
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 365,
+      "variation": 14
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(fname):\n    os.system(f\"cp {fname} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 207,
+      "variation": 6
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 206,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 165\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 165,
+      "variation": 14
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 43,
+      "variation": 42
+    }
+  },
+  {
+    "code": "# Auto-generated sample 110\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 110,
+      "variation": 9
+    }
+  },
+  {
+    "code": "# Auto-generated sample 346\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 346,
+      "variation": 45
+    }
+  },
+  {
+    "code": "def read_file(fname):\n\n    safe_path = os.path.basename(fname)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 400,
+      "variation": 49
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 351,
+      "variation": 0
+    }
+  },
+  {
+    "code": "# Auto-generated sample 370\n\ndef read_file(filename):\n\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 370,
+      "variation": 19
+    }
+  },
+  {
+    "code": "# Auto-generated sample 202\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 202,
+      "variation": 1
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 193,
+      "variation": 42
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 460,
+      "variation": 9
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 223,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 119\nfunction renderComment(message) {\n  document.getElementById(\"comment\").innerHTML = message;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 119,
+      "variation": 18
+    }
+  },
+  {
+    "code": "# Auto-generated sample 309\n\ndef read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 309,
+      "variation": 8
+    }
+  },
+  {
+    "code": "# Auto-generated sample 234\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 234,
+      "variation": 33
+    }
+  },
+  {
+    "code": "# Auto-generated sample 183\n\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 183,
+      "variation": 32
+    }
+  },
+  {
+    "code": "# Auto-generated sample 242\n\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 242,
+      "variation": 41
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 106,
+      "variation": 5
+    }
+  },
+  {
+    "code": "def read_file(filepath):\n    with open(filepath) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 345,
+      "variation": 44
+    }
+  },
+  {
+    "code": "def search_user(uname):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (uname,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 65,
+      "variation": 14
+    }
+  },
+  {
+    "code": "# Auto-generated sample 415\nimport pickle\ndef load_input_data(input_data):\n    return pickle.loads(input_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 415,
+      "variation": 14
+    }
+  },
+  {
+    "code": "# Auto-generated sample 340\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 340,
+      "variation": 39
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 124,
+      "variation": 23
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 116,
+      "variation": 15
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 243,
+      "variation": 42
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 178,
+      "variation": 27
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    safe_path = os.path.basename(filename)\n\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 368,
+      "variation": 17
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 284,
+      "variation": 33
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 331,
+      "variation": 30
+    }
+  },
+  {
+    "code": "import pickle\ndef load_input_data(input_data):\n    return pickle.loads(input_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 425,
+      "variation": 24
+    }
+  },
+  {
+    "code": "# Auto-generated sample 221\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 221,
+      "variation": 20
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 364,
+      "variation": 13
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 208,
+      "variation": 7
+    }
+  },
+  {
+    "code": "# Auto-generated sample 129\n\nfunction renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 129,
+      "variation": 28
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 257,
+      "variation": 6
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(file_name):\n    subprocess.run([\"cp\", file_name, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 251,
+      "variation": 0
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 149,
+      "variation": 48
+    }
+  },
+  {
+    "code": "# Auto-generated sample 133\n\nfunction renderComment(content) {\n  document.getElementById(\"comment\").innerHTML = content;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 133,
+      "variation": 32
+    }
+  },
+  {
+    "code": "import json\n\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 467,
+      "variation": 16
+    }
+  },
+  {
+    "code": "# Auto-generated sample 136\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 136,
+      "variation": 35
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 478,
+      "variation": 27
+    }
+  },
+  {
+    "code": "# Auto-generated sample 28\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 28,
+      "variation": 27
+    }
+  },
+  {
+    "code": "# Auto-generated sample 210\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 210,
+      "variation": 9
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 195,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 271\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 271,
+      "variation": 20
+    }
+  },
+  {
+    "code": "# Auto-generated sample 412\n\nimport pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 412,
+      "variation": 11
+    }
+  },
+  {
+    "code": "def search_user(uname):\n\n    query = f\"SELECT * FROM users WHERE name = '{uname}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 30,
+      "variation": 29
+    }
+  },
+  {
+    "code": "# Auto-generated sample 310\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 310,
+      "variation": 9
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 298,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 138\n\nfunction renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 138,
+      "variation": 37
+    }
+  },
+  {
+    "code": "# Auto-generated sample 387\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 387,
+      "variation": 36
+    }
+  },
+  {
+    "code": "# Auto-generated sample 358\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 358,
+      "variation": 7
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filepath):\n    subprocess.run([\"cp\", filepath, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 272,
+      "variation": 21
+    }
+  },
+  {
+    "code": "# Auto-generated sample 158\n\nfunction renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 158,
+      "variation": 7
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 325,
+      "variation": 24
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 181,
+      "variation": 30
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 475,
+      "variation": 24
+    }
+  },
+  {
+    "code": "# Auto-generated sample 164\nfunction renderComment(content) {\n  document.getElementById(\"comment\").contentContent = content;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 164,
+      "variation": 13
+    }
+  },
+  {
+    "code": "import json\n\ndef load_payload(payload):\n    return json.loads(payload)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 451,
+      "variation": 0
+    }
+  },
+  {
+    "code": "# Auto-generated sample 292\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 292,
+      "variation": 41
+    }
+  },
+  {
+    "code": "# Auto-generated sample 245\nimport os\ndef backup_file(file_name):\n    os.system(f\"cp {file_name} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 245,
+      "variation": 44
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 395,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 294\n\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 294,
+      "variation": 43
+    }
+  },
+  {
+    "code": "# Auto-generated sample 296\n\nimport subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 296,
+      "variation": 45
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 339,
+      "variation": 38
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 135,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 334\n\ndef read_file(file_name):\n\n    with open(file_name) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 334,
+      "variation": 33
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(file_name):\n    subprocess.run([\"cp\", file_name, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 280,
+      "variation": 29
+    }
+  },
+  {
+    "code": "# Auto-generated sample 109\nfunction renderComment(message) {\n  document.getElementById(\"comment\").innerHTML = message;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 109,
+      "variation": 8
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 424,
+      "variation": 23
+    }
+  },
+  {
+    "code": "# Auto-generated sample 278\n\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 278,
+      "variation": 27
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 180,
+      "variation": 29
+    }
+  },
+  {
+    "code": "# Auto-generated sample 437\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 437,
+      "variation": 36
+    }
+  },
+  {
+    "code": "# Auto-generated sample 102\nfunction renderComment(content) {\n  document.getElementById(\"comment\").innerHTML = content;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 102,
+      "variation": 1
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 427,
+      "variation": 26
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filepath):\n    os.system(f\"cp {filepath} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 241,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 55\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 55,
+      "variation": 4
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 41,
+      "variation": 40
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 224,
+      "variation": 23
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 248,
+      "variation": 47
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 91,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 69\n\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 69,
+      "variation": 18
+    }
+  },
+  {
+    "code": "# Auto-generated sample 499\n\nimport json\n\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 499,
+      "variation": 48
+    }
+  },
+  {
+    "code": "import json\ndef load_input_data(input_data):\n    return json.loads(input_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 468,
+      "variation": 17
+    }
+  },
+  {
+    "code": "# Auto-generated sample 306\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 306,
+      "variation": 5
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 373,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 359\n\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 359,
+      "variation": 8
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 269,
+      "variation": 18
+    }
+  },
+  {
+    "code": "# Auto-generated sample 420\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 420,
+      "variation": 19
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 330,
+      "variation": 29
+    }
+  },
+  {
+    "code": "# Auto-generated sample 411\n\nimport pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 411,
+      "variation": 10
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filepath):\n\n    os.system(f\"cp {filepath} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 246,
+      "variation": 45
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 297,
+      "variation": 46
+    }
+  },
+  {
+    "code": "# Auto-generated sample 453\nimport json\ndef load_input_data(input_data):\n    return json.loads(input_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 453,
+      "variation": 2
+    }
+  },
+  {
+    "code": "import json\n\ndef load_payload(payload):\n    return json.loads(payload)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 462,
+      "variation": 11
+    }
+  },
+  {
+    "code": "# Auto-generated sample 347\n\ndef read_file(file_name):\n\n    with open(file_name) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 347,
+      "variation": 46
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 500,
+      "variation": 49
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 160,
+      "variation": 9
+    }
+  },
+  {
+    "code": "function renderComment(message) {\n  document.getElementById(\"comment\").innerHTML = message;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 101,
+      "variation": 0
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 191,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 488\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 488,
+      "variation": 37
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 182,
+      "variation": 31
+    }
+  },
+  {
+    "code": "# Auto-generated sample 405\n\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 405,
+      "variation": 4
+    }
+  },
+  {
+    "code": "# Auto-generated sample 466\n\nimport json\n\ndef load_payload(payload):\n    return json.loads(payload)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 466,
+      "variation": 15
+    }
+  },
+  {
+    "code": "# Auto-generated sample 14\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 14,
+      "variation": 13
+    }
+  },
+  {
+    "code": "# Auto-generated sample 312\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 312,
+      "variation": 11
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 381,
+      "variation": 30
+    }
+  },
+  {
+    "code": "# Auto-generated sample 40\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 40,
+      "variation": 39
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 490,
+      "variation": 39
+    }
+  },
+  {
+    "code": "# Auto-generated sample 454\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 454,
+      "variation": 3
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 47,
+      "variation": 46
+    }
+  },
+  {
+    "code": "# Auto-generated sample 283\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 283,
+      "variation": 32
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 127,
+      "variation": 26
+    }
+  },
+  {
+    "code": "# Auto-generated sample 413\nimport pickle\ndef load_payload(payload):\n    return pickle.loads(payload)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 413,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 473\nimport json\ndef load_payload(payload):\n    return json.loads(payload)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 473,
+      "variation": 22
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 103,
+      "variation": 2
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 264,
+      "variation": 13
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 97,
+      "variation": 46
+    }
+  },
+  {
+    "code": "# Auto-generated sample 366\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 366,
+      "variation": 15
+    }
+  },
+  {
+    "code": "# Auto-generated sample 443\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 443,
+      "variation": 42
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 50,
+      "variation": 49
+    }
+  },
+  {
+    "code": "# Auto-generated sample 78\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 78,
+      "variation": 27
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 148,
+      "variation": 47
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 93,
+      "variation": 42
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 121,
+      "variation": 20
+    }
+  },
+  {
+    "code": "# Auto-generated sample 267\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 267,
+      "variation": 16
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 237,
+      "variation": 36
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 128,
+      "variation": 27
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 42,
+      "variation": 41
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 125,
+      "variation": 24
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 493,
+      "variation": 42
+    }
+  },
+  {
+    "code": "function renderComment(content) {\n  document.getElementById(\"comment\").innerHTML = content;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 143,
+      "variation": 42
+    }
+  },
+  {
+    "code": "import json\n\ndef load_input_data(input_data):\n    return json.loads(input_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 491,
+      "variation": 40
+    }
+  },
+  {
+    "code": "def read_file(file_name):\n    with open(file_name) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 317,
+      "variation": 16
+    }
+  },
+  {
+    "code": "# Auto-generated sample 32\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 32,
+      "variation": 31
+    }
+  },
+  {
+    "code": "# Auto-generated sample 274\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 274,
+      "variation": 23
+    }
+  },
+  {
+    "code": "# Auto-generated sample 88\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 88,
+      "variation": 37
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 120,
+      "variation": 19
+    }
+  },
+  {
+    "code": "# Auto-generated sample 240\n\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 240,
+      "variation": 39
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 33,
+      "variation": 32
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 232,
+      "variation": 31
+    }
+  },
+  {
+    "code": "def read_file(file_name):\n    safe_path = os.path.basename(file_name)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 383,
+      "variation": 32
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 231,
+      "variation": 30
+    }
+  },
+  {
+    "code": "# Auto-generated sample 403\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 403,
+      "variation": 2
+    }
+  },
+  {
+    "code": "# Auto-generated sample 35\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 35,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 147\n\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 147,
+      "variation": 46
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 299,
+      "variation": 48
+    }
+  },
+  {
+    "code": "def read_file(filepath):\n\n    safe_path = os.path.basename(filepath)\n\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 375,
+      "variation": 24
+    }
+  },
+  {
+    "code": "# Auto-generated sample 176\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 176,
+      "variation": 25
+    }
+  },
+  {
+    "code": "# Auto-generated sample 239\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 239,
+      "variation": 38
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 483,
+      "variation": 32
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 16,
+      "variation": 15
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 426,
+      "variation": 25
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 46,
+      "variation": 45
+    }
+  },
+  {
+    "code": "# Auto-generated sample 389\n\ndef read_file(fname):\n    safe_path = os.path.basename(fname)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 389,
+      "variation": 38
+    }
+  },
+  {
+    "code": "# Auto-generated sample 485\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 485,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 17\n\ndef search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 17,
+      "variation": 16
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 293,
+      "variation": 42
+    }
+  },
+  {
+    "code": "# Auto-generated sample 63\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 63,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 113\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 113,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 162\nfunction renderComment(message) {\n  document.getElementById(\"comment\").messageContent = message;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 162,
+      "variation": 11
+    }
+  },
+  {
+    "code": "# Auto-generated sample 194\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 194,
+      "variation": 43
+    }
+  },
+  {
+    "code": "function renderComment(content) {\n  document.getElementById(\"comment\").contentContent = content;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 197,
+      "variation": 46
+    }
+  },
+  {
+    "code": "# Auto-generated sample 87\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 87,
+      "variation": 36
+    }
+  },
+  {
+    "code": "def read_file(filepath):\n    with open(filepath) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 316,
+      "variation": 15
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 449,
+      "variation": 48
+    }
+  },
+  {
+    "code": "# Auto-generated sample 60\n\ndef search_user(username):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 60,
+      "variation": 9
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 154,
+      "variation": 3
+    }
+  },
+  {
+    "code": "# Auto-generated sample 62\n\ndef search_user(user_name):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (user_name,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 62,
+      "variation": 11
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 2,
+      "variation": 1
+    }
+  },
+  {
+    "code": "# Auto-generated sample 393\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 393,
+      "variation": 42
+    }
+  },
+  {
+    "code": "# Auto-generated sample 151\nfunction renderComment(message) {\n  document.getElementById(\"comment\").messageContent = message;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 151,
+      "variation": 0
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 282,
+      "variation": 31
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 474,
+      "variation": 23
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 49,
+      "variation": 48
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 170,
+      "variation": 19
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 198,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 117\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 117,
+      "variation": 16
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 304,
+      "variation": 3
+    }
+  },
+  {
+    "code": "# Auto-generated sample 349\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 349,
+      "variation": 48
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 140,
+      "variation": 39
+    }
+  },
+  {
+    "code": "# Auto-generated sample 38\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 38,
+      "variation": 37
+    }
+  },
+  {
+    "code": "# Auto-generated sample 423\n\nimport pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 423,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 218\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 218,
+      "variation": 17
+    }
+  },
+  {
+    "code": "# Auto-generated sample 455\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 455,
+      "variation": 4
+    }
+  },
+  {
+    "code": "function renderComment(message) {\n\n  document.getElementById(\"comment\").messageContent = message;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 155,
+      "variation": 4
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 432,
+      "variation": 31
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 448,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 318\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 318,
+      "variation": 17
+    }
+  },
+  {
+    "code": "# Auto-generated sample 305\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 305,
+      "variation": 4
+    }
+  },
+  {
+    "code": "# Auto-generated sample 362\n\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 362,
+      "variation": 11
+    }
+  },
+  {
+    "code": "# Auto-generated sample 434\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 434,
+      "variation": 33
+    }
+  },
+  {
+    "code": "# Auto-generated sample 472\n\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 472,
+      "variation": 21
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 489,
+      "variation": 38
+    }
+  },
+  {
+    "code": "# Auto-generated sample 86\n\ndef search_user(username):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 86,
+      "variation": 35
+    }
+  },
+  {
+    "code": "# Auto-generated sample 6\n\ndef search_user(user):\n    query = f\"SELECT * FROM users WHERE name = '{user}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 6,
+      "variation": 5
+    }
+  },
+  {
+    "code": "def read_file(file_name):\n\n    with open(file_name) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 343,
+      "variation": 42
+    }
+  },
+  {
+    "code": "# Auto-generated sample 285\n\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 285,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 476\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 476,
+      "variation": 25
+    }
+  },
+  {
+    "code": "# Auto-generated sample 487\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 487,
+      "variation": 36
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 268,
+      "variation": 17
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 84,
+      "variation": 33
+    }
+  },
+  {
+    "code": "# Auto-generated sample 61\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 61,
+      "variation": 10
+    }
+  },
+  {
+    "code": "# Auto-generated sample 404\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 404,
+      "variation": 3
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 369,
+      "variation": 18
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 446,
+      "variation": 45
+    }
+  },
+  {
+    "code": "def read_file(fname):\n\n    safe_path = os.path.basename(fname)\n\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 390,
+      "variation": 39
+    }
+  },
+  {
+    "code": "function renderComment(content) {\n\n  document.getElementById(\"comment\").innerHTML = content;\n\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 145,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 166\n\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 166,
+      "variation": 15
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 256,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 250\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 250,
+      "variation": 49
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 80,
+      "variation": 29
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 188,
+      "variation": 37
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 5,
+      "variation": 4
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 419,
+      "variation": 18
+    }
+  },
+  {
+    "code": "# Auto-generated sample 321\n\ndef read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 321,
+      "variation": 20
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 399,
+      "variation": 48
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 114,
+      "variation": 13
+    }
+  },
+  {
+    "code": "# Auto-generated sample 169\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 169,
+      "variation": 18
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 29,
+      "variation": 28
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 70,
+      "variation": 19
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 353,
+      "variation": 2
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 217,
+      "variation": 16
+    }
+  },
+  {
+    "code": "# Auto-generated sample 291\n\nimport subprocess\n\ndef backup_file(file_name):\n    subprocess.run([\"cp\", file_name, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 291,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 344\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 344,
+      "variation": 43
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 281,
+      "variation": 30
+    }
+  },
+  {
+    "code": "# Auto-generated sample 153\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 153,
+      "variation": 2
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 54,
+      "variation": 3
+    }
+  },
+  {
+    "code": "def read_file(file_name):\n    with open(file_name) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 313,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 8\n\ndef search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 8,
+      "variation": 7
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 157,
+      "variation": 6
+    }
+  },
+  {
+    "code": "# Auto-generated sample 376\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 376,
+      "variation": 25
+    }
+  },
+  {
+    "code": "# Auto-generated sample 429\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 429,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 236\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 236,
+      "variation": 35
+    }
+  },
+  {
+    "code": "# Auto-generated sample 498\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 498,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 22\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 22,
+      "variation": 21
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 56,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 96\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 96,
+      "variation": 45
+    }
+  },
+  {
+    "code": "# Auto-generated sample 481\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 481,
+      "variation": 30
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 259,
+      "variation": 8
+    }
+  },
+  {
+    "code": "# Auto-generated sample 301\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 301,
+      "variation": 0
+    }
+  },
+  {
+    "code": "# Auto-generated sample 53\n\ndef search_user(user):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (user,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 53,
+      "variation": 2
+    }
+  },
+  {
+    "code": "# Auto-generated sample 205\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 205,
+      "variation": 4
+    }
+  },
+  {
+    "code": "# Auto-generated sample 67\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 67,
+      "variation": 16
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 439,
+      "variation": 38
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 496,
+      "variation": 45
+    }
+  },
+  {
+    "code": "# Auto-generated sample 123\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 123,
+      "variation": 22
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 302,
+      "variation": 1
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 150,
+      "variation": 49
+    }
+  },
+  {
+    "code": "# Auto-generated sample 68\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 68,
+      "variation": 17
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 266,
+      "variation": 15
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 215,
+      "variation": 14
+    }
+  },
+  {
+    "code": "# Auto-generated sample 458\n\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 458,
+      "variation": 7
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 392,
+      "variation": 41
+    }
+  },
+  {
+    "code": "# Auto-generated sample 357\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 357,
+      "variation": 6
+    }
+  },
+  {
+    "code": "# Auto-generated sample 85\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 85,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 263\n\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 263,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 371\ndef read_file(file_name):\n    safe_path = os.path.basename(file_name)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 371,
+      "variation": 20
+    }
+  },
+  {
+    "code": "# Auto-generated sample 21\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 21,
+      "variation": 20
+    }
+  },
+  {
+    "code": "# Auto-generated sample 222\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 222,
+      "variation": 21
+    }
+  },
+  {
+    "code": "# Auto-generated sample 377\ndef read_file(fname):\n    safe_path = os.path.basename(fname)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 377,
+      "variation": 26
+    }
+  },
+  {
+    "code": "# Auto-generated sample 338\n\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 338,
+      "variation": 37
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 37,
+      "variation": 36
+    }
+  },
+  {
+    "code": "# Auto-generated sample 398\n\ndef read_file(fname):\n    safe_path = os.path.basename(fname)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 398,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 214\nimport os\ndef backup_file(fname):\n    os.system(f\"cp {fname} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 214,
+      "variation": 13
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 159,
+      "variation": 8
+    }
+  },
+  {
+    "code": "# Auto-generated sample 363\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 363,
+      "variation": 12
+    }
+  },
+  {
+    "code": "function renderComment(msg) {\n\n  document.getElementById(\"comment\").innerHTML = msg;\n\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 105,
+      "variation": 4
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 99,
+      "variation": 48
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 465,
+      "variation": 14
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 24,
+      "variation": 23
+    }
+  },
+  {
+    "code": "# Auto-generated sample 244\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 244,
+      "variation": 43
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 186,
+      "variation": 35
+    }
+  },
+  {
+    "code": "# Auto-generated sample 189\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 189,
+      "variation": 38
+    }
+  },
+  {
+    "code": "# Auto-generated sample 187\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 187,
+      "variation": 36
+    }
+  },
+  {
+    "code": "function renderComment(msg) {\n  document.getElementById(\"comment\").innerHTML = msg;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 137,
+      "variation": 36
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 341,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 350\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 350,
+      "variation": 49
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 108,
+      "variation": 7
+    }
+  },
+  {
+    "code": "# Auto-generated sample 204\n\nimport os\n\ndef backup_file(file_name):\n    os.system(f\"cp {file_name} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 204,
+      "variation": 3
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 203,
+      "variation": 2
+    }
+  },
+  {
+    "code": "# Auto-generated sample 34\n\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 34,
+      "variation": 33
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 470,
+      "variation": 19
+    }
+  },
+  {
+    "code": "# Auto-generated sample 25\n\ndef search_user(user):\n    query = f\"SELECT * FROM users WHERE name = '{user}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 25,
+      "variation": 24
+    }
+  },
+  {
+    "code": "# Auto-generated sample 494\nimport json\ndef load_raw_data(raw_data):\n    return json.loads(raw_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 494,
+      "variation": 43
+    }
+  },
+  {
+    "code": "def read_file(file_name):\n\n    with open(file_name) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 326,
+      "variation": 25
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filepath):\n\n    subprocess.run([\"cp\", filepath, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 286,
+      "variation": 35
+    }
+  },
+  {
+    "code": "# Auto-generated sample 171\n\nfunction renderComment(message) {\n\n  document.getElementById(\"comment\").messageContent = message;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 171,
+      "variation": 20
+    }
+  },
+  {
+    "code": "# Auto-generated sample 289\nimport subprocess\ndef backup_file(filepath):\n    subprocess.run([\"cp\", filepath, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 289,
+      "variation": 38
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 459,
+      "variation": 8
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 64,
+      "variation": 13
+    }
+  },
+  {
+    "code": "# Auto-generated sample 401\n\nimport pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 401,
+      "variation": 0
+    }
+  },
+  {
+    "code": "# Auto-generated sample 98\n\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 98,
+      "variation": 47
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 308,
+      "variation": 7
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 438,
+      "variation": 37
+    }
+  },
+  {
+    "code": "# Auto-generated sample 100\ndef search_user(uname):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (uname,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 100,
+      "variation": 49
+    }
+  },
+  {
+    "code": "# Auto-generated sample 238\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 238,
+      "variation": 37
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 213,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 397\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 397,
+      "variation": 46
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 295,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 352\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 352,
+      "variation": 1
+    }
+  },
+  {
+    "code": "# Auto-generated sample 175\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 175,
+      "variation": 24
+    }
+  },
+  {
+    "code": "# Auto-generated sample 495\nimport json\ndef load_raw_data(raw_data):\n    return json.loads(raw_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 495,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 379\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 379,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 265\nimport subprocess\ndef backup_file(filepath):\n    subprocess.run([\"cp\", filepath, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 265,
+      "variation": 14
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 201,
+      "variation": 0
+    }
+  },
+  {
+    "code": "# Auto-generated sample 7\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 7,
+      "variation": 6
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 82,
+      "variation": 31
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 435,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 452\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 452,
+      "variation": 1
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 26,
+      "variation": 25
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 247,
+      "variation": 46
+    }
+  },
+  {
+    "code": "# Auto-generated sample 409\nimport pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 409,
+      "variation": 8
+    }
+  },
+  {
+    "code": "import pickle\ndef load_input_data(input_data):\n    return pickle.loads(input_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 410,
+      "variation": 9
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 445,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 179\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 179,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 71\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 71,
+      "variation": 20
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 477,
+      "variation": 26
+    }
+  },
+  {
+    "code": "# Auto-generated sample 31\ndef search_user(user_name):\n    query = f\"SELECT * FROM users WHERE name = '{user_name}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 31,
+      "variation": 30
+    }
+  },
+  {
+    "code": "# Auto-generated sample 303\n\ndef read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 303,
+      "variation": 2
+    }
+  },
+  {
+    "code": "def search_user(user):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (user,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 92,
+      "variation": 41
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 275,
+      "variation": 24
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 270,
+      "variation": 19
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 342,
+      "variation": 41
+    }
+  },
+  {
+    "code": "# Auto-generated sample 322\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 322,
+      "variation": 21
+    }
+  },
+  {
+    "code": "# Auto-generated sample 262\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 262,
+      "variation": 11
+    }
+  },
+  {
+    "code": "# Auto-generated sample 20\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 20,
+      "variation": 19
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 355,
+      "variation": 4
+    }
+  },
+  {
+    "code": "# Auto-generated sample 329\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 329,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 3\n\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 3,
+      "variation": 2
+    }
+  },
+  {
+    "code": "# Auto-generated sample 163\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 163,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 249\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 249,
+      "variation": 48
+    }
+  },
+  {
+    "code": "# Auto-generated sample 18\n\ndef search_user(uname):\n\n    query = f\"SELECT * FROM users WHERE name = '{uname}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 18,
+      "variation": 17
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 220,
+      "variation": 19
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 27,
+      "variation": 26
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 323,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 23\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 23,
+      "variation": 22
+    }
+  },
+  {
+    "code": "import pickle\ndef load_input_data(input_data):\n    return pickle.loads(input_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 408,
+      "variation": 7
+    }
+  },
+  {
+    "code": "# Auto-generated sample 44\ndef search_user(uname):\n    query = f\"SELECT * FROM users WHERE name = '{uname}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 44,
+      "variation": 43
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 161,
+      "variation": 10
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 333,
+      "variation": 32
+    }
+  },
+  {
+    "code": "# Auto-generated sample 447\nimport pickle\ndef load_payload(payload):\n    return pickle.loads(payload)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 447,
+      "variation": 46
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 320,
+      "variation": 19
+    }
+  },
+  {
+    "code": "# Auto-generated sample 94\ndef search_user(uname):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (uname,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 94,
+      "variation": 43
+    }
+  },
+  {
+    "code": "# Auto-generated sample 311\n\ndef read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 311,
+      "variation": 10
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 107,
+      "variation": 6
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 384,
+      "variation": 33
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 252,
+      "variation": 1
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filepath):\n    os.system(f\"cp {filepath} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 219,
+      "variation": 18
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 441,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 356\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 356,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 486\nimport json\ndef load_payload(payload):\n    return json.loads(payload)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 486,
+      "variation": 35
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 444,
+      "variation": 43
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 122,
+      "variation": 21
+    }
+  },
+  {
+    "code": "# Auto-generated sample 115\n\nfunction renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 115,
+      "variation": 14
+    }
+  },
+  {
+    "code": "# Auto-generated sample 335\ndef read_file(fname):\n    with open(fname) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 335,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 73\ndef search_user(user_name):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (user_name,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 73,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 211\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 211,
+      "variation": 10
+    }
+  },
+  {
+    "code": "# Auto-generated sample 406\n\nimport pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 406,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 216\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 216,
+      "variation": 15
+    }
+  },
+  {
+    "code": "# Auto-generated sample 90\n\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 90,
+      "variation": 39
+    }
+  },
+  {
+    "code": "import json\ndef load_raw_data(raw_data):\n    return json.loads(raw_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 463,
+      "variation": 12
+    }
+  },
+  {
+    "code": "# Auto-generated sample 433\nimport pickle\ndef load_payload(payload):\n    return pickle.loads(payload)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 433,
+      "variation": 32
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filepath):\n    os.system(f\"cp {filepath} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 212,
+      "variation": 11
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 382,
+      "variation": 31
+    }
+  },
+  {
+    "code": "# Auto-generated sample 9\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 9,
+      "variation": 8
+    }
+  },
+  {
+    "code": "# Auto-generated sample 332\n\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 332,
+      "variation": 31
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 315,
+      "variation": 14
+    }
+  },
+  {
+    "code": "# Auto-generated sample 132\n\nfunction renderComment(content) {\n\n  document.getElementById(\"comment\").innerHTML = content;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 132,
+      "variation": 31
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 255,
+      "variation": 4
+    }
+  },
+  {
+    "code": "import pickle\ndef load_input_data(input_data):\n    return pickle.loads(input_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 421,
+      "variation": 20
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 156,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 142\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 142,
+      "variation": 41
+    }
+  },
+  {
+    "code": "# Auto-generated sample 200\n\nfunction renderComment(msg) {\n  document.getElementById(\"comment\").msgContent = msg;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 200,
+      "variation": 49
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 418,
+      "variation": 17
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 167,
+      "variation": 16
+    }
+  },
+  {
+    "code": "# Auto-generated sample 235\nimport os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 235,
+      "variation": 34
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 374,
+      "variation": 23
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 58,
+      "variation": 7
+    }
+  },
+  {
+    "code": "# Auto-generated sample 196\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 196,
+      "variation": 45
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(file_name):\n    os.system(f\"cp {file_name} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 230,
+      "variation": 29
+    }
+  },
+  {
+    "code": "# Auto-generated sample 380\n\ndef read_file(filename):\n\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 380,
+      "variation": 29
+    }
+  },
+  {
+    "code": "# Auto-generated sample 396\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 396,
+      "variation": 45
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 407,
+      "variation": 6
+    }
+  },
+  {
+    "code": "# Auto-generated sample 479\n\nimport json\n\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 479,
+      "variation": 28
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 199,
+      "variation": 48
+    }
+  },
+  {
+    "code": "def read_file(fname):\n    safe_path = os.path.basename(fname)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 388,
+      "variation": 37
+    }
+  },
+  {
+    "code": "# Auto-generated sample 48\n\ndef search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 48,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 168\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 168,
+      "variation": 17
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 440,
+      "variation": 39
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 190,
+      "variation": 39
+    }
+  },
+  {
+    "code": "import json\ndef load_input_data(input_data):\n    return json.loads(input_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 464,
+      "variation": 13
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 348,
+      "variation": 47
+    }
+  },
+  {
+    "code": "# Auto-generated sample 372\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 372,
+      "variation": 21
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(fname):\n    subprocess.run([\"cp\", fname, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 253,
+      "variation": 2
+    }
+  },
+  {
+    "code": "# Auto-generated sample 4\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 4,
+      "variation": 3
+    }
+  },
+  {
+    "code": "# Auto-generated sample 457\n\nimport json\n\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 457,
+      "variation": 6
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 141,
+      "variation": 40
+    }
+  },
+  {
+    "code": "# Auto-generated sample 134\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 134,
+      "variation": 33
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 225,
+      "variation": 24
+    }
+  },
+  {
+    "code": "# Auto-generated sample 185\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 185,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 75\ndef search_user(uname):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (uname,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 75,
+      "variation": 24
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 72,
+      "variation": 21
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 254,
+      "variation": 3
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 480,
+      "variation": 29
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 131,
+      "variation": 30
+    }
+  },
+  {
+    "code": "# Auto-generated sample 112\nfunction renderComment(message) {\n  document.getElementById(\"comment\").innerHTML = message;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 112,
+      "variation": 11
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 417,
+      "variation": 16
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 10,
+      "variation": 9
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 300,
+      "variation": 49
+    }
+  },
+  {
+    "code": "# Auto-generated sample 139\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 139,
+      "variation": 38
+    }
+  },
+  {
+    "code": "# Auto-generated sample 1\n\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 1,
+      "variation": 0
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 95,
+      "variation": 44
+    }
+  },
+  {
+    "code": "# Auto-generated sample 76\n\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 76,
+      "variation": 25
+    }
+  },
+  {
+    "code": "def search_user(username):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 59,
+      "variation": 8
+    }
+  },
+  {
+    "code": "# Auto-generated sample 314\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 314,
+      "variation": 13
+    }
+  },
+  {
+    "code": "# Auto-generated sample 290\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 290,
+      "variation": 39
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 83,
+      "variation": 32
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(file_name):\n    subprocess.run([\"cp\", file_name, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 273,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 327\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 327,
+      "variation": 26
+    }
+  },
+  {
+    "code": "function renderComment(msg) {\n  document.getElementById(\"comment\").msgContent = msg;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 192,
+      "variation": 41
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 492,
+      "variation": 41
+    }
+  },
+  {
+    "code": "# Auto-generated sample 229\n\nimport os\n\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 229,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 394\n\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 394,
+      "variation": 43
+    }
+  },
+  {
+    "code": "# Auto-generated sample 111\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 111,
+      "variation": 10
+    }
+  },
+  {
+    "code": "# Auto-generated sample 497\n\nimport json\n\ndef load_payload(payload):\n    return json.loads(payload)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 497,
+      "variation": 46
+    }
+  },
+  {
+    "code": "# Auto-generated sample 391\ndef read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 391,
+      "variation": 40
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 360,
+      "variation": 9
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 469,
+      "variation": 18
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 337,
+      "variation": 36
+    }
+  },
+  {
+    "code": "# Auto-generated sample 81\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 81,
+      "variation": 30
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 15,
+      "variation": 14
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 385,
+      "variation": 34
+    }
+  },
+  {
+    "code": "# Auto-generated sample 354\n\ndef read_file(filepath):\n    safe_path = os.path.basename(filepath)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 354,
+      "variation": 3
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 414,
+      "variation": 13
+    }
+  },
+  {
+    "code": "# Auto-generated sample 11\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 11,
+      "variation": 10
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 482,
+      "variation": 31
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 450,
+      "variation": 49
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 386,
+      "variation": 35
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 378,
+      "variation": 27
+    }
+  },
+  {
+    "code": "# Auto-generated sample 77\ndef search_user(user_name):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (user_name,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 77,
+      "variation": 26
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(fname):\n    os.system(f\"cp {fname} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 209,
+      "variation": 8
+    }
+  },
+  {
+    "code": "def read_file(filename):\n\n    safe_path = os.path.basename(filename)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 367,
+      "variation": 16
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 89,
+      "variation": 38
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 442,
+      "variation": 41
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 428,
+      "variation": 27
+    }
+  },
+  {
+    "code": "# Auto-generated sample 152\nfunction renderComment(msg) {\n  document.getElementById(\"comment\").msgContent = msg;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 152,
+      "variation": 1
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 146,
+      "variation": 45
+    }
+  },
+  {
+    "code": "# Auto-generated sample 12\ndef search_user(uname):\n    query = f\"SELECT * FROM users WHERE name = '{uname}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 12,
+      "variation": 11
+    }
+  },
+  {
+    "code": "# Auto-generated sample 57\n\ndef search_user(user):\n\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (user,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 57,
+      "variation": 6
+    }
+  },
+  {
+    "code": "# Auto-generated sample 422\nimport pickle\ndef load_payload(payload):\n    return pickle.loads(payload)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 422,
+      "variation": 21
+    }
+  },
+  {
+    "code": "# Auto-generated sample 184\n\nfunction renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 184,
+      "variation": 33
+    }
+  },
+  {
+    "code": "# Auto-generated sample 277\n\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 277,
+      "variation": 26
+    }
+  },
+  {
+    "code": "import pickle\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 431,
+      "variation": 30
+    }
+  },
+  {
+    "code": "# Auto-generated sample 19\ndef search_user(username):\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 19,
+      "variation": 18
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 471,
+      "variation": 20
+    }
+  },
+  {
+    "code": "import subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 279,
+      "variation": 28
+    }
+  },
+  {
+    "code": "# Auto-generated sample 324\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 324,
+      "variation": 23
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").textContent = text;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 172,
+      "variation": 21
+    }
+  },
+  {
+    "code": "# Auto-generated sample 177\nfunction renderComment(msg) {\n  document.getElementById(\"comment\").msgContent = msg;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 177,
+      "variation": 26
+    }
+  },
+  {
+    "code": "# Auto-generated sample 74\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 74,
+      "variation": 23
+    }
+  },
+  {
+    "code": "# Auto-generated sample 307\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 307,
+      "variation": 6
+    }
+  },
+  {
+    "code": "# Auto-generated sample 319\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 319,
+      "variation": 18
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 144,
+      "variation": 43
+    }
+  },
+  {
+    "code": "import os\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 228,
+      "variation": 27
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 233,
+      "variation": 32
+    }
+  },
+  {
+    "code": "# Auto-generated sample 51\ndef search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 51,
+      "variation": 0
+    }
+  },
+  {
+    "code": "# Auto-generated sample 361\ndef read_file(fname):\n    safe_path = os.path.basename(fname)\n    with open(safe_path) as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 361,
+      "variation": 10
+    }
+  },
+  {
+    "code": "import os\n\ndef backup_file(filename):\n\n    os.system(f\"cp {filename} /backup/\")",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 227,
+      "variation": 26
+    }
+  },
+  {
+    "code": "function renderComment(message) {\n  document.getElementById(\"comment\").innerHTML = message;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 126,
+      "variation": 25
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 456,
+      "variation": 5
+    }
+  },
+  {
+    "code": "# Auto-generated sample 484\n\nimport json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 484,
+      "variation": 33
+    }
+  },
+  {
+    "code": "function renderComment(msg) {\n\n  document.getElementById(\"comment\").msgContent = msg;\n\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 173,
+      "variation": 22
+    }
+  },
+  {
+    "code": "# Auto-generated sample 336\ndef read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 336,
+      "variation": 35
+    }
+  },
+  {
+    "code": "import subprocess\n\ndef backup_file(filename):\n\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 288,
+      "variation": 37
+    }
+  },
+  {
+    "code": "def search_user(user_name):\n\n    query = f\"SELECT * FROM users WHERE name = '{user_name}'\"\n\n    return db.execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 13,
+      "variation": 12
+    }
+  },
+  {
+    "code": "function renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 130,
+      "variation": 29
+    }
+  },
+  {
+    "code": "def read_file(filename):\n    with open(filename) as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 328,
+      "variation": 27
+    }
+  },
+  {
+    "code": "# Auto-generated sample 258\nimport subprocess\ndef backup_file(filename):\n    subprocess.run([\"cp\", filename, \"/backup/\"], check=True)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 258,
+      "variation": 7
+    }
+  },
+  {
+    "code": "# Auto-generated sample 430\nimport pickle\ndef load_raw_data(raw_data):\n    return pickle.loads(raw_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 430,
+      "variation": 29
+    }
+  },
+  {
+    "code": "import json\ndef load_data(data):\n    return json.loads(data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 461,
+      "variation": 10
+    }
+  },
+  {
+    "code": "# Auto-generated sample 104\nfunction renderComment(text) {\n  document.getElementById(\"comment\").innerHTML = text;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 104,
+      "variation": 3
+    }
+  },
+  {
+    "code": "import pickle\n\ndef load_data(data):\n    return pickle.loads(data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 402,
+      "variation": 1
+    }
+  },
+  {
+    "code": "def search_user(username):\n    query = \"SELECT * FROM users WHERE name = %s\"\n    return db.execute(query, (username,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "none",
+    "source": "synthetic_generated",
+    "metadata": {
+      "template_id": 66,
+      "variation": 15
+    }
+  }
+]

@@ -1,0 +1,132 @@
+rules:
+  # ============================================================
+  # A03:2021 - Injection
+  # ============================================================
+  
+  - id: sql-injection-format
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $QUERY = "... %s ..." % $VAR
+              ...
+              $DB.execute($QUERY)
+          - pattern: |
+              $QUERY = f"...{$VAR}..."
+              ...
+              $DB.execute($QUERY)
+          - pattern: $DB.execute("..." + $VAR + "...")
+    message: "SQL Injection via string formatting. Use parameterized queries."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-89"
+      owasp: "A03:2021-Injection"
+      confidence: HIGH
+  
+  - id: sql-injection-raw-query
+    patterns:
+      - pattern: |
+          $MODEL.objects.raw($QUERY)
+      - pattern-not: $MODEL.objects.raw("...", [...])
+      - metavariable-pattern:
+          metavariable: $QUERY
+          patterns:
+            - pattern-either:
+                - pattern: f"...{$VAR}..."
+                - pattern: "..." + $VAR
+                - pattern: "... %s ..." % $VAR
+    message: "SQL Injection in raw query. Use parameterized queries."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-89"
+      owasp: "A03:2021-Injection"
+  
+  - id: command-injection-os-system
+    patterns:
+      - pattern-either:
+          - pattern: os.system($INPUT)
+          - pattern: os.popen($INPUT)
+      - metavariable-pattern:
+          metavariable: $INPUT
+          patterns:
+            - pattern-either:
+                - pattern: f"...{$VAR}..."
+                - pattern: "..." + $VAR
+    message: "Command injection vulnerability. Avoid os.system() with user input."
+    severity: CRITICAL
+    languages: [python]
+    metadata:
+      cwe: "CWE-78"
+      owasp: "A03:2021-Injection"
+      confidence: HIGH
+  
+  - id: command-injection-subprocess
+    patterns:
+      - pattern: subprocess.$FUNC($INPUT, shell=True, ...)
+      - metavariable-pattern:
+          metavariable: $INPUT
+          patterns:
+            - pattern-either:
+                - pattern: f"...{$VAR}..."
+                - pattern: "..." + $VAR
+                - pattern: [..., $VAR, ...]
+    message: "Command injection via subprocess with shell=True"
+    severity: CRITICAL
+    languages: [python]
+    metadata:
+      cwe: "CWE-78"
+      owasp: "A03:2021-Injection"
+  
+  - id: code-injection-eval
+    pattern-either:
+      - pattern: eval($INPUT)
+      - pattern: exec($INPUT)
+      - pattern: compile($INPUT, ...)
+    message: "Code injection via eval/exec. Never use with untrusted input."
+    severity: CRITICAL
+    languages: [python]
+    metadata:
+      cwe: "CWE-95"
+      owasp: "A03:2021-Injection"
+      confidence: HIGH
+  
+  - id: xss-template-unescaped
+    patterns:
+      - pattern: |
+          return render(..., {$KEY: $VALUE})
+      - pattern-not: |
+          return render(..., {$KEY: escape($VALUE)})
+      - metavariable-regex:
+          metavariable: $VALUE
+          regex: ^(request\.|request\.GET|request\.POST)
+    message: "Potential XSS: unescaped user input in template"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-79"
+      owasp: "A03:2021-Injection"
+  
+  - id: ldap-injection
+    patterns:
+      - pattern: |
+          $QUERY = f"...{$VAR}..."
+          ...
+          $LDAP.search(..., $QUERY, ...)
+    message: "LDAP injection vulnerability"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-90"
+      owasp: "A03:2021-Injection"
+  
+  - id: nosql-injection-mongodb
+    patterns:
+      - pattern: |
+          $COLLECTION.find({$FIELD: $REQUEST.$METHOD[...]})
+    message: "Potential NoSQL injection in MongoDB query"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-943"
+      owasp: "A03:2021-Injection"

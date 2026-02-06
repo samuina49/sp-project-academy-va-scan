@@ -1,0 +1,510 @@
+rules:
+- id: reflected-xss-res-send
+  pattern: res.send(`$...${$X}$...`)
+  message: |
+    Reflected XSS Via Res.Send() With Template Literal
+    
+    Risk: User input in res.send() template literal can lead to XSS. Sanitize input or use a templating engine with auto-escaping.
+    
+    Vulnerable Code: Using user input directly in HTML response without sanitization.
+    
+    Remediation:
+    1. Sanitize all user input before rendering
+    2. Use textContent instead of innerHTML
+    3. Use a templating engine with auto-escaping (Pug, EJS with escaping)
+    
+    Example Fix:
+    const sanitized = escapeHtml(userInput);
+    res.send(`<h1>${sanitized}</h1>`);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-79
+    owasp: A03:2021-Injection
+    confidence: HIGH
+    impact: HIGH
+
+- id: ssrf-fetch-user-input
+  patterns:
+    - pattern: fetch($URL)
+    - pattern-inside: |
+        $URL = req.$METHOD.$PROP
+        ...
+  message: |
+    Ssrf - Dynamic Url In Fetch
+    
+    Risk: fetch() with dynamic URL variable. Validate URL to prevent SSRF attacks that could access internal resources.
+    
+    Vulnerable Code: Using user-supplied URL without validation.
+    
+    Remediation:
+    1. Validate URL against allowlist
+    2. Block internal IP ranges (127.0.0.0/8, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)
+    3. Use URL parser to check protocol and host
+    
+    Example Fix:
+    const allowedHosts = ['api.example.com'];
+    const url = new URL(req.query.url);
+    if (!allowedHosts.includes(url.hostname)) throw new Error('Invalid URL');
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-918
+    owasp: A10:2021-SSRF
+    confidence: HIGH
+    impact: HIGH
+
+- id: dom-xss-innerhtml
+  pattern: $EL.innerHTML = $X
+  message: |
+    Cross-Site Scripting (XSS) vulnerability detected. 
+    
+    Risk: Attackers can inject malicious scripts that execute in users' browsers, potentially stealing credentials, session tokens, or performing actions on behalf of users.
+    
+    Vulnerable Code: Using innerHTML to insert user-controlled content without sanitization.
+    
+    Remediation: 
+    1. Use textContent instead of innerHTML for plain text
+    2. Sanitize HTML input using DOMPurify library
+    3. Implement Content Security Policy (CSP) headers
+    
+    Example Fix:
+    element.textContent = userInput; // Safe for text
+    // OR for HTML: element.innerHTML = DOMPurify.sanitize(userInput);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-79
+    owasp: A03:2021-Injection
+    confidence: HIGH
+    impact: HIGH
+  
+- id: sql-injection-template
+  pattern: $Q = `SELECT $...${$X}$...`
+  message: |
+    SQL Injection vulnerability detected.
+    
+    Risk: Attackers can manipulate SQL queries to access, modify, or delete database data, bypass authentication, or execute administrative operations.
+    
+    Vulnerable Code: Using template literals to construct SQL queries with user input.
+    
+    Remediation:
+    1. Use parameterized queries/prepared statements
+    2. Use ORM libraries (Sequelize, TypeORM, Prisma)
+    3. Never concatenate user input into SQL
+    
+    Example Fix:
+    // Bad: const query = `SELECT * FROM users WHERE id = '${userId}'`;
+    // Good: const query = 'SELECT * FROM users WHERE id = ?';
+    //       connection.query(query, [userId]);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-89
+    owasp: A03:2021-Injection
+    confidence: HIGH
+    impact: CRITICAL
+
+- id: command-injection-exec
+  pattern: exec(`$...${$X}$...`)
+  message: |
+    Command Injection vulnerability detected.
+    
+    Risk: Attackers can execute arbitrary system commands, potentially gaining full control of the server, accessing sensitive files, or launching further attacks.
+    
+    Vulnerable Code: Using exec() with template literals containing user input.
+    
+    Remediation:
+    1. Avoid executing shell commands with user input
+    2. Use execFile() with array arguments instead of shell
+    3. Validate and whitelist allowed inputs
+    4. Use child_process.spawn() with shell: false
+    
+    Example Fix:
+    // Bad: exec(`ping ${userInput}`);
+    // Good: execFile('ping', ['-c', '1', validatedHost]);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-78
+    owasp: A03:2021-Injection
+    confidence: HIGH
+    impact: CRITICAL
+
+- id: code-injection-eval
+  pattern: eval($X)
+  message: |
+    Code Injection vulnerability detected via eval().
+    
+    Risk: CRITICAL - Attackers can execute arbitrary JavaScript code with full application privileges, potentially compromising the entire application and server.
+    
+    Vulnerable Code: Using eval() function which executes any string as code.
+    
+    Remediation:
+    1. NEVER use eval() with user input
+    2. Use JSON.parse() for parsing JSON
+    3. Use Function constructor carefully with validation if absolutely needed
+    4. Consider alternative approaches (switch statements, object maps)
+    
+    Example Fix:
+    // Bad: eval(userCode);
+    // Good: const data = JSON.parse(userInput);
+    //  OR: const allowedFunctions = { add: (a,b) => a+b }; allowedFunctions[userChoice](x,y);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-95
+    owasp: A03:2021-Injection
+    confidence: HIGH
+    impact: CRITICAL
+
+- id: hardcoded-secrets
+  pattern-regex: (const|let|var)\s+(API_KEY|DATABASE_PASSWORD|JWT_SECRET|PASSWORD|SECRET|api_key|password|secret)\s*=\s*["'].*["']
+  message: |
+    Hardcoded Secret detected in source code.
+    
+    Risk: Exposed credentials can be discovered in version control, allowing unauthorized access to APIs, databases, or services. Attackers who gain access to your code repository can use these credentials.
+    
+    Vulnerable Code: Storing sensitive credentials directly in source code.
+    
+    Remediation:
+    1. Use environment variables (.env files)
+    2. Use secret management services (AWS Secrets Manager, Azure Key Vault)
+    3. Never commit secrets to version control
+    4. Rotate compromised credentials immediately
+    
+    Example Fix:
+    // Bad: const API_KEY = "sk-1234567890abcdef";
+    // Good: const API_KEY = process.env.API_KEY;
+    // With .env file: API_KEY=sk-1234567890abcdef
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-798
+    owasp: A02:2021-Cryptographic-Failures
+    confidence: HIGH
+    impact: HIGH
+
+- id: weak-crypto-md5
+  pattern: crypto.createHash("md5")
+  message: |
+    Weak Cryptographic Algorithm detected - MD5.
+    
+    Risk: MD5 is cryptographically broken and vulnerable to collision attacks. Passwords hashed with MD5 can be reversed using rainbow tables or brute force attacks.
+    
+    Vulnerable Code: Using MD5 for password hashing or cryptographic operations.
+    
+    Remediation:
+    1. Use bcrypt, scrypt, or Argon2 for password hashing
+    2. Use SHA-256 or SHA-3 for general hashing (not passwords)
+    3. Never use MD5 or SHA-1 for security-critical operations
+    
+    Example Fix:
+    // Bad: crypto.createHash('md5').update(password).digest('hex');
+    // Good: const bcrypt = require('bcrypt');
+    //       const hash = await bcrypt.hash(password, 10);
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-327
+    owasp: A02:2021-Cryptographic-Failures
+    confidence: HIGH
+    impact: HIGH
+
+- id: insecure-random
+  pattern: Math.random()
+  message: |
+    Insecure Random Number Generator detected.
+    
+    Risk: Math.random() is NOT cryptographically secure. Predictable random numbers can be exploited in security contexts like token generation, session IDs, or cryptographic keys.
+    
+    Vulnerable Code: Using Math.random() for security-sensitive operations.
+    
+    Remediation:
+    1. Use crypto.randomBytes() for secure random values
+    2. Use crypto.randomUUID() for UUIDs
+    3. Use crypto.randomInt() for random integers
+    
+    Example Fix:
+    // Bad: const token = Math.random().toString(36);
+    // Good: const token = crypto.randomBytes(32).toString('hex');
+    //  OR: const uuid = crypto.randomUUID();
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-330
+    owasp: A02:2021-Cryptographic-Failures
+    confidence: MEDIUM
+    impact: MEDIUM
+
+- id: insecure-random-token
+  pattern: Math.random().toString(36)
+  message: |
+    Insecure Token Generation detected.
+    
+    Risk: HIGH - Tokens generated with Math.random() can be predicted by attackers, leading to session hijacking, unauthorized access, or CSRF vulnerabilities.
+    
+    Vulnerable Code: Creating security tokens using Math.random().
+    
+    Remediation:
+    1. Use crypto.randomBytes() for token generation
+    2. Ensure tokens are at least 128 bits (16 bytes)
+    3. Use established libraries for session management
+    
+    Example Fix:
+    // Bad: const sessionToken = Math.random().toString(36);
+    // Good: const sessionToken = crypto.randomBytes(32).toString('hex');
+    //  OR: const { v4: uuidv4 } = require('uuid'); const token = uuidv4();
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-330
+    owasp: A02:2021-Cryptographic-Failures
+    confidence: HIGH
+    impact: HIGH
+
+- id: path-traversal-readfile
+  pattern: fs.readFileSync($PATH + $X)
+  message: |
+    Path Traversal vulnerability detected.
+    
+    Risk: Attackers can access files outside the intended directory by using '../' sequences, potentially reading sensitive configuration files, source code, or system files.
+    
+    Vulnerable Code: Concatenating user input directly into file paths.
+    
+    Remediation:
+    1. Validate and sanitize file paths
+    2. Use path.join() and path.normalize()
+    3. Check that resolved path starts with allowed directory
+    4. Use allowlist of permitted files/directories
+    
+    Example Fix:
+    // Bad: fs.readFileSync('./uploads/' + userFile);
+    // Good: const safePath = path.join(uploadsDir, path.basename(userFile));
+    //       if (!safePath.startsWith(uploadsDir)) throw new Error('Invalid path');
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-22
+    owasp: A01:2021-Broken-Access-Control
+    confidence: HIGH
+    impact: HIGH
+
+- id: path-traversal-template
+  pattern: fs.readFileSync(`$.../${$X}`)
+  message: |
+    Path Traversal vulnerability via template literal.
+    
+    Risk: Directory traversal attacks allowing access to unauthorized files.
+    
+    Remediation: Validate file paths, use path.basename(), restrict to allowed directories.
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-22
+    owasp: A01:2021-Broken-Access-Control
+    confidence: HIGH
+    impact: HIGH
+
+- id: ssrf-fetch
+  pattern: fetch($URL)
+  message: |
+    Potential Server-Side Request Forgery (SSRF) detected.
+    
+    Risk: Attackers can make the server access internal resources, scan internal networks, or interact with services that trust the server.
+    
+    Vulnerable Code: Making HTTP requests to URLs provided by users.
+    
+    Remediation:
+    1. Validate and whitelist allowed destinations
+    2. Block requests to private IP ranges (127.0.0.1, 10.0.0.0/8, 192.168.0.0/16)
+    3. Use URL parsing to verify scheme and host
+    4. Implement network-level restrictions
+    
+    Example Fix:
+    const allowedHosts = ['api.example.com'];
+    const url = new URL(userUrl);
+    if (!allowedHosts.includes(url.hostname)) throw new Error('Unauthorized host');
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-918
+    owasp: A10:2021-SSRF
+    confidence: MEDIUM
+    impact: HIGH
+
+- id: ssrf-https-get
+  pattern: https.get($URL, ...)
+  message: |
+    Potential SSRF via https.get().
+    
+    Risk: Server-side request forgery allowing internal network access.
+    
+    Remediation: Validate URLs, whitelist allowed domains, block private IPs.
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-918
+    owasp: A10:2021-SSRF
+    confidence: MEDIUM
+    impact: HIGH
+
+- id: open-redirect
+  pattern: window.location.href = $URL
+  message: |
+    Open Redirect vulnerability detected.
+    
+    Risk: Attackers can redirect users to malicious sites for phishing attacks, leading to credential theft or malware installation.
+    
+    Remediation:
+    1. Validate redirect URLs against whitelist
+    2. Use relative URLs when possible
+    3. Warn users before external redirects
+    
+    Example Fix:
+    const allowedDomains = ['example.com'];
+    const url = new URL(redirectUrl, window.location.origin);
+    if (!allowedDomains.includes(url.hostname)) throw new Error('Invalid redirect');
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-601
+    owasp: A01:2021-Broken-Access-Control
+    confidence: MEDIUM
+    impact: MEDIUM
+
+- id: cors-allow-all
+  pattern: res.header("Access-Control-Allow-Origin", "*")
+  message: |
+    CORS Misconfiguration - Allows all origins.
+    
+    Risk: Allowing all origins (*) can expose sensitive data to malicious websites.
+    
+    Remediation: Use specific allowed origins, never use * in production with credentials.
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    owasp: A05:2021-Security-Misconfiguration
+    confidence: HIGH
+    impact: MEDIUM
+
+- id: debug-mode-enabled
+  pattern: const DEBUG = true
+  message: |
+    Debug mode enabled in production code.
+    
+    Risk: Debug information can leak sensitive data, stack traces, or system details to attackers.
+    
+    Remediation: Use environment variables, disable debug mode in production.
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    owasp: A05:2021-Security-Misconfiguration
+    confidence: MEDIUM
+    impact: LOW
+
+- id: jwt-decode-no-verify
+  pattern: jwt.decode($...)
+  message: |
+    JWT Decoded Without Verification.
+    
+    Risk: CRITICAL - Bypasses signature validation, allowing attackers to forge tokens and impersonate any user.
+    
+    Remediation:
+    Use jwt.verify() instead of jwt.decode() to validate signatures.
+    
+    Example Fix:
+    // Bad: const payload = jwt.decode(token);
+    // Good: const payload = jwt.verify(token, secretKey);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-347
+    owasp: A07:2021-Authentication-Failures
+    confidence: HIGH
+    impact: CRITICAL
+
+- id: unsafe-json-parse
+  pattern: JSON.parse($X)
+  message: |
+    Unsafe JSON Deserialization.
+    
+    Risk: Parsing untrusted JSON without validation can lead to prototype pollution or unexpected data types causing application errors.
+    
+    Remediation:
+    1. Validate JSON structure before parsing
+    2. Use Object.freeze() on prototypes
+    3. Sanitize parsed objects
+    
+    Example Fix:
+    try {
+        const data = JSON.parse(untrustedInput);
+        if (typeof data !== 'object' || data === null) throw new Error('Invalid');
+        // Validate expected properties
+    } catch (e) { /* Handle error */ }
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-502
+    owasp: A08:2021-Data-Integrity-Failures
+    confidence: LOW
+    impact: MEDIUM
+
+- id: prototype-pollution
+  pattern: |
+    for (let $K in $SRC) {
+      $TGT[$K] = $SRC[$K]
+    }
+  message: |
+    Prototype Pollution vulnerability.
+    
+    Risk: Attackers can inject properties into Object.prototype, affecting all objects and potentially bypassing security checks.
+    
+    Remediation: Use Object.hasOwnProperty(), Object.freeze(), or safer merge libraries.
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-1321
+    owasp: A08:2021-Data-Integrity-Failures
+    confidence: MEDIUM
+    impact: HIGH
+
+- id: mass-assignment
+  pattern: Object.assign($MODEL, $REQ.body)
+  message: |
+    Mass Assignment vulnerability.
+    
+    Risk: Users can modify unintended object properties, potentially escalating privileges or bypassing business logic.
+    
+    Remediation: Explicitly specify allowed fields, use DTO/validation libraries.
+  languages: [javascript, typescript]
+  severity: WARNING
+  metadata:
+    cwe: CWE-915
+    owasp: A04:2021-Insecure-Design
+    confidence: MEDIUM
+    impact: MEDIUM
+
+- id: unsafe-file-upload
+  pattern: fs.writeFileSync($PATH + $FILE.name, ...)
+  message: |
+    Unsafe File Upload vulnerability.
+    
+    Risk: Arbitrary file write can lead to remote code execution, overwriting critical files, or path traversal.
+    
+    Remediation:
+    1. Validate file types (MIME type and extension)
+    2. Use randomly generated filenames
+    3. Store uploads outside web root
+    4. Implement file size limits
+    
+    Example Fix:
+    const safeFilename = `${crypto.randomUUID()}.${validExtension}`;
+    fs.writeFileSync(path.join(uploadsDir, safeFilename), data);
+  languages: [javascript, typescript]
+  severity: ERROR
+  metadata:
+    cwe: CWE-434
+    owasp: A01:2021-Broken-Access-Control
+    confidence: HIGH
+    impact: CRITICAL

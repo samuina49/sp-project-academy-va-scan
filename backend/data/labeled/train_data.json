@@ -1,0 +1,98 @@
+[
+  {
+    "code": "import os\ndef unsafe_command(user_input):\n    # Command injection vulnerability\n    os.system(\"echo \" + user_input)\n    return True",
+    "label": 1,
+    "file_path": "sample_vulnerable_1.py",
+    "metadata": {
+      "vulnerability_types": [
+        "command_injection"
+      ],
+      "severities": [
+        "high"
+      ],
+      "num_findings": 1
+    }
+  },
+  {
+    "code": "def sql_injection(username):\n    # SQL injection vulnerability\n    query = f\"SELECT * FROM users WHERE name = '{username}'\"\n    return query",
+    "label": 1,
+    "file_path": "sample_vulnerable_2.py",
+    "metadata": {
+      "vulnerability_types": [
+        "sql_injection"
+      ],
+      "severities": [
+        "high"
+      ],
+      "num_findings": 1
+    }
+  },
+  {
+    "code": "def eval_danger(user_code):\n    # Dangerous use of eval\n    result = eval(user_code)\n    return result",
+    "label": 1,
+    "file_path": "sample_vulnerable_3.py",
+    "metadata": {
+      "vulnerability_types": [
+        "dangerous_eval"
+      ],
+      "severities": [
+        "high"
+      ],
+      "num_findings": 1
+    }
+  },
+  {
+    "code": "import pickle\ndef unsafe_deserialize(data):\n    # Insecure deserialization\n    obj = pickle.loads(data)\n    return obj",
+    "label": 1,
+    "file_path": "sample_vulnerable_4.py",
+    "metadata": {
+      "vulnerability_types": [
+        "insecure_deserialization"
+      ],
+      "severities": [
+        "high"
+      ],
+      "num_findings": 1
+    }
+  },
+  {
+    "code": "def safe_addition(a, b):\n    # Safe arithmetic operation\n    return a + b",
+    "label": 0,
+    "file_path": "sample_safe_1.py",
+    "metadata": {
+      "vulnerability_types": [],
+      "severities": [],
+      "num_findings": 0
+    }
+  },
+  {
+    "code": "def validate_input(user_input):\n    # Safe input validation\n    if isinstance(user_input, str) and len(user_input) < 100:\n        return user_input.strip()\n    return None",
+    "label": 0,
+    "file_path": "sample_safe_2.py",
+    "metadata": {
+      "vulnerability_types": [],
+      "severities": [],
+      "num_findings": 0
+    }
+  },
+  {
+    "code": "import hashlib\ndef hash_password(password):\n    # Safe password hashing\n    return hashlib.sha256(password.encode()).hexdigest()",
+    "label": 0,
+    "file_path": "sample_safe_3.py",
+    "metadata": {
+      "vulnerability_types": [],
+      "severities": [],
+      "num_findings": 0
+    }
+  },
+  {
+    "code": "def calculate_total(items):\n    # Safe calculation\n    return sum(item['price'] for item in items if 'price' in item)",
+    "label": 0,
+    "file_path": "sample_safe_4.py",
+    "metadata": {
+      "vulnerability_types": [],
+      "severities": [],
+      "num_findings": 0
+    }
+  }
+]

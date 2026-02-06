@@ -1,0 +1,60 @@
+{
+  "version": "3.0-realistic",
+  "total_samples": 3,
+  "generated_at": "2026-02-02T00:31:22.072538",
+  "description": "Realistic vulnerability dataset with complex code patterns",
+  "samples": [
+    {
+      "id": "real_vuln_javascript_00303",
+      "language": "javascript",
+      "code": "const express = require('express');\nconst mongoose = require('mongoose');\nconst router = express.Router();\n\n// User model\nconst User = mongoose.model('User', new mongoose.Schema({\n    username: String,\n    email: String,\n    password: String,\n    role: String,\n    active: Boolean\n}));\n\n// Search users endpoint\nrouter.get('/api/users/search', async (req, res) => {\n    try {\n        const { username, email, role } = req.query;\n        \n        // Build query object\n        const query = {};\n        \n        if (username) {\n            // VULNERABILITY: NoSQL Injection via $where operator\n            query.username = { $regex: username, $options: 'i' };\n        }\n        \n        if (email) {\n            query.email = email;\n        }\n        \n        if (role) {\n            // VULNERABILITY: Direct assignment allows injection\n            query.role = role;\n        }\n        \n        // Execute query\n        const users = await User.find(query)\n            .select('username email role active')\n            .limit(50);\n        \n        res.json({\n            success: true,\n            count: users.length,\n            users: users\n        });\n        \n    } catch (error) {\n        console.error('Search error:', error);\n        res.status(500).json({ \n            error: 'Search failed',\n            message: error.message \n        });\n    }\n});\n\nmodule.exports = router;",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-943",
+          "severity": "HIGH",
+          "type": "nosql_injection",
+          "owasp_category": "A03:Injection",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 56,
+        "generated_at": "2026-02-02T00:31:21.576340"
+      }
+    },
+    {
+      "id": "real_vuln_javascript_00654",
+      "language": "javascript",
+      "code": "const express = require('express');\nconst app = express();\n\napp.use(express.json());\n\n// User preferences storage\nconst userPreferences = {};\n\n// Update user preferences\napp.post('/api/preferences', (req, res) => {\n    try {\n        const userId = req.headers['x-user-id'];\n        const updates = req.body;\n        \n        if (!userId) {\n            return res.status(400).json({ error: 'User ID required' });\n        }\n        \n        // Initialize user preferences if not exists\n        if (!userPreferences[userId]) {\n            userPreferences[userId] = {\n                theme: 'light',\n                language: 'en',\n                notifications: true\n            };\n        }\n        \n        // VULNERABILITY: Recursive merge allows prototype pollution\n        function mergeDeep(target, source) {\n            for (const key in source) {\n                if (source[key] && typeof source[key] === 'object') {\n                    if (!target[key]) target[key] = {};\n                    mergeDeep(target[key], source[key]);\n                } else {\n                    target[key] = source[key];\n                }\n            }\n            return target;\n        }\n        \n        mergeDeep(userPreferences[userId], updates);\n        \n        res.json({\n            success: true,\n            preferences: userPreferences[userId]\n        });\n        \n    } catch (error) {\n        console.error('Preferences update error:', error);\n        res.status(500).json({ error: error.message });\n    }\n});\n\nmodule.exports = app;",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-1321",
+          "severity": "HIGH",
+          "type": "prototype_pollution",
+          "owasp_category": "A08:Software and Data Integrity Failures",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 54,
+        "generated_at": "2026-02-02T00:31:21.578134"
+      }
+    },
+    {
+      "id": "real_safe_javascript_00489",
+      "language": "javascript",
+      "code": "const express = require('express');\nconst _ = require('lodash');\n\nconst app = express();\napp.use(express.json());\n\nconst userPreferences = {};\n\n// Safe deep merge\napp.post('/api/preferences', (req, res) => {\n    try {\n        const userId = req.headers['x-user-id'];\n        const updates = req.body;\n        \n        if (!userId) {\n            return res.status(400).json({ error: 'User ID required' });\n        }\n        \n        // Whitelist allowed keys\n        const allowedKeys = ['theme', 'language', 'notifications', 'timezone'];\n        const safeUpdates = {};\n        \n        for (const key of allowedKeys) {\n            if (key in updates) {\n                safeUpdates[key] = updates[key];\n            }\n        }\n        \n        // Initialize with defaults\n        if (!userPreferences[userId]) {\n            userPreferences[userId] = {\n                theme: 'light',\n                language: 'en',\n                notifications: true,\n                timezone: 'UTC'\n            };\n        }\n        \n        // Safe merge\n        Object.assign(userPreferences[userId], safeUpdates);\n        \n        res.json({\n            success: true,\n            preferences: userPreferences[userId]\n        });\n        \n    } catch (error) {\n        res.status(500).json({ error: error.message });\n    }\n});\n\nmodule.exports = app;",
+      "vulnerabilities": [],
+      "metadata": {
+        "source": "safe_patterns",
+        "complexity": "high",
+        "lines": 52,
+        "generated_at": "2026-02-02T00:31:21.591624"
+      }
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+[
+  {
+    "code": "def unsafe_query(user_input):\n    query = f\"SELECT * FROM users WHERE name = '{user_input}'\"\n    return execute(query)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "sql_injection",
+    "cwe_id": "CWE-89",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "high",
+      "description": "SQL injection via f-string"
+    }
+  },
+  {
+    "code": "def safe_query(user_input):\n    query = \"SELECT * FROM users WHERE name = ?\"\n    return execute(query, (user_input,))",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "Parameterized query - safe"
+    }
+  },
+  {
+    "code": "def process_payment(amount):\n    os.system(f\"pay.sh {amount}\")\n    return True",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "command_injection",
+    "cwe_id": "CWE-78",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "critical",
+      "description": "OS command injection"
+    }
+  },
+  {
+    "code": "def show_user_profile(username):\n    return f\"<h1>Welcome {username}</h1>\"",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "xss",
+    "cwe_id": "CWE-79",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "medium",
+      "description": "XSS via unescaped user input"
+    }
+  },
+  {
+    "code": "import html\n\ndef show_user_profile_safe(username):\n    escaped = html.escape(username)\n    return f\"<h1>Welcome {escaped}</h1>\"",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "HTML escaped - safe"
+    }
+  },
+  {
+    "code": "def read_user_file(filename):\n    with open(filename, 'r') as f:\n        return f.read()",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "path_traversal",
+    "cwe_id": "CWE-22",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "high",
+      "description": "Path traversal - no validation"
+    }
+  },
+  {
+    "code": "import os\nfrom pathlib import Path\n\ndef read_user_file_safe(filename):\n    base = Path('/safe/directory')\n    filepath = (base / filename).resolve()\n    if not filepath.is_relative_to(base):\n        raise ValueError('Invalid path')\n    with open(filepath, 'r') as f:\n        return f.read()",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "Path validated - safe"
+    }
+  },
+  {
+    "code": "def deserialize_data(user_data):\n    import pickle\n    return pickle.loads(user_data)",
+    "label": 1,
+    "language": "python",
+    "vulnerability_type": "insecure_deserialization",
+    "cwe_id": "CWE-502",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "critical",
+      "description": "Unsafe pickle deserialization"
+    }
+  },
+  {
+    "code": "import json\n\ndef deserialize_data_safe(user_data):\n    return json.loads(user_data)",
+    "label": 0,
+    "language": "python",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "Safe JSON deserialization"
+    }
+  },
+  {
+    "code": "function getUserData(userId) {\n    const query = `SELECT * FROM users WHERE id = ${userId}`;\n    return db.query(query);\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "sql_injection",
+    "cwe_id": "CWE-89",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "high",
+      "description": "SQL injection in JavaScript"
+    }
+  },
+  {
+    "code": "function getUserDataSafe(userId) {\n    const query = 'SELECT * FROM users WHERE id = ?';\n    return db.query(query, [userId]);\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "Parameterized query - safe"
+    }
+  },
+  {
+    "code": "function renderUserComment(comment) {\n    document.getElementById('comment').innerHTML = comment;\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "xss",
+    "cwe_id": "CWE-79",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "medium",
+      "description": "XSS via innerHTML"
+    }
+  },
+  {
+    "code": "function renderUserCommentSafe(comment) {\n    const element = document.getElementById('comment');\n    element.textContent = comment;\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "textContent - safe"
+    }
+  },
+  {
+    "code": "function executeCommand(cmd) {\n    const { exec } = require('child_process');\n    exec(cmd, (error, stdout, stderr) => {\n        console.log(stdout);\n    });\n}",
+    "label": 1,
+    "language": "javascript",
+    "vulnerability_type": "command_injection",
+    "cwe_id": "CWE-78",
+    "source": "mock_dataset",
+    "metadata": {
+      "severity": "critical",
+      "description": "Command injection via exec"
+    }
+  },
+  {
+    "code": "function processData(data) {\n    if (data && typeof data === 'string') {\n        return data.toLowerCase();\n    }\n    return '';\n}",
+    "label": 0,
+    "language": "javascript",
+    "vulnerability_type": "safe",
+    "source": "mock_dataset",
+    "metadata": {
+      "description": "Input validation - safe"
+    }
+  }
+]

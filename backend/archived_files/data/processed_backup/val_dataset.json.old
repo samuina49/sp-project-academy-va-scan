@@ -1,0 +1,40 @@
+{
+  "version": "3.0-realistic",
+  "total_samples": 2,
+  "generated_at": "2026-02-02T00:31:22.072538",
+  "description": "Realistic vulnerability dataset with complex code patterns",
+  "samples": [
+    {
+      "id": "real_vuln_python_00965",
+      "language": "python",
+      "code": "from flask import Flask, request, send_file\nimport os\nfrom pathlib import Path\nimport mimetypes\n\napp = Flask(__name__)\nUPLOAD_DIR = '/var/www/uploads'\n\n@app.route('/api/files/download', methods=['GET'])\ndef download_file():\n    \"\"\"Download user-uploaded files\"\"\"\n    filename = request.args.get('file')\n    \n    if not filename:\n        return {'error': 'Filename required'}, 400\n    \n    # Check file extension\n    allowed_extensions = {'.pdf', '.jpg', '.png', '.txt', '.doc', '.docx'}\n    file_ext = Path(filename).suffix.lower()\n    \n    if file_ext not in allowed_extensions:\n        return {'error': 'File type not allowed'}, 403\n    \n    # VULNERABILITY: Path traversal - insufficient validation\n    file_path = os.path.join(UPLOAD_DIR, filename)\n    \n    if not os.path.exists(file_path):\n        return {'error': 'File not found'}, 404\n    \n    # Determine mime type\n    mime_type, _ = mimetypes.guess_type(filename)\n    \n    try:\n        return send_file(\n            file_path,\n            mimetype=mime_type or 'application/octet-stream',\n            as_attachment=True,\n            download_name=filename\n        )\n    except Exception as e:\n        return {'error': str(e)}, 500",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-22",
+          "severity": "HIGH",
+          "type": "path_traversal",
+          "owasp_category": "A01:Broken Access Control",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 41,
+        "generated_at": "2026-02-02T00:31:21.573401"
+      }
+    },
+    {
+      "id": "real_safe_python_00292",
+      "language": "python",
+      "code": "from flask import Flask, render_template, request, escape\nfrom markupsafe import Markup\nimport bleach\n\napp = Flask(__name__)\n\nALLOWED_TAGS = ['b', 'i', 'u', 'a', 'p', 'br']\nALLOWED_ATTRS = {'a': ['href', 'title']}\n\n@app.route('/profile/<username>')\ndef user_profile(username):\n    \"\"\"Display user profile - SAFE implementation\"\"\"\n    bio = request.args.get('bio', 'No bio')\n    \n    # Sanitize HTML\n    clean_bio = bleach.clean(\n        bio,\n        tags=ALLOWED_TAGS,\n        attributes=ALLOWED_ATTRS,\n        strip=True\n    )\n    \n    return render_template(\n        'profile.html',\n        username=escape(username),\n        bio=Markup(clean_bio)\n    )",
+      "vulnerabilities": [],
+      "metadata": {
+        "source": "safe_patterns",
+        "complexity": "high",
+        "lines": 27,
+        "generated_at": "2026-02-02T00:31:21.583527"
+      }
+    }
+  ]
+}

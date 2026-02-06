@@ -1,0 +1,81 @@
+rules:
+  # ============================================================
+  # A01:2021 - Broken Access Control
+  # ============================================================
+  
+  - id: insecure-direct-object-reference
+    patterns:
+      - pattern-either:
+          - pattern: get_object_or_404($MODEL, id=$USER_INPUT)
+          - pattern: $MODEL.objects.get(id=$USER_INPUT)
+          - pattern: $MODEL.objects.filter(id=$USER_INPUT)
+      - pattern-not-inside: |
+          if $OBJ.user == $REQUEST.user:
+              ...
+    message: "Potential Insecure Direct Object Reference (IDOR). Missing authorization check."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-639"
+      owasp: "A01:2021-Broken Access Control"
+      confidence: HIGH
+  
+  - id: missing-login-required
+    patterns:
+      - pattern: |
+          def $FUNC($REQUEST, ...):
+              ...
+              $MODEL.objects.filter(...)
+      - pattern-not-inside: |
+          @login_required
+          def $FUNC(...): ...
+      - pattern-not-inside: |
+          @permission_required(...)
+          def $FUNC(...): ...
+    message: "View function accesses model data without @login_required decorator"
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-862"
+      owasp: "A01:2021-Broken Access Control"
+  
+  - id: path-traversal-open
+    patterns:
+      - pattern-either:
+          - pattern: open($USER_INPUT, ...)
+          - pattern: open(f"...{$USER_INPUT}...", ...)
+      - pattern-not: open($VAR, ...) where $VAR is sanitized
+    message: "Potential path traversal vulnerability. User input used in file path."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-22"
+      owasp: "A01:2021-Broken Access Control"
+      confidence: HIGH
+  
+  - id: unsafe-file-upload
+    patterns:
+      - pattern: |
+          $FILE = $REQUEST.FILES[...]
+          ...
+          $FILE.save(...)
+      - pattern-not-inside: |
+          if $FILE.content_type in [...]:
+              ...
+    message: "File upload without content type validation"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-434"
+      owasp: "A01:2021-Broken Access Control"
+  
+  - id: mass-assignment
+    patterns:
+      - pattern: $MODEL.objects.create(**$REQUEST.POST)
+      - pattern-not: $MODEL.objects.create(**{k: v for k, v in $REQUEST.POST.items() if k in [...]})
+    message: "Mass assignment vulnerability. All POST data assigned to model."
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-915"
+      owasp: "A01:2021-Broken Access Control"

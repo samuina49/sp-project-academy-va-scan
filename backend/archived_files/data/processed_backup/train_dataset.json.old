@@ -1,0 +1,164 @@
+{
+  "version": "3.0-realistic",
+  "total_samples": 9,
+  "generated_at": "2026-02-02T00:31:22.072538",
+  "description": "Realistic vulnerability dataset with complex code patterns",
+  "samples": [
+    {
+      "id": "real_vuln_python_00758",
+      "language": "python",
+      "code": "import subprocess\nimport os\nfrom flask import Flask, request, jsonify\nimport tempfile\n\napp = Flask(__name__)\n\n@app.route('/api/convert', methods=['POST'])\ndef convert_image():\n    \"\"\"Convert image format using ImageMagick\"\"\"\n    data = request.get_json()\n    input_file = data.get('input')\n    output_format = data.get('format', 'png')\n    \n    # Validate file exists\n    if not os.path.exists(input_file):\n        return jsonify({'error': 'File not found'}), 404\n    \n    # Create output filename\n    output_file = f\"{tempfile.gettempdir()}/converted_{os.path.basename(input_file)}.{output_format}\"\n    \n    try:\n        # VULNERABILITY: Command injection through output_format\n        cmd = f\"convert {input_file} -quality 95 {output_file}\"\n        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)\n        \n        if result.returncode == 0:\n            return jsonify({\n                'success': True,\n                'output': output_file,\n                'message': 'Conversion completed'\n            })\n        else:\n            return jsonify({\n                'error': 'Conversion failed',\n                'details': result.stderr\n            }), 500\n            \n    except subprocess.TimeoutExpired:\n        return jsonify({'error': 'Conversion timeout'}), 408\n    except Exception as e:\n        return jsonify({'error': str(e)}), 500",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-78",
+          "severity": "CRITICAL",
+          "type": "command_injection",
+          "owasp_category": "A03:Injection",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 42,
+        "generated_at": "2026-02-02T00:31:21.572309"
+      }
+    },
+    {
+      "id": "real_safe_python_01093",
+      "language": "python",
+      "code": "import subprocess\nfrom pathlib import Path\nfrom flask import Flask, request, jsonify\n\napp = Flask(__name__)\nALLOWED_FORMATS = ['png', 'jpg', 'jpeg', 'gif', 'webp']\n\n@app.route('/api/convert', methods=['POST'])\ndef convert_image():\n    \"\"\"Convert image - SAFE implementation\"\"\"\n    data = request.get_json()\n    input_file = Path(data.get('input', ''))\n    output_format = data.get('format', 'png').lower()\n    \n    # Validate format\n    if output_format not in ALLOWED_FORMATS:\n        return jsonify({'error': 'Invalid format'}), 400\n    \n    # Validate file\n    if not input_file.exists() or not input_file.is_file():\n        return jsonify({'error': 'File not found'}), 404\n    \n    output_file = input_file.with_suffix(f'.{output_format}')\n    \n    # Use subprocess with list (no shell)\n    result = subprocess.run(\n        ['convert', str(input_file), '-quality', '95', str(output_file)],\n        capture_output=True,\n        text=True,\n        timeout=30\n    )\n    \n    if result.returncode == 0:\n        return jsonify({'success': True, 'output': str(output_file)})\n    else:\n        return jsonify({'error': 'Conversion failed'}), 500",
+      "vulnerabilities": [],
+      "metadata": {
+        "source": "safe_patterns",
+        "complexity": "high",
+        "lines": 36,
+        "generated_at": "2026-02-02T00:31:21.588571"
+      }
+    },
+    {
+      "id": "real_vuln_python_00524",
+      "language": "python",
+      "code": "from django.http import JsonResponse\nfrom django.db import connection\nimport logging\n\nlogger = logging.getLogger(__name__)\n\ndef search_users(request):\n    \"\"\"Search users by username or email\"\"\"\n    query = request.GET.get('q', '')\n    filters = request.GET.get('filters', 'username')\n    \n    # Logging search query\n    logger.info(f\"User search: {query}\")\n    \n    try:\n        with connection.cursor() as cursor:\n            # VULNERABILITY: SQL Injection via string formatting\n            sql = f\"SELECT id, username, email, created_at FROM auth_user WHERE {filters} LIKE '%{query}%'\"\n            cursor.execute(sql)\n            results = cursor.fetchall()\n            \n        users = [\n            {\n                'id': row[0],\n                'username': row[1],\n                'email': row[2],\n                'created_at': str(row[3])\n            }\n            for row in results\n        ]\n        \n        return JsonResponse({\n            'success': True,\n            'count': len(users),\n            'users': users\n        })\n        \n    except Exception as e:\n        logger.error(f\"Search error: {e}\")\n        return JsonResponse({'error': str(e)}, status=500)",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-89",
+          "severity": "CRITICAL",
+          "type": "sql_injection",
+          "owasp_category": "A03:Injection",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 40,
+        "generated_at": "2026-02-02T00:31:21.571314"
+      }
+    },
+    {
+      "id": "real_vuln_python_00644",
+      "language": "python",
+      "code": "from flask import Flask, request, render_template_string\nfrom datetime import datetime\nimport bleach\n\napp = Flask(__name__)\n\n@app.route('/profile/<username>')\ndef user_profile(username):\n    \"\"\"Display user profile page\"\"\"\n    # Fetch user data from database (simulated)\n    user_data = {\n        'username': username,\n        'bio': request.args.get('bio', 'No bio provided'),\n        'joined': datetime(2020, 1, 1),\n        'posts': 42,\n        'followers': 156\n    }\n    \n    # VULNERABILITY: Unsafe template rendering with user input\n    template = f\"\"\"\n    <!DOCTYPE html>\n    <html>\n    <head>\n        <title>{username}'s Profile</title>\n        <style>\n            .profile {{ padding: 20px; }}\n            .bio {{ margin-top: 10px; font-style: italic; }}\n        </style>\n    </head>\n    <body>\n        <div class=\"profile\">\n            <h1>Welcome to {user_data['username']}'s Profile</h1>\n            <div class=\"bio\">\n                Bio: {user_data['bio']}\n            </div>\n            <p>Member since: {user_data['joined'].strftime('%B %Y')}</p>\n            <p>Posts: {user_data['posts']} | Followers: {user_data['followers']}</p>\n        </div>\n    </body>\n    </html>\n    \"\"\"\n    \n    return render_template_string(template)",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-79",
+          "severity": "HIGH",
+          "type": "xss",
+          "owasp_category": "A03:Injection",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 43,
+        "generated_at": "2026-02-02T00:31:21.571848"
+      }
+    },
+    {
+      "id": "real_vuln_python_00670",
+      "language": "python",
+      "code": "import pickle\nimport base64\nfrom flask import Flask, request, jsonify\nfrom redis import Redis\nimport logging\n\napp = Flask(__name__)\nredis_client = Redis(host='localhost', port=6379, db=0)\nlogger = logging.getLogger(__name__)\n\n@app.route('/api/session', methods=['POST'])\ndef restore_session():\n    \"\"\"Restore user session from serialized data\"\"\"\n    try:\n        session_token = request.headers.get('X-Session-Token')\n        \n        if not session_token:\n            return jsonify({'error': 'Session token required'}), 400\n        \n        # Retrieve session from Redis\n        session_data = redis_client.get(f'session:{session_token}')\n        \n        if not session_data:\n            return jsonify({'error': 'Session not found'}), 404\n        \n        # VULNERABILITY: Unsafe deserialization\n        decoded = base64.b64decode(session_data)\n        session = pickle.loads(decoded)\n        \n        logger.info(f\"Session restored for user: {session.get('user_id')}\")\n        \n        return jsonify({\n            'success': True,\n            'user_id': session.get('user_id'),\n            'username': session.get('username'),\n            'permissions': session.get('permissions', [])\n        })\n        \n    except Exception as e:\n        logger.error(f\"Session restore error: {e}\")\n        return jsonify({'error': 'Invalid session'}), 400",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-502",
+          "severity": "CRITICAL",
+          "type": "deserialization",
+          "owasp_category": "A08:Software and Data Integrity Failures",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 41,
+        "generated_at": "2026-02-02T00:31:21.571952"
+      }
+    },
+    {
+      "id": "real_vuln_javascript_00912",
+      "language": "javascript",
+      "code": "// User profile page handler\nclass UserProfile {\n    constructor(userId) {\n        this.userId = userId;\n        this.profileData = null;\n    }\n    \n    async loadProfile() {\n        try {\n            const response = await fetch(`/api/users/${this.userId}`);\n            this.profileData = await response.json();\n            this.renderProfile();\n        } catch (error) {\n            this.showError('Failed to load profile');\n        }\n    }\n    \n    renderProfile() {\n        const container = document.getElementById('profile-container');\n        \n        // VULNERABILITY: innerHTML with unsanitized user data\n        container.innerHTML = `\n            <div class=\"profile-header\">\n                <h1>${this.profileData.displayName}</h1>\n                <div class=\"bio\">${this.profileData.bio}</div>\n            </div>\n            <div class=\"profile-stats\">\n                <span>Posts: ${this.profileData.postCount}</span>\n                <span>Followers: ${this.profileData.followers}</span>\n                <span>Following: ${this.profileData.following}</span>\n            </div>\n            <div class=\"profile-about\">\n                <h2>About</h2>\n                <p>${this.profileData.about}</p>\n                <div class=\"website\">\n                    <a href=\"${this.profileData.website}\" target=\"_blank\">\n                        Visit Website\n                    </a>\n                </div>\n            </div>\n        `;\n        \n        this.attachEventListeners();\n    }\n    \n    attachEventListeners() {\n        const followBtn = document.querySelector('.follow-btn');\n        if (followBtn) {\n            followBtn.addEventListener('click', () => this.followUser());\n        }\n    }\n    \n    showError(message) {\n        const container = document.getElementById('profile-container');\n        container.innerHTML = `<div class=\"error\">${message}</div>`;\n    }\n}\n\n// Initialize on page load\ndocument.addEventListener('DOMContentLoaded', () => {\n    const urlParams = new URLSearchParams(window.location.search);\n    const userId = urlParams.get('id');\n    \n    if (userId) {\n        const profile = new UserProfile(userId);\n        profile.loadProfile();\n    }\n});",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-79",
+          "severity": "MEDIUM",
+          "type": "dom_xss",
+          "owasp_category": "A03:Injection",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 68,
+        "generated_at": "2026-02-02T00:31:21.579444"
+      }
+    },
+    {
+      "id": "real_safe_javascript_01160",
+      "language": "javascript",
+      "code": "const express = require('express');\nconst mongoose = require('mongoose');\nconst validator = require('validator');\n\nconst router = express.Router();\n\nrouter.get('/api/users/search', async (req, res) => {\n    try {\n        let { username, email, role } = req.query;\n        \n        // Sanitize and validate inputs\n        if (username) username = validator.escape(username);\n        if (email) email = validator.normalizeEmail(email);\n        if (role) role = validator.escape(role);\n        \n        // Build safe query\n        const query = {};\n        if (username) {\n            query.username = new RegExp(`^${username}`, 'i');\n        }\n        if (email && validator.isEmail(email)) {\n            query.email = email;\n        }\n        if (role && ['admin', 'user', 'guest'].includes(role)) {\n            query.role = role;\n        }\n        \n        const User = mongoose.model('User');\n        const users = await User.find(query)\n            .select('username email role')\n            .limit(50)\n            .lean();\n        \n        res.json({ success: true, users });\n        \n    } catch (error) {\n        res.status(500).json({ error: 'Search failed' });\n    }\n});\n\nmodule.exports = router;",
+      "vulnerabilities": [],
+      "metadata": {
+        "source": "safe_patterns",
+        "complexity": "high",
+        "lines": 41,
+        "generated_at": "2026-02-02T00:31:21.594349"
+      }
+    },
+    {
+      "id": "real_safe_python_00282",
+      "language": "python",
+      "code": "from django.http import JsonResponse\nfrom django.db import connection\nfrom django.db.models import Q\nfrom .models import User\n\ndef search_users(request):\n    \"\"\"Search users - SAFE implementation\"\"\"\n    query = request.GET.get('q', '').strip()\n    \n    if not query:\n        return JsonResponse({'users': []})\n    \n    # Use Django ORM with parameterized queries\n    users = User.objects.filter(\n        Q(username__icontains=query) | Q(email__icontains=query)\n    ).values('id', 'username', 'email', 'created_at')[:50]\n    \n    return JsonResponse({\n        'success': True,\n        'count': len(users),\n        'users': list(users)\n    })",
+      "vulnerabilities": [],
+      "metadata": {
+        "source": "safe_patterns",
+        "complexity": "high",
+        "lines": 22,
+        "generated_at": "2026-02-02T00:31:21.583487"
+      }
+    },
+    {
+      "id": "real_vuln_javascript_00966",
+      "language": "javascript",
+      "code": "const express = require('express');\nconst { exec } = require('child_process');\nconst path = require('path');\nconst fs = require('fs');\n\nconst router = express.Router();\n\n// Video conversion endpoint\nrouter.post('/api/video/convert', (req, res) => {\n    const { inputFile, outputFormat, quality } = req.body;\n    \n    // Validate input file\n    if (!inputFile || !fs.existsSync(inputFile)) {\n        return res.status(400).json({ error: 'Invalid input file' });\n    }\n    \n    // Set default values\n    const format = outputFormat || 'mp4';\n    const qualityLevel = quality || 'medium';\n    \n    // Quality presets\n    const qualityMap = {\n        'low': 'scale=640:480',\n        'medium': 'scale=1280:720',\n        'high': 'scale=1920:1080'\n    };\n    \n    const outputPath = path.join('/tmp', `converted_${Date.now()}.${format}`);\n    const scaleFilter = qualityMap[qualityLevel] || qualityMap['medium'];\n    \n    // VULNERABILITY: Command injection via format parameter\n    const command = `ffmpeg -i \"${inputFile}\" -vf \"${scaleFilter}\" -c:v libx264 -preset fast \"${outputPath}\"`;\n    \n    console.log(`Executing: ${command}`);\n    \n    exec(command, { timeout: 60000 }, (error, stdout, stderr) => {\n        if (error) {\n            console.error(`Conversion error: ${error}`);\n            return res.status(500).json({ \n                error: 'Conversion failed',\n                details: stderr\n            });\n        }\n        \n        res.json({\n            success: true,\n            output: outputPath,\n            message: 'Video converted successfully'\n        });\n    });\n});\n\nmodule.exports = router;",
+      "vulnerabilities": [
+        {
+          "cwe_id": "CWE-78",
+          "severity": "CRITICAL",
+          "type": "command_injection",
+          "owasp_category": "A03:Injection",
+          "confidence": 0.95
+        }
+      ],
+      "metadata": {
+        "source": "realistic_patterns",
+        "complexity": "high",
+        "lines": 53,
+        "generated_at": "2026-02-02T00:31:21.579707"
+      }
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+rules:
+  # ============================================================
+  # A02:2021 - Cryptographic Failures
+  # ============================================================
+  
+  - id: weak-hash-md5
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.new('md5', ...)
+    message: "MD5 is cryptographically broken. Use SHA-256 or better."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-327"
+      owasp: "A02:2021-Cryptographic Failures"
+      confidence: HIGH
+  
+  - id: weak-hash-sha1
+    pattern-either:
+      - pattern: hashlib.sha1(...)
+      - pattern: hashlib.new('sha1', ...)
+    message: "SHA-1 is deprecated. Use SHA-256 or better."
+    severity: WARNING
+    languages: [python]
+    metadata:
+      cwe: "CWE-327"
+      owasp: "A02:2021-Cryptographic Failures"
+  
+  - id: hardcoded-password
+    patterns:
+      - pattern-either:
+          - pattern: $VAR = "$VALUE"
+          - pattern: "$KEY": "$VALUE"
+      - metavariable-regex:
+          metavariable: $VAR
+          regex: ^(password|passwd|pwd|secret|api_key|token|private_key)$
+      - metavariable-regex:
+          metavariable: $VALUE
+          regex: ^.{8,}$
+    message: "Hardcoded secret detected. Use environment variables or secret management."
+    severity: CRITICAL
+    languages: [python, javascript, typescript]
+    metadata:
+      cwe: "CWE-798"
+      owasp: "A02:2021-Cryptographic Failures"
+      confidence: HIGH
+  
+  - id: insecure-random
+    pattern-either:
+      - pattern: random.random()
+      - pattern: random.randint(...)
+      - pattern: Math.random()
+    message: "Insecure random number generator. Use secrets module for cryptographic purposes."
+    severity: WARNING
+    languages: [python, javascript]
+    metadata:
+      cwe: "CWE-338"
+      owasp: "A02:2021-Cryptographic Failures"
+  
+  - id: weak-ssl-protocol
+    patterns:
+      - pattern-either:
+          - pattern: ssl.PROTOCOL_SSLv2
+          - pattern: ssl.PROTOCOL_SSLv3
+          - pattern: ssl.PROTOCOL_TLSv1
+    message: "Weak SSL/TLS protocol version. Use TLSv1.2 or higher."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-326"
+      owasp: "A02:2021-Cryptographic Failures"
+  
+  - id: unencrypted-sensitive-data
+    patterns:
+      - pattern: |
+          open($PATH, 'w') as $F:
+              $F.write($SENSITIVE)
+      - metavariable-regex:
+          metavariable: $SENSITIVE
+          regex: .*(password|credit_card|ssn|secret).*
+    message: "Writing sensitive data to unencrypted file"
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-311"
+      owasp: "A02:2021-Cryptographic Failures"
+  
+  - id: insufficient-key-length
+    patterns:
+      - pattern: RSA.generate($BITS, ...)
+      - metavariable-comparison:
+          metavariable: $BITS
+          comparison: $BITS < 2048
+    message: "RSA key length too short. Use at least 2048 bits."
+    severity: ERROR
+    languages: [python]
+    metadata:
+      cwe: "CWE-326"
+      owasp: "A02:2021-Cryptographic Failures"

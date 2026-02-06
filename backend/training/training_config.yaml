@@ -1,0 +1,173 @@
+# Training Configuration for Enhanced Hybrid GNN+LSTM Model
+# Supports CFG + DFG graphs from enhanced pipeline
+
+# =============================================================================
+# Data Configuration
+# =============================================================================
+data:
+  # Directory containing processed pickle files
+  data_dir: "data/processed/mock_vulnerabilities"
+  train_file: "train_graphs.pkl"
+  val_file: "val_graphs.pkl"
+  test_file: "test_graphs.pkl"
+  
+  # For real datasets (when ready)
+  # data_dir: "data/processed/codexglue_defect_detection"
+  # data_dir: "data/processed/devign"
+
+# =============================================================================
+# Model Architecture
+# =============================================================================
+model:
+  # Node feature dimension (from enhanced graph builder)
+  node_feature_dim: 64
+  
+  # GNN Branch
+  hidden_dim: 128
+  num_gnn_layers: 3
+  use_gat: true  # true = GAT (attention), false = GCN
+  
+  # LSTM Branch
+  lstm_hidden_dim: 128
+  lstm_num_layers: 2
+  
+  # Regularization
+  dropout: 0.3
+
+# =============================================================================
+# Training Hyperparameters
+# =============================================================================
+training:
+  # Batch size (adjust based on GPU memory)
+  # Small dataset (100 samples): 8-16
+  # Medium dataset (1000 samples): 16-32
+  # Large dataset (10000+ samples): 32-64
+  batch_size: 8
+  
+  # Learning rate
+  learning_rate: 0.001
+  
+  # Number of epochs
+  num_epochs: 50
+  
+  # Optimizer settings
+  weight_decay: 0.0001  # L2 regularization
+  
+  # Gradient clipping (prevent exploding gradients)
+  gradient_clip: 1.0
+  
+  # Label smoothing (prevent overconfidence)
+  # 0.0 = no smoothing, 0.1 = 10% smoothing
+  label_smoothing: 0.1
+
+# =============================================================================
+# Early Stopping
+# =============================================================================
+early_stopping:
+  # Stop if no improvement for N epochs
+  patience: 10
+  
+  # Minimum improvement to count
+  min_delta: 0.001
+
+# =============================================================================
+# Learning Rate Scheduling
+# =============================================================================
+scheduler:
+  # Type: ReduceLROnPlateau, StepLR, CosineAnnealing
+  type: "ReduceLROnPlateau"
+  
+  # ReduceLROnPlateau settings
+  factor: 0.5  # Multiply LR by this when plateau detected
+  patience: 5  # Wait N epochs before reducing
+  
+  # StepLR settings (if using)
+  # step_size: 10
+  # gamma: 0.1
+
+# =============================================================================
+# Output Paths
+# =============================================================================
+output:
+  checkpoint_dir: "training/checkpoints"
+  log_dir: "training/logs"
+  
+  # Save checkpoints every N epochs
+  save_every: 5
+  
+  # Keep only best N checkpoints
+  keep_best_n: 3
+
+# =============================================================================
+# Reproducibility
+# =============================================================================
+reproducibility:
+  seed: 42
+  deterministic: true  # Slower but reproducible
+
+# =============================================================================
+# Device Configuration
+# =============================================================================
+device:
+  # auto = CUDA if available, else CPU
+  # cuda = Force CUDA (will error if not available)
+  # cpu = Force CPU
+  type: "auto"
+  
+  # For multi-GPU training
+  multi_gpu: false
+  gpu_ids: [0, 1]
+
+# =============================================================================
+# Experiment Tracking (Optional - for future integration)
+# =============================================================================
+tracking:
+  enabled: false
+  platform: "tensorboard"  # tensorboard, wandb, mlflow
+  project_name: "vulnerability-scanner"
+  experiment_name: "enhanced-hybrid-gnn-lstm"
+
+# =============================================================================
+# Presets for Different Scenarios
+# =============================================================================
+
+# Quick Test (fast training for debugging)
+# training:
+#   batch_size: 4
+#   num_epochs: 5
+#   learning_rate: 0.01
+
+# Small Dataset (< 1000 samples)
+# training:
+#   batch_size: 8
+#   num_epochs: 50
+#   learning_rate: 0.001
+
+# Large Dataset (10000+ samples)
+# training:
+#   batch_size: 64
+#   num_epochs: 100
+#   learning_rate: 0.0001
+#   label_smoothing: 0.2
+
+# High Accuracy (slower training, better results)
+# model:
+#   hidden_dim: 256
+#   num_gnn_layers: 4
+#   lstm_hidden_dim: 256
+#   lstm_num_layers: 3
+# training:
+#   batch_size: 16
+#   num_epochs: 100
+#   learning_rate: 0.0005
+
+# Fast Training (less accurate, faster)
+# model:
+#   hidden_dim: 64
+#   num_gnn_layers: 2
+#   lstm_hidden_dim: 64
+#   lstm_num_layers: 1
+# training:
+#   batch_size: 32
+#   num_epochs: 30
+#   learning_rate: 0.002
