@@ -138,8 +138,14 @@ npm install
 
 Terminal 1 - Backend:
 ```bash
+# Activate virtual environment first
+# Windows:
+..\venv_gpu\Scripts\activate
+# Linux/Mac:
+# source ../venv_gpu/bin/activate
+
 cd backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Terminal 2 - Frontend:

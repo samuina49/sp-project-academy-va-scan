@@ -1,23 +1,23 @@
 {
-  "total_samples": 9734,
-  "train_size": 6813,
-  "val_size": 1460,
-  "test_size": 1461,
+  "total_samples": 10673,
+  "train_size": 7469,
+  "val_size": 1599,
+  "test_size": 1605,
   "statistics": {
-    "total_processed": 9734,
-    "successful": 9734,
+    "total_processed": 10673,
+    "successful": 10673,
     "failed": 0,
     "by_language": {
-      "javascript": 2802,
-      "python": 6932
+      "javascript": 1537,
+      "python": 9136
     },
     "by_label": {
-      "vulnerable": 4932,
-      "safe": 4802
+      "vulnerable": 5401,
+      "safe": 5272
     },
-    "avg_nodes": 3248905,
-    "avg_edges": 3630414,
-    "avg_cfg_edges": 63324,
-    "avg_dfg_edges": 327919
+    "avg_nodes": 2658713,
+    "avg_edges": 2974109,
+    "avg_cfg_edges": 39713,
+    "avg_dfg_edges": 286356
   }
 }

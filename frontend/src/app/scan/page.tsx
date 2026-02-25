@@ -226,12 +226,18 @@ export default function ScanPage() {
       
       // Calculate vulnerability count based on response type
       let vulnerabilityCount = 0;
-      if ('findings' in result && result.findings) {
+      if ('confirmed_vulnerabilities' in result) {
+        // Hybrid pipeline response
+        vulnerabilityCount = result.confirmed_vulnerabilities;
+      } else if ('findings' in result && result.findings) {
         vulnerabilityCount = result.findings.length;
       } else if ('file_results' in result && result.file_results) {
         vulnerabilityCount = result.file_results.reduce(
           (acc: number, r: any) => acc + (r.findings?.length || 0), 0
         );
+      } else if ('vulnerabilities' in result && result.vulnerabilities) {
+        // Legacy ML scan response
+        vulnerabilityCount = result.vulnerabilities.length;
       } else if ('summary' in result && result.summary) {
         vulnerabilityCount = result.summary.total_findings;
       }
@@ -295,7 +301,7 @@ export default function ScanPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            New Vulnerability Scan
+            Vulnerability Scan
           </h1>
           <p className="text-slate-600 dark:text-slate-400 mt-2">
             Scan your code for security vulnerabilities using our AI-powered hybrid detection engine

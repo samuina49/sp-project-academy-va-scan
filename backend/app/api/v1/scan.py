@@ -28,6 +28,78 @@ from app.utils.excel_report import generate_excel_report
 
 router = APIRouter(prefix="/scan", tags=["scanning"])
 
+
+import re as _re
+
+# Regex patterns for bare import statements across Python, JS, and TS.
+# A snippet that matches any of these patterns is a declaration-only line
+# and can never be exploited directly — only use-site calls matter.
+_FP_PY_IMPORT = _re.compile(
+    r'^\s*(import\s+[\w.,\s]+|from\s+[\w.]+\s+import\s+[\w.,*\s()]+)\s*(#.*)?$'
+)
+_FP_JS_REQUIRE = _re.compile(
+    r"""^\s*(?:[\w\s,{}]*=\s*)?require\s*\(\s*['"][^'"]+['"]\s*\)\s*;?\s*$"""
+)
+_FP_JS_IMPORT = _re.compile(
+    r"^\s*import\s+(?:[\w*{}\s,]+\s+from\s+)?['\"][^'\"]+['\"]\s*;?\s*$"
+)
+
+
+def _is_import_only_snippet(snippet: str) -> bool:
+    """Return True if every non-blank line is a bare import/require declaration."""
+    non_empty = [ln for ln in snippet.splitlines() if ln.strip()]
+    if not non_empty:
+        return False
+    return all(
+        _FP_PY_IMPORT.match(ln)
+        or _FP_JS_REQUIRE.match(ln)
+        or _FP_JS_IMPORT.match(ln)
+        for ln in non_empty
+    )
+
+
+def _is_import_line(line: str) -> bool:
+    """Return True if a single source line is a bare import/require declaration."""
+    stripped = line.strip()
+    return bool(
+        stripped and (
+            _FP_PY_IMPORT.match(stripped)
+            or _FP_JS_REQUIRE.match(stripped)
+            or _FP_JS_IMPORT.match(stripped)
+        )
+    )
+
+
+def _filter_import_findings(findings: list, source_code: str = "") -> list:
+    """
+    Hard filter: remove findings that point to bare import / require declarations.
+
+    Two-pass check:
+    1. code_snippet — if every non-blank line is an import/require, drop it.
+    2. actual source line — if the specific matched line in the original source
+       code is an import/require declaration, drop it.  This handles cases
+       where the snippet contains non-import context lines that would otherwise
+       fool check 1 into keeping the finding.
+    """
+    code_lines = source_code.splitlines() if source_code else []
+    filtered = []
+    for f in findings:
+        snippet = (getattr(f, 'code_snippet', None) or '').strip()
+        # Pass 1: snippet-level check
+        if _is_import_only_snippet(snippet):
+            line_no = getattr(f, 'line', getattr(f, 'start_line', '?'))
+            print(f"[HARD-FILTER] Dropped (snippet) import FP at line {line_no}: {snippet[:80]}")
+            continue
+        # Pass 2: actual source-line check
+        start = getattr(f, 'start_line', getattr(f, 'line', None))
+        if code_lines and start and 1 <= start <= len(code_lines):
+            if _is_import_line(code_lines[start - 1]):
+                print(f"[HARD-FILTER] Dropped (source line) import FP at line {start}: {code_lines[start-1].strip()[:80]}")
+                continue
+        filtered.append(f)
+    return filtered
+
+
 # Initialize scanner for /code endpoint (uses pattern matching for speed)
 ml_enabled = getattr(settings, 'ML_ENABLED', False)
 if ml_enabled:
@@ -95,7 +167,12 @@ async def scan_code(request: CodeScanRequest):
         result.file_path = filename
         
         print(f"[SINGLE FILE] Scan complete: found {len(result.findings)} issues")
-        
+
+        # Hard filter: strip bare import-statement false positives
+        # Pass the original code so the filter can check the actual source line.
+        result.findings = _filter_import_findings(result.findings, request.code)
+        print(f"[SINGLE FILE] After hard-filter: {len(result.findings)} issues")
+
         return CodeScanResponse(
             scan_id=scan_id,
             file_result=result,
@@ -117,16 +194,6 @@ async def scan_code(request: CodeScanRequest):
         # Clean up temporary file
         if temp_file:
             cleanup_temp_file(temp_file)
-
-
-@router.post("/hybrid", response_model=CodeScanResponse)
-async def scan_code_hybrid(request: CodeScanRequest):
-    """
-    Hybrid scan endpoint - uses same scanner as /code but compatible with HybridResultsPanel.
-    Currently uses pattern-matching scanner (Semgrep/Bandit).
-    """
-   # Use the same logic as scan_code
-    return await scan_code(request)
 
 
 @router.post("/zip", response_model=ZipScanResponse)
@@ -192,6 +259,12 @@ async def scan_zip(file: UploadFile = File(...)):
                     pass
             
             duration_ms = (time.time() - start_time) * 1000
+
+            # Hard filter: strip bare import-statement false positives from every file.
+            # Pass source_code so the filter can verify the actual matched line.
+            for r in results:
+                r.findings = _filter_import_findings(r.findings, r.source_code or "")
+
             total_findings = sum(len(r.findings) for r in results)
             
             return ZipScanResponse(

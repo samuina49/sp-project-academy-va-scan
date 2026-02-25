@@ -17,14 +17,15 @@ Improvements over original feature_extraction.py:
    - List comprehensions and lambda
 
 3. ✅ Multi-language support (Python, JavaScript, TypeScript)
+4. ✅ [NEW] Semantic Embedding Support (CodeBERT)
 
 Author: AI Vulnerability Scanner - Enhanced Version
-Date: February 6, 2026
+Date: February 7, 2026 (Updated for CodeBERT)
 """
 
 import torch
 import numpy as np
-from typing import List, Dict, Tuple, Optional, Set
+from typing import List, Dict, Tuple, Optional, Set, Callable
 from dataclasses import dataclass
 import logging
 
@@ -99,28 +100,36 @@ class EnhancedFeatureExtractor:
         self.max_seq_length = max_seq_length
         self.node_feature_dim = node_feature_dim
         
-        # Initialize parsers
+        # Initialize parsers (tree-sitter 0.25+ API)
         try:
-            self.python_parser = Parser(Language(tspython.language()))
-            self.javascript_parser = Parser(Language(tsjavascript.language()))
-        except (AttributeError, TypeError):
-            self.python_parser = Parser()
-            self.python_parser.set_language(Language(tspython.language()))
-            self.javascript_parser = Parser()
-            self.javascript_parser.set_language(Language(tsjavascript.language()))
-        
-        logger.info("✅ Enhanced Feature Extractor initialized")
+            # tree-sitter 0.25+ requires Language wrapper around the PyCapsule
+            from tree_sitter import Language
+            python_lang = Language(tspython.language())
+            javascript_lang = Language(tsjavascript.language())
+            
+            self.python_parser = Parser(python_lang)
+            self.javascript_parser = Parser(javascript_lang)
+            logger.info("✅ Enhanced Feature Extractor initialized (tree-sitter 0.25+ API)")
+        except Exception as e:
+            logger.error(f"Failed to initialize tree-sitter parsers: {e}")
+            raise
     
     def extract_enhanced_graph(
         self,
         source_code: str,
-        language: str = 'python'
+        language: str = 'python',
+        embedding_fn: Optional[Callable[[str], torch.Tensor]] = None  # [UPDATED] Accept embedding function
     ) -> Data:
         """
         Extract complete graph with AST + CFG + DFG.
         
+        Args:
+            source_code: The code to analyze
+            language: 'python' or 'javascript'
+            embedding_fn: Optional function that takes text and returns a semantic vector (e.g. CodeBERT)
+
         Returns PyTorch Geometric Data with:
-        - x: Node features
+        - x: Node features (Handcrafted + Semantic)
         - edge_index: All edges (AST + CFG + DFG)
         - edge_attr: Edge type labels (0=AST, 1=DFG, 2=CFG)
         """
@@ -131,9 +140,9 @@ class EnhancedFeatureExtractor:
         
         root_node = tree.root_node
         
-        # Step 1: Build AST with node mapping
+        # Step 1: Build AST with node mapping [UPDATED] Pass embedding_fn
         nodes, ast_edges, node_features, node_id_map = self._build_ast_with_mapping(
-            root_node, source_code
+            root_node, source_code, embedding_fn
         )
         
         if len(nodes) == 0:
@@ -161,7 +170,7 @@ class EnhancedFeatureExtractor:
             'total_edges': len(all_edges)
         }
         
-        logger.debug(f"Graph stats: {stats}")
+        # logger.debug(f"Graph stats: {stats}")
         
         # Convert to PyTorch Geometric format
         return self._to_pyg_data(nodes, all_edges, node_features)
@@ -169,7 +178,8 @@ class EnhancedFeatureExtractor:
     def _build_ast_with_mapping(
         self,
         root_node,
-        source_code: str
+        source_code: str,
+        embedding_fn: Optional[Callable] = None  # [UPDATED]
     ) -> Tuple[List[Dict], List[Tuple], List[np.ndarray], Dict]:
         """
         Build AST and maintain node ID mapping for CFG/DFG construction.
@@ -200,8 +210,8 @@ class EnhancedFeatureExtractor:
             # Map tree-sitter node to graph ID
             node_id_map[id(node)] = current_id
             
-            # Create node features
-            feature_vec = self._create_node_features(node_type, node_dict['text'])
+            # Create node features [UPDATED] Pass embedding_fn
+            feature_vec = self._create_node_features(node_type, node_dict['text'], embedding_fn)
             node_features.append(feature_vec)
             
             # AST edge from parent
@@ -564,8 +574,53 @@ class EnhancedFeatureExtractor:
                 return source_code[child.start_byte:child.end_byte].strip()
         return None
     
-    def _create_node_features(self, node_type: str, text: str) -> np.ndarray:
-        """Create node feature vector"""
+    # ---------------------------------------------------------------------------
+    # Step 3: import-only node types carry NO vulnerability signal.
+    # Their presence in a file is normal; only *call-site* nodes matter.
+    # ---------------------------------------------------------------------------
+    _IMPORT_NODE_TYPES: Set[str] = frozenset({
+        # Python (tree-sitter)
+        'import_statement',
+        'import_from_statement',
+        'future_import_statement',
+        'wildcard_import',
+        'aliased_import',
+        'dotted_name',               # parts of `from x.y import z`
+        # JavaScript / TypeScript
+        'import_declaration',
+        'import_specifier',
+        'import_clause',
+        'named_imports',
+        'namespace_import',
+        'export_statement',          # re-exports are also declaration-only
+    })
+
+    def _create_node_features(
+        self, 
+        node_type: str, 
+        text: str,
+        embedding_fn: Optional[Callable] = None  # [UPDATED]
+    ) -> np.ndarray:
+        """Create node feature vector (Handcrafted + Semantic)"""
+        # ── Step 3: import-declaration nodes are structurally present but
+        # must NOT contribute vulnerability signals to the model.
+        # Zero out all handcrafted features for these node types so that
+        # a bare `import pickle` line cannot raise the vulnerability score.
+        if node_type in self._IMPORT_NODE_TYPES:
+            handcrafted = np.zeros(self.node_feature_dim, dtype=np.float32)
+            if embedding_fn:
+                try:
+                    semantic_vec = embedding_fn(text)
+                    if hasattr(semantic_vec, 'cpu'):
+                        semantic_vec = semantic_vec.cpu().detach().numpy()
+                    elif isinstance(semantic_vec, list):
+                        semantic_vec = np.array(semantic_vec)
+                    return np.concatenate([handcrafted, semantic_vec])
+                except Exception:
+                    return np.concatenate([handcrafted, np.zeros(768, dtype=np.float32)])
+            return handcrafted
+
+        # 1. Base Features (Handcrafted)
         features = np.zeros(self.node_feature_dim, dtype=np.float32)
         
         # Feature 0-9: Node type category (one-hot)
@@ -605,6 +660,28 @@ class EnhancedFeatureExtractor:
             features[13] = float(any(c.isdigit() for c in text))  # Has numbers
             features[14] = float(text.isupper() if text else 0)  # Is constant
         
+        # 2. Semantic Features (CodeBERT) [UPDATED]
+        if embedding_fn:
+            try:
+                # Get 768-dim vector from CodeBERT
+                semantic_vec = embedding_fn(text)
+                
+                # Ensure it's numpy
+                if hasattr(semantic_vec, 'cpu'):
+                    semantic_vec = semantic_vec.cpu().detach().numpy()
+                elif isinstance(semantic_vec, list):
+                    semantic_vec = np.array(semantic_vec)
+                
+                # Concatenate [Handcrafted (64) + Semantic (768)] = 832 dim
+                features = np.concatenate([features, semantic_vec])
+                
+            except Exception as e:
+                # Fallback if embedding fails: pad with zeros
+                features = np.concatenate([features, np.zeros(768, dtype=np.float32)])
+        
+        # NOTE: If embedding_fn is NOT provided, we return only the handcrafted features.
+        # This is fine because the model input_dim is configurable.
+        
         return features
     
     def _parse_code(self, source_code: str, language: str):
@@ -627,7 +704,21 @@ class EnhancedFeatureExtractor:
         node_features: List[np.ndarray]
     ) -> Data:
         """Convert to PyTorch Geometric Data"""
-        x = torch.tensor(np.array(node_features), dtype=torch.float)
+        # Stack features (ensure uniform size)
+        try:
+            x = torch.tensor(np.array(node_features), dtype=torch.float)
+        except Exception as e:
+            # Handle potential size mismatch if some nodes failed embedding
+            logger.warning(f"Feature size mismatch, fixing... {e}")
+            max_len = max(len(f) for f in node_features)
+            padded_features = []
+            for f in node_features:
+                if len(f) < max_len:
+                    pad = np.zeros(max_len - len(f), dtype=np.float32)
+                    padded_features.append(np.concatenate([f, pad]))
+                else:
+                    padded_features.append(f)
+            x = torch.tensor(np.array(padded_features), dtype=torch.float)
         
         if edges:
             edge_list = [(src, dst) for src, dst, _ in edges]
@@ -654,8 +745,13 @@ class EnhancedFeatureExtractor:
 # Test the enhanced extractor
 if __name__ == "__main__":
     print("="*80)
-    print("ENHANCED GRAPH BUILDER TEST")
+    print("ENHANCED GRAPH BUILDER TEST (WITH SEMANTICS)")
     print("="*80)
+    
+    # Mock embedding function for testing
+    def mock_embedding(text):
+        # Return random 768-dim vector
+        return np.random.rand(768).astype(np.float32)
     
     extractor = EnhancedFeatureExtractor(node_feature_dim=64)
     
@@ -679,12 +775,13 @@ def process_user_input(user_data):
     print(f"\n📝 Test Code:\n{test_code}")
     print("\n" + "="*80)
     
-    graph = extractor.extract_enhanced_graph(test_code, 'python')
+    # Extract with mock embeddings
+    graph = extractor.extract_enhanced_graph(test_code, 'python', embedding_fn=mock_embedding)
     
     print(f"\n📊 Graph Statistics:")
     print(f"  • Total nodes: {graph.x.shape[0]}")
     print(f"  • Total edges: {graph.edge_index.shape[1]}")
-    print(f"  • Node feature dim: {graph.x.shape[1]}")
+    print(f"  • Node feature dim: {graph.x.shape[1]} (Should be 64 + 768 = 832)")
     
     # Count edge types
     if graph.edge_attr.shape[0] > 0:

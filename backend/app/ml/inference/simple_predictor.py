@@ -125,9 +125,16 @@ class SimplePredictor:
             features.append(1.0 if re.search(pattern, code, re.IGNORECASE) else 0.0)
         
         # Statistical features (5 features)
-        features.append(min(len(code) / 1000, 1.0))  # Code length
+        features.append(min(len(code) / 1000, 1.0))   # Code length
         features.append(min(code.count('\n') / 100, 1.0))  # Number of lines
-        features.append(min(code.count('import') / 10, 1.0))  # Imports
+        # ── Step 3 fix: bare import count is NOT a vulnerability signal.
+        # Count only dangerous call-site patterns instead.
+        dangerous_calls = sum(1 for p in [
+            r'os\.system\s*\(', r'eval\s*\(', r'exec\s*\(',
+            r'pickle\.loads?\s*\(', r'subprocess\.(call|run|Popen)\s*\(',
+            r'yaml\.load\s*\(', r'marshal\.loads?\s*\(',
+        ] if re.search(p, code))
+        features.append(min(dangerous_calls / 5, 1.0))  # Dangerous call density
         features.append(min(code.count('def ') / 10, 1.0))  # Functions
         features.append(min(code.count('class ') / 5, 1.0))  # Classes
         

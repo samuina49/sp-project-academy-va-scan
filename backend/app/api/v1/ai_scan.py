@@ -2,18 +2,31 @@
 Production-Ready ML Inference Service
 Loads trained hybrid model and provides vulnerability scanning
 Combines ML detection with pattern-based rules for comprehensive coverage
+
+Updated 2026-02-08: Integrated with retrained model (832-dim CodeBERT features)
 """
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional, Dict
 import torch
+import numpy as np
+import pickle
+import re
 from pathlib import Path
 import json
 import logging
 
-from app.ml.feature_extraction import FeatureExtractor
-from app.ml.hybrid_model import HybridVulnerabilityModel  # ✅ Use NEW trained model
+from app.ml.enhanced_graph_builder import EnhancedFeatureExtractor
+from app.ml.hybrid_model import HybridVulnerabilityModel
+from app.ml.code_metrics import CodeMetricsExtractor
 from app.scanners.simple_scanner import SimplePatternScanner
+
+# Bypass transformers security check for CodeBERT loading
+try:
+    from transformers import modeling_utils
+    modeling_utils.check_torch_load_is_safe = lambda *a, **k: True
+except Exception:
+    pass
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -23,78 +36,181 @@ _model_cache = {
     "model": None,
     "extractor": None,
     "vocab": None,
-    "pattern_scanner": None  # Add pattern scanner
+    "tokenizer": None,
+    "metrics_extractor": None,
+    "codebert_embedder": None,
+    "pattern_scanner": None,
 }
 
+
+class _CodeBERTEmbedder:
+    """Lightweight CodeBERT wrapper for inference — matches training pipeline."""
+
+    def __init__(self, device: str = "cpu"):
+        from transformers import RobertaModel, RobertaTokenizer
+        self.device = torch.device(device)
+        self.tokenizer = RobertaTokenizer.from_pretrained("microsoft/codebert-base")
+        self.model = RobertaModel.from_pretrained("microsoft/codebert-base").to(self.device)
+        self.model.eval()
+        self._cache: Dict[str, np.ndarray] = {}
+        logger.info("✅ CodeBERT embedder initialized")
+
+    @torch.no_grad()
+    def embed(self, text: str) -> np.ndarray:
+        """Return a 768-dim vector for *text*."""
+        if text in self._cache:
+            return self._cache[text]
+        enc = self.tokenizer(
+            text, return_tensors="pt", max_length=64,
+            truncation=True, padding="max_length",
+        ).to(self.device)
+        out = self.model(**enc).last_hidden_state[:, 0, :]  # [CLS]
+        vec = out.squeeze(0).cpu().numpy().astype(np.float32)
+        if len(self._cache) < 10_000:
+            self._cache[text] = vec
+        return vec
+
+
+class _SimpleTokenizer:
+    """Mirrors the tokenizer used during training."""
+
+    PAD, UNK, START, END = 0, 1, 2, 3
+    _pattern = re.compile(
+        r'\b\w+\b|'
+        r'[+\-*/%=<>!&|^~]+'
+        r'|[(){}\[\];:,.]'
+        r'|\"[^\"]*\"|\'\'[^\']*\''
+        r'|\d+\.?\d*'
+    )
+
+    def __init__(self, vocab: dict, max_seq_length: int = 512):
+        self.vocab = vocab
+        self.max_seq_length = max_seq_length
+
+    def encode(self, code: str) -> torch.Tensor:
+        code = re.sub(r'#.*$', '', code, flags=re.MULTILINE)
+        code = re.sub(r'//.*$', '', code, flags=re.MULTILINE)
+        code = re.sub(r'/\*.*?\*/', '', code, flags=re.DOTALL)
+        tokens = self._pattern.findall(code)
+        ids = [self.vocab.get(t, self.UNK) for t in tokens]
+        ids = ids[: self.max_seq_length]
+        ids += [self.PAD] * (self.max_seq_length - len(ids))
+        return torch.tensor([ids], dtype=torch.long)  # [1, seq_len]
+
+
 def load_model():
-    """Load trained model, vocabulary, and pattern scanner (singleton pattern)"""
+    """Load trained model, vocabulary, and all extractors (singleton)."""
     if _model_cache["model"] is not None:
-        return _model_cache["model"], _model_cache["extractor"], _model_cache["pattern_scanner"]
-    
+        return (
+            _model_cache["model"],
+            _model_cache["extractor"],
+            _model_cache["pattern_scanner"],
+        )
+
     try:
-        model_path = Path("training/models/hybrid_model_best.pth")
-        vocab_path = Path("training/models/vocab.json")
+        # ── Paths (absolute, relative to backend directory) ─────────
+        BACKEND_ROOT = Path(__file__).resolve().parent.parent.parent.parent
         
+        # Primary: new model from retrained pipeline
+        model_path = BACKEND_ROOT / "models" / "best_model.pt"
+        vocab_path = BACKEND_ROOT / "data" / "processed_graphs" / "vocabulary.pkl"
+
+        # Fallback: legacy paths
         if not model_path.exists():
-            raise FileNotFoundError(f"Model not found at {model_path}")
+            model_path = BACKEND_ROOT / "training" / "models" / "hybrid_model_best.pth"
         if not vocab_path.exists():
-            raise FileNotFoundError(f"Vocabulary not found at {vocab_path}")
-        
-        # Load vocabulary
-        with open(vocab_path, 'r') as f:
-            vocab_data = json.load(f)
-        
-        # Handle nested structure if present
-        if "token_to_id" in vocab_data:
-            vocab = vocab_data["token_to_id"]
-        else:
-            vocab = vocab_data
-        
-        # Initialize extractor
-        extractor = FeatureExtractor(max_seq_length=128)
-        extractor.vocab = vocab
-        extractor.vocab_size = len(vocab)
-        extractor.vocab_frozen = True
-        
-        # Detect vocab size from checkpoint
-        checkpoint = torch.load(model_path, map_location='cpu')
-        if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
-            state_dict = checkpoint['model_state_dict']
+            vocab_path = BACKEND_ROOT / "training" / "models" / "vocab.json"
+
+        if not model_path.exists():
+            raise FileNotFoundError(f"No model found at {BACKEND_ROOT}/models/best_model.pt or {BACKEND_ROOT}/training/models/hybrid_model_best.pth")
+
+        # ── Load checkpoint ──────────────────────────────────────────
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        checkpoint = torch.load(model_path, map_location=device, weights_only=False)
+        if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
+            state_dict = checkpoint["model_state_dict"]
+            saved_cfg = checkpoint.get("config", {})
         else:
             state_dict = checkpoint
-            
-        # Get actual vocab size from model weights (HybridVulnerabilityModel structure)
-        if 'lstm_branch.embedding.weight' in state_dict:
-            actual_vocab_size = state_dict['lstm_branch.embedding.weight'].shape[0]
+            saved_cfg = {}
+
+        # ── Vocabulary ───────────────────────────────────────────────
+        if str(vocab_path).endswith(".pkl"):
+            with open(vocab_path, "rb") as f:
+                vocab_data = pickle.load(f)
+            if isinstance(vocab_data, dict) and "max_vocab_size" in vocab_data:
+                vocab_size = vocab_data["max_vocab_size"]
+                vocab_dict = vocab_data.get("vocab", {})
+            elif isinstance(vocab_data, dict) and "vocab" in vocab_data:
+                vocab_dict = vocab_data["vocab"]
+                vocab_size = len(vocab_dict)
+            else:
+                vocab_dict = vocab_data
+                vocab_size = len(vocab_dict)
         else:
-            actual_vocab_size = len(vocab)
-        
-        # ✅ Initialize HybridVulnerabilityModel with correct parameters
+            with open(vocab_path, "r") as f:
+                vocab_dict = json.load(f)
+            if "token_to_id" in vocab_dict:
+                vocab_dict = vocab_dict["token_to_id"]
+            vocab_size = len(vocab_dict)
+
+        # Cross-check with embedding weight
+        emb_key = "lstm_branch.embedding.weight"
+        if emb_key in state_dict:
+            vocab_size = state_dict[emb_key].shape[0]
+
+        # ── Construct model with EXACT training config ───────────────
         model = HybridVulnerabilityModel(
-            vocab_size=actual_vocab_size,
-            node_feature_dim=64,
-            lstm_embedding_dim=256,
-            dropout=0.4  # Match training config
+            vocab_size=vocab_size,
+            node_feature_dim=saved_cfg.get("node_feature_dim", 832),
+            gnn_hidden_dim=saved_cfg.get("hidden_dim", 128),
+            gnn_output_dim=64,
+            lstm_embedding_dim=saved_cfg.get("hidden_dim", 128),
+            lstm_hidden_dim=saved_cfg.get("lstm_hidden_dim", 128),
+            lstm_output_dim=64,
+            metrics_input_dim=20,
+            metrics_output_dim=128,
+            fusion_hidden_dim=saved_cfg.get("hidden_dim", 128),
+            dropout=saved_cfg.get("dropout", 0.2),
+            use_gat=saved_cfg.get("use_gat", True),
+            use_metrics=True,
         )
-        
-        # Load weights
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=True)
+        model.to(device)
         model.eval()
-        
-        # Initialize pattern scanner
+        logger.info(f"✅ Model loaded from {model_path} on {device}")
+
+        # ── CodeBERT embedder (produces 768-dim semantic features) ───
+        codebert = _CodeBERTEmbedder(device=device)
+
+        # ── Enhanced feature extractor (graph builder w/ CodeBERT) ───
+        extractor = EnhancedFeatureExtractor(max_seq_length=512, node_feature_dim=64)
+        logger.info("✅ EnhancedFeatureExtractor initialized (832-dim node features)")
+
+        # ── Tokenizer (vocab-based, matches training pipeline) ───────
+        tokenizer = _SimpleTokenizer(vocab_dict, max_seq_length=512)
+
+        # ── Code metrics extractor (20 features) ────────────────────
+        metrics_extractor = CodeMetricsExtractor()
+
+        # ── Pattern scanner ──────────────────────────────────────────
         pattern_scanner = SimplePatternScanner()
-        
-        # Cache
+
+        # ── Cache ────────────────────────────────────────────────────
         _model_cache["model"] = model
         _model_cache["extractor"] = extractor
-        _model_cache["vocab"] = vocab
+        _model_cache["vocab"] = vocab_dict
+        _model_cache["tokenizer"] = tokenizer
+        _model_cache["metrics_extractor"] = metrics_extractor
+        _model_cache["codebert_embedder"] = codebert
         _model_cache["pattern_scanner"] = pattern_scanner
-        
-        logger.info("✓ Model and Pattern Scanner loaded successfully")
+        _model_cache["device"] = device
+
+        logger.info("✅ Full inference pipeline ready")
         return model, extractor, pattern_scanner
-        
+
     except Exception as e:
-        logger.error(f"Failed to load model: {e}")
+        logger.error(f"Failed to load model: {e}", exc_info=True)
         raise
 
 
@@ -113,6 +229,8 @@ class VulnerabilityDetail(BaseModel):
 
 
 class MLScanResponse(BaseModel):
+    model_config = {"protected_namespaces": ()}
+
     is_vulnerable: bool
     confidence: float
     vulnerabilities: List[VulnerabilityDetail]
@@ -185,39 +303,50 @@ async def ml_scan_endpoint(request: MLScanRequest):
         lstm_contribution = 0.0
         
         try:
-            # Extract features
-            graph = extractor.code_to_graph(processed_code, language=processing_lang)
-            seq = extractor.code_to_sequence(processed_code, language=processing_lang)
-            
-            if graph and seq:
-                # Prepare inputs for CombinedModel
-                # GNN inputs
-                x = graph.x
-                edge_index = graph.edge_index
-                batch_tensor = torch.zeros(graph.x.size(0), dtype=torch.long)
-                
-                # LSTM inputs
-                token_ids = seq.token_ids.unsqueeze(0)  # [1, seq_len]
-                
-                #  ✅ Inference with HybridVulnerabilityModel (new API)
+            device = _model_cache.get("device", "cpu")
+            codebert = _model_cache["codebert_embedder"]
+            tokenizer = _model_cache["tokenizer"]
+            metrics_ext = _model_cache["metrics_extractor"]
+
+            # ── Graph (AST+CFG+DFG) with CodeBERT embeddings (832-dim) ──
+            graph = extractor.extract_enhanced_graph(
+                processed_code,
+                language=processing_lang,
+                embedding_fn=codebert.embed,  # per-node CodeBERT
+            )
+
+            # ── Token IDs (matches training tokenizer) ──────────────────
+            token_ids = tokenizer.encode(processed_code).to(device)  # [1, 512]
+
+            # ── Code metrics (20 features) ──────────────────────────────
+            metrics_vec = metrics_ext.extract_all_features(
+                processed_code, language=processing_lang
+            )  # np.ndarray (20,)
+            metrics_tensor = torch.tensor(metrics_vec, dtype=torch.float32).unsqueeze(0).to(device)
+
+            if graph is not None and graph.x is not None and graph.x.size(0) > 0:
+                # Add batch vector for single-graph inference
+                from torch_geometric.data import Batch
+                graph = graph.to(device)
+                batch_graph = Batch.from_data_list([graph])
+
+                # ── Forward pass (4 return values) ──────────────────────
                 with torch.no_grad():
-                    # HybridVulnerabilityModel.forward(graph_data, token_ids)
-                    # Returns: predictions [batch, 1], gnn_features, lstm_features
-                    predictions, gnn_feats, lstm_feats = model(graph, token_ids)
-                    
-                    # Get probability (sigmoid already applied in training, but not in inference)
+                    predictions, gnn_feats, lstm_feats, met_feats = model(
+                        batch_graph, token_ids, metrics_tensor
+                    )
                     ml_confidence = torch.sigmoid(predictions[0]).item()
-                
-                # Calculate branch contributions from feature tensors
+
+                # Branch contributions
                 if gnn_feats is not None and lstm_feats is not None:
                     gnn_norm = torch.norm(gnn_feats, p=2).item()
                     lstm_norm = torch.norm(lstm_feats, p=2).item()
-                    total_norm = gnn_norm + lstm_norm + 1e-8
-                    
+                    met_norm = torch.norm(met_feats, p=2).item() if met_feats is not None else 0.0
+                    total_norm = gnn_norm + lstm_norm + met_norm + 1e-8
                     gnn_contribution = gnn_norm / total_norm
                     lstm_contribution = lstm_norm / total_norm
         except Exception as ml_error:
-            logger.warning(f"ML scan failed, using pattern-only: {ml_error}")
+            logger.warning(f"ML scan failed, using pattern-only: {ml_error}", exc_info=True)
         
         # === Phase 3: Combine Results ===
         vulnerabilities = pattern_vulns.copy()

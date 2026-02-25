@@ -165,12 +165,24 @@ class HybridScanner:
                     for f in combined_findings
                 ]
                 
+                # Drop ML-model placeholder findings at line 1.
+                # _convert_ml() always emits line=1 with the first 200 chars
+                # of the file as its snippet.  That placeholder adds no useful
+                # line-specific information – it causes the first line of the
+                # file (often an import statement) to light up as a finding.
+                # Pattern-based findings already capture the real issues; the
+                # ML contribution is reflected in the confidence boost the
+                # ensemble gives to corroborated pattern findings.
+                enhanced_findings = [
+                    f for f in enhanced_findings
+                    if not (getattr(f, 'tool', '') == 'ml' and f.start_line == 1)
+                ]
                 pattern_result.findings = enhanced_findings
-        
+
         except Exception as e:
             # ML prediction failed, fall back to pattern-only results
             print(f"WARNING: ML prediction failed: {e}")
-        
+
         return pattern_result
     
     def scan_directory(

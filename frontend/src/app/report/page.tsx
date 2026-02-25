@@ -29,6 +29,62 @@ interface DisplayVuln {
   file_path?: string;
 }
 
+// ── Infer CWE from vulnerability title when scanner doesn't provide one ──────
+function inferCweFromTitle(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes('sql inject') || (t.includes('sql') && t.includes('concaten'))) return 'CWE-89';
+  if (t.includes('command inject') || t.includes('os.system') || t.includes('shell inject')) return 'CWE-78';
+  if (t.includes('xss') || t.includes('cross-site script') || t.includes('script inject')) return 'CWE-79';
+  if (t.includes('path traversal') || t.includes('directory traversal') || t.includes('dir traversal')) return 'CWE-22';
+  if ((t.includes('hardcode') || t.includes('hard-code')) &&
+      (t.includes('password') || t.includes('credential') || t.includes('secret') || t.includes('key'))) return 'CWE-798';
+  if (t.includes('eval(') || t.includes('code inject') || (t.includes('eval') && t.includes('user'))) return 'CWE-94';
+  if (t.includes('pickle') || t.includes('deserializ') || t.includes('unsafe deserial')) return 'CWE-502';
+  if (t.includes('ssrf') || t.includes('server-side request')) return 'CWE-918';
+  if (t.includes('jwt') || (t.includes('token') && t.includes('verif'))) return 'CWE-347';
+  if (t.includes('md5') || t.includes('sha1') || (t.includes('weak') && t.includes('crypt'))) return 'CWE-327';
+  if (t.includes('debug') && t.includes('mode')) return 'CWE-489';
+  if (t.includes('cors') || t.includes('cross-origin')) return 'CWE-942';
+  if (t.includes('information disclosure') || t.includes('console.log') || t.includes('log.*secret') || t.includes('secret.*log')) return 'CWE-200';
+  if (t.includes('hardcode') || t.includes('secret') || t.includes('credential')) return 'CWE-798';
+  if (t.includes('inject')) return 'CWE-78';
+  return '';
+}
+
+// ── Infer OWASP category from title when CWE lookup fails ────────────────────
+function inferOwaspFromTitle(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes('sql') || t.includes('inject') || t.includes('xss') || t.includes('command') || t.includes('xxe') || t.includes('template inject')) return 'A03:2021 - Injection';
+  if (t.includes('path traversal') || t.includes('broken access') || t.includes('privilege') || t.includes('directory traversal') || t.includes('idor')) return 'A01:2021 - Broken Access Control';
+  if (t.includes('md5') || t.includes('sha1') || t.includes('weak crypt') || t.includes('insecure crypt') || t.includes('ssl') || t.includes('tls')) return 'A02:2021 - Cryptographic Failures';
+  if (t.includes('debug') || t.includes('misconfigur') || t.includes('default password') || t.includes('security misconfigur')) return 'A05:2021 - Security Misconfiguration';
+  if (t.includes('hardcode') || t.includes('credential') || t.includes('password') || t.includes('secret') || t.includes('auth') || t.includes('jwt')) return 'A07:2021 - Auth Failures';
+  if (t.includes('deserializ') || t.includes('pickle') || t.includes('untrusted data') || t.includes('integrity')) return 'A08:2021 - Data Integrity Failures';
+  if (t.includes('log') || t.includes('disclosure') || t.includes('information disclos') || t.includes('console')) return 'A09:2021 - Logging Failures';
+  if (t.includes('ssrf') || t.includes('server-side request') || t.includes('request forgery')) return 'A10:2021 - SSRF';
+  if (t.includes('component') || t.includes('vulnerable') || t.includes('outdated') || t.includes('known vulnerab')) return 'A06:2021 - Vulnerable Components';
+  return 'A03:2021 - Injection'; // most common fallback
+}
+
+// ── Fallback remediation for inferred CWEs ───────────────────────────────────
+const FALLBACK_REMEDIATION: Record<string, { rec: string; secure: string; vuln: string }> = {
+  'path-traversal': {
+    rec: 'Validate and sanitize file paths. Use os.path.realpath() and verify the path starts with an allowed base directory. Never build file paths from raw user input.',
+    vuln: "filepath = '/var/logs/' + user_input\nwith open(filepath, 'r') as f: ...",
+    secure: "import os\nbase = '/var/logs/'\npath = os.path.realpath(os.path.join(base, user_input))\nif not path.startswith(base):\n    raise ValueError('Invalid path')\nwith open(path, 'r') as f: ...",
+  },
+  'xss': {
+    rec: 'Escape all user-controlled data before including it in HTML responses. Use a templating engine with auto-escaping or a library like DOMPurify on the client.',
+    vuln: "res.send(`<p>${userInput}</p>`);",
+    secure: "const escapeHtml = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');\nres.send(`<p>${escapeHtml(userInput)}</p>`);",
+  },
+  'info-disclosure': {
+    rec: 'Remove console.log / print statements that expose sensitive data in production. Use a structured logger with severity levels and never log credentials, tokens, or PII.',
+    vuln: "console.log('Token:', token);\nconsole.log('User:', userData);",
+    secure: "// Use environment-aware logging\nif (process.env.NODE_ENV !== 'production') {\n  logger.debug('Auth event', { userId: user.id });\n}",
+  },
+};
+
 // OWASP Category mapping
 const OWASP_CATEGORIES: Record<string, string> = {
   'CWE-78': 'A03:2021 - Injection',
@@ -210,6 +266,111 @@ const REMEDIATION_DB: Record<string, {
   },
 };
 
+/**
+ * Resolve a concrete secure/vulnerable code example for the given CWE ID or
+ * vulnerability title. Used by both the on-screen report and the PDF export
+ * so examples are always consistent and never show the generic placeholder.
+ */
+function resolveCodeExamples(
+  cweId: string,
+  vulnTitle: string,
+  existingSnippet: string = ''
+): { secure: string; vulnerable: string } {
+  // 1. Exact CWE lookup in database
+  const db = REMEDIATION_DB[cweId];
+  if (db) return { secure: db.secure, vulnerable: db.vulnerable };
+
+  // 2. Title-based lookup
+  const t = vulnTitle.toLowerCase();
+
+  if (t.includes('sql inject') || (t.includes('sql') && (t.includes('concat') || t.includes('format') || t.includes('user')))) {
+    return {
+      secure: 'cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))\n# JS: db.query("SELECT * FROM users WHERE id = ?", [userId])\n# Never concatenate user input into SQL strings.',
+      vulnerable: existingSnippet || 'cursor.execute("SELECT * FROM users WHERE id=" + user_id)',
+    };
+  }
+  if (t.includes('command inject') || t.includes('os.system') || t.includes('shell')) {
+    return {
+      secure: 'import subprocess\nsubprocess.run(["ls", user_input], shell=False, check=True)\n# Never pass user input to shell=True or os.system()',
+      vulnerable: existingSnippet || 'import os\nos.system("ls " + user_input)',
+    };
+  }
+  if (t.includes('eval') || t.includes('code inject') || t.includes('exec(')) {
+    return {
+      secure: '# For data parsing use ast.literal_eval (Python literals only)\nimport ast\nresult = ast.literal_eval(user_input)\n# JS: never eval(); use JSON.parse() for JSON data.',
+      vulnerable: existingSnippet || 'eval(user_input)  # arbitrary code execution',
+    };
+  }
+  if (t.includes('hardcode') || t.includes('credential') || t.includes('secret') || t.includes('api key') || t.includes('aws_')) {
+    return {
+      secure: 'import os\nDB_PASSWORD = os.environ.get("DB_PASSWORD")\nAWS_KEY     = os.environ.get("AWS_ACCESS_KEY_ID")\n# JS: const secret = process.env.SECRET_KEY;\n# Use a secrets manager (AWS Secrets Manager, Vault) in production.',
+      vulnerable: existingSnippet || 'DB_PASSWORD = "mysecret123"\nAWS_ACCESS_KEY = "AKIAIOSFODNN7EXAMPLE"',
+    };
+  }
+  if (t.includes('pickle') || t.includes('deserializ') || t.includes('yaml.load')) {
+    return {
+      secure: '# Use JSON instead of pickle for untrusted data\nimport json\ndata = json.loads(user_input)\n# For YAML: always use yaml.safe_load(), never yaml.load()\nimport yaml\nconfig = yaml.safe_load(file)',
+      vulnerable: existingSnippet || 'import pickle\ndata = pickle.loads(user_input)  # RCE risk',
+    };
+  }
+  if (t.includes('path traversal') || t.includes('directory traversal')) {
+    return { secure: FALLBACK_REMEDIATION['path-traversal'].secure, vulnerable: existingSnippet || FALLBACK_REMEDIATION['path-traversal'].vuln };
+  }
+  if (t.includes('xss') || t.includes('cross-site script') || t.includes('innerhtml')) {
+    return { secure: FALLBACK_REMEDIATION['xss'].secure, vulnerable: existingSnippet || FALLBACK_REMEDIATION['xss'].vuln };
+  }
+  if (t.includes('ssrf') || t.includes('server-side request')) {
+    return {
+      secure: 'from urllib.parse import urlparse\nALLOWED_HOSTS = {"api.example.com"}\nparsed = urlparse(user_url)\nif parsed.netloc not in ALLOWED_HOSTS:\n    raise ValueError("URL not allowed")\nrequests.get(user_url, timeout=5)',
+      vulnerable: existingSnippet || 'requests.get(user_url)  # fetches any URL without restriction',
+    };
+  }
+  if (t.includes('md5') || t.includes('sha1') || t.includes('weak crypt') || t.includes('weak hash')) {
+    return {
+      secure: 'import bcrypt\nhashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())\n# For general hashing use SHA-256:\nimport hashlib\ndigest = hashlib.sha256(data.encode()).hexdigest()',
+      vulnerable: existingSnippet || 'hashlib.md5(password.encode()).hexdigest()  # broken for passwords',
+    };
+  }
+  if (t.includes('jwt') || (t.includes('token') && (t.includes('verif') || t.includes('sign')))) {
+    return {
+      secure: 'import jwt\npayload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])\n# Always verify signature; never accept algorithm="none".',
+      vulnerable: existingSnippet || 'jwt.decode(token, options={"verify_signature": False})',
+    };
+  }
+  if (t.includes('debug') || t.includes('misconfigur')) {
+    return {
+      secure: 'import os\nDEBUG = os.environ.get("DEBUG", "false").lower() == "true"\napp.run(debug=DEBUG)\n# Django: set DEBUG=False in settings.py for production.',
+      vulnerable: existingSnippet || 'app.run(debug=True)  # exposes debugger and stack traces',
+    };
+  }
+  if (t.includes('cors') || t.includes('cross-origin')) {
+    return {
+      secure: 'app.add_middleware(CORSMiddleware,\n    allow_origins=["https://yourdomain.com"],\n    allow_credentials=True)\n# Never use allow_origins=["*"] with credentials.',
+      vulnerable: existingSnippet || 'Access-Control-Allow-Origin: *',
+    };
+  }
+  if (t.includes('disclosure') || t.includes('console') || t.includes('log') || t.includes('print') || t.includes('sensitive')) {
+    return { secure: FALLBACK_REMEDIATION['info-disclosure'].secure, vulnerable: existingSnippet || FALLBACK_REMEDIATION['info-disclosure'].vuln };
+  }
+  if (t.includes('ssl') || t.includes('tls') || t.includes('verify') || t.includes('certificate')) {
+    return {
+      secure: 'requests.get(url, verify=True)  # default — do not override\n# For custom CA: requests.get(url, verify="/path/to/ca-bundle.crt")',
+      vulnerable: existingSnippet || 'requests.get(url, verify=False)  # disables certificate validation',
+    };
+  }
+  if (t.includes('localstorage') || t.includes('sessionstorage') || t.includes('insecure storage')) {
+    return {
+      secure: '// Store auth tokens in HTTP-only, Secure, SameSite cookies set by the server.\n// For non-sensitive preferences only:\nsessionStorage.setItem("theme", "dark");',
+      vulnerable: existingSnippet || 'localStorage.setItem("authToken", token);  // accessible via XSS',
+    };
+  }
+  // Generic fallback with actionable OWASP guidance
+  return {
+    secure: '// 1. Validate and sanitize ALL user-supplied input before use.\n// 2. Apply the principle of least privilege.\n// 3. Use security-reviewed libraries; avoid reimplementing crypto/auth.\n// 4. Set security headers: CSP, HSTS, X-Frame-Options, X-Content-Type-Options.\n// Reference: https://owasp.org/Top10/',
+    vulnerable: existingSnippet || '// See the vulnerable code snippet above',
+  };
+}
+
 const SEVERITY_CONFIG = {
   critical: { bg: 'bg-red-50 dark:bg-red-950/50', border: 'border-red-500', text: 'text-red-800 dark:text-red-300', badge: 'bg-red-100 dark:bg-red-900/50', icon: '🔴', color: '#ef4444' },
   high: { bg: 'bg-orange-50 dark:bg-orange-950/50', border: 'border-orange-500', text: 'text-orange-800 dark:text-orange-300', badge: 'bg-orange-100 dark:bg-orange-900/50', icon: '🟠', color: '#f97316' },
@@ -232,6 +393,7 @@ export default function ReportPage() {
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [selectedFileIndex, setSelectedFileIndex] = useState<number>(0);
   const [isZipScan, setIsZipScan] = useState<boolean>(false);
+  const [isExportingPdf, setIsExportingPdf] = useState<boolean>(false);
   const editorRef = useRef<any>(null);
 
   // Translation object
@@ -243,6 +405,8 @@ export default function ReportPage() {
       issuesFound: uiLanguage === 'th' ? 'ปัญหาที่พบ' : 'issues found',
       issueFound: uiLanguage === 'th' ? 'ปัญหาที่พบ' : 'issue found',
       exportJson: uiLanguage === 'th' ? 'ส่งออก JSON' : 'Export JSON',
+      exportPdf: uiLanguage === 'th' ? 'ส่งออก PDF' : 'Export PDF',
+      exportingPdf: uiLanguage === 'th' ? 'กำลังสร้าง PDF...' : 'Generating PDF...',
       newScan: uiLanguage === 'th' ? 'สแกนใหม่' : 'New Scan',
       riskScore: uiLanguage === 'th' ? 'ระดับความเสี่ยง' : 'Risk Score',
       highRisk: uiLanguage === 'th' ? 'ความเสี่ยงสูง' : 'High Risk',
@@ -290,21 +454,21 @@ export default function ReportPage() {
       
       // Handle different API response formats
       if (parsed.findings && Array.isArray(parsed.findings)) {
-        // HybridScanResponse format - convert findings to FileScanResult
-        console.log('[REPORT] Hybrid scan results:', parsed.findings.length, 'findings');
+        // Hybrid Pipeline scan response (/api/v1/hybrid-scan/code)
+        console.log('[REPORT] Hybrid pipeline results:', parsed.findings.length, 'findings');
         const converted: FileScanResult = {
-          file_path: 'code_input',
-          language: parsed.code_language || savedLanguage || 'unknown',
+          file_path: parsed.file || 'code_input',
+          language: parsed.language || savedLanguage || 'unknown',
           findings: parsed.findings.map((f: any) => ({
-            tool: f.sources?.join(',') || 'hybrid',
-            rule_id: f.vulnerability_type || f.semgrep_rule || 'security-issue',
-            severity: f.severity || 'MEDIUM',
-            message: f.explanation || 'Potential vulnerability detected',
+            tool: f.verdict ? `hybrid-${f.verdict}` : 'hybrid',
+            rule_id: f.rule_id || f.vulnerability_type || 'security-issue',
+            severity: (f.severity || 'MEDIUM').toUpperCase(),
+            message: f.message || f.explanation || 'Potential vulnerability detected',
             start_line: f.line || 1,
-            end_line: f.line || 1,
+            end_line: f.end_line || f.line || 1,
             code_snippet: f.code_snippet,
-            cwe_id: f.cwe_id,
-            owasp_category: f.owasp_category,
+            cwe_id: f.cwe || f.cwe_id,
+            owasp_category: f.cwe ? OWASP_CATEGORIES[f.cwe] : f.owasp_category,
           })),
         };
         setResults([converted]);
@@ -386,8 +550,10 @@ export default function ReportPage() {
     } : {
       recommendation: defaultRecommendation,
       vulnerable: f.code_snippet || '',
-      secure: '// Apply appropriate security fix based on the vulnerability type',
+      secure: '', // resolved by PDF export / on-screen display via title-based lookup
     };
+
+    const examples = resolveCodeExamples(cweId, f.rule_id || f.message || '', f.code_snippet || '');
 
     return {
       id: index,
@@ -400,8 +566,8 @@ export default function ReportPage() {
       code_snippet: f.code_snippet,
       confidence: 0.85,
       recommendation: remediation.recommendation,
-      vulnerable_example: remediation.vulnerable,
-      secure_example: remediation.secure,
+      vulnerable_example: remediation.vulnerable || examples.vulnerable,
+      secure_example: remediation.secure || examples.secure,
       file_path: filePath, // Track which file this finding belongs to
     };
   };
@@ -495,6 +661,127 @@ export default function ReportPage() {
     }
   };
 
+  // Export to PDF
+  const exportPDF = async () => {
+    setIsExportingPdf(true);
+    try {
+      const codeLines = (scannedCode || '').split('\n');
+
+      const vulnItems = allVulns.map(v => {
+        const lineNum = v.line_number || 1;
+        const vulnTitle = v.vulnerability_type || '';
+
+        // Resolve CWE: use scanner value first, infer from title when missing
+        const rawCwe   = (v.cwe_id || '').toUpperCase();
+        const cweKey   = rawCwe && rawCwe !== 'CWE-UNKNOWN' && rawCwe !== 'CWE-'
+          ? v.cwe_id!
+          : inferCweFromTitle(vulnTitle);
+        const remedDb  = cweKey ? (REMEDIATION_DB[cweKey] || null) : null;
+
+        // Resolve OWASP category
+        const owaspCat = v.owasp_category && v.owasp_category !== 'Unknown Category'
+          ? v.owasp_category
+          : (cweKey ? (OWASP_CATEGORIES[cweKey] || '') : '')
+            || inferOwaspFromTitle(vulnTitle);
+
+        // Context window ±3 lines around the vulnerable line
+        const start   = Math.max(0, lineNum - 4);
+        const end     = Math.min(codeLines.length, lineNum + 3);
+        const snippet = codeLines
+          .slice(start, end)
+          .map((ln, i) => `${start + i + 1 === lineNum ? '>' : ' '} ${start + i + 1}: ${ln}`)
+          .join('\n');
+
+        // Recommendation – always English (PDF uses Helvetica, no Thai support).
+        // v.recommendation may already be in Thai when the UI language is Thai,
+        // so we MUST look up the English DB entry first and only use v.recommendation
+        // as a last resort (stripped to ASCII to be safe, discarded if < 30 chars).
+        let recommendation = remedDb ? remedDb.recommendation.en : '';
+        if (!recommendation) {
+          const raw = v.recommendation || '';
+          // If the text is all-ASCII it's safe to use directly.
+          // If it contains non-ASCII (Thai etc.) strip it — but only keep the
+          // result if it's long enough to be a real sentence (≥30 chars),
+          // otherwise discard and let the title-based fallback take over.
+          if (/^[\x00-\x7F]*$/.test(raw)) {
+            recommendation = raw.trim();
+          } else {
+            const stripped = raw.replace(/[^\x00-\x7F]/g, '').trim();
+            recommendation = stripped.length >= 30 ? stripped : '';
+          }
+        }
+        if (!recommendation) {
+          // Title-based fallback
+          const t = vulnTitle.toLowerCase();
+          if (t.includes('path traversal')) recommendation = FALLBACK_REMEDIATION['path-traversal'].rec;
+          else if (t.includes('xss') || t.includes('script')) recommendation = FALLBACK_REMEDIATION['xss'].rec;
+          else if (t.includes('disclosure') || t.includes('console') || t.includes('log')) recommendation = FALLBACK_REMEDIATION['info-disclosure'].rec;
+          else recommendation = `Review and fix the ${vulnTitle} vulnerability. Follow OWASP guidelines for ${owaspCat}.`;
+        }
+
+        // Secure / vulnerable examples — delegate to the shared resolver.
+        // This is the same logic used by mapFinding so on-screen and PDF are consistent.
+        const PLACEHOLDER = '// Apply appropriate security fix based on the vulnerability type';
+        const rawSecure = (v.secure_example || '').trim();
+        const rawVuln   = (v.vulnerable_example || '').trim();
+        const resolved  = resolveCodeExamples(cweKey, vulnTitle, v.code_snippet || snippet);
+        const secureExample = (rawSecure && rawSecure !== PLACEHOLDER) ? rawSecure : resolved.secure;
+        const vulnExample   = (rawVuln   && rawVuln   !== PLACEHOLDER) ? rawVuln   : resolved.vulnerable;
+
+        return {
+          cwe_id:             cweKey || 'See description',
+          severity:           v.severity || 'MEDIUM',
+          message:            v.description || '',
+          line:               lineNum,
+          confidence:         typeof v.confidence === 'number' ? v.confidence / 100 : 0.8,
+          vulnerability_type: vulnTitle || cweKey || 'Vulnerability',
+          owasp_category:     owaspCat || 'OWASP Top 10',
+          recommendation,
+          secure_example:     secureExample,
+          vulnerable_example: vulnExample,
+          code_snippet:       v.code_snippet || snippet,
+        };
+      });
+
+      const riskLevel = riskScore >= 70 ? 'High Risk' : riskScore >= 40 ? 'Medium Risk' : 'Low Risk';
+      const payload = {
+        code: scannedCode || '',
+        vulnerabilities: vulnItems,
+        metadata: {
+          title: 'Security Assessment Report',
+          project_name: isZipScan ? 'Project Scan (ZIP)' : 'Code Scan',
+          scan_date: new Date().toISOString(),
+          scanned_by: 'AI Vulnerability Scanner',
+          language: language || 'python',
+        },
+        risk_score: riskScore,
+        summary: `Found ${totalVulns} vulnerabilities (${criticalCount} Critical, ${highCount} High, ${mediumCount} Medium, ${lowCount + infoCount} Low). Overall risk level: ${riskLevel}.`,
+      };
+      const response = await fetch('http://localhost:8000/api/v1/report/pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        alert(`PDF generation failed: ${err.detail || response.statusText}`);
+        return;
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `security-report-${new Date().toISOString().split('T')[0]}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('PDF export failed:', error);
+      alert('PDF export failed. Please make sure the backend server is running.');
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
+
   // Export to JSON
   const exportJSON = () => {
     const exportData = {
@@ -583,6 +870,30 @@ export default function ReportPage() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={exportPDF}
+                disabled={isExportingPdf}
+                className="btn-secondary flex items-center gap-2 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isExportingPdf ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    {t.report.exportingPdf}
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    {t.report.exportPdf}
+                  </>
+                )}
+              </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

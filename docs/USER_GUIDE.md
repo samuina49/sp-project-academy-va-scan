@@ -47,9 +47,13 @@ The AI-Based Vulnerability Scanner is a hybrid security analysis tool that combi
 
 ### 1. Start the Backend Server
 ```bash
+# Activate virtual environment (Windows)
+.\venv_gpu\Scripts\activate
+
+# Go to backend folder and run
 cd backend
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### 2. Start the Frontend

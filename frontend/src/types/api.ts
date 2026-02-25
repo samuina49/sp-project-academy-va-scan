@@ -19,12 +19,21 @@ export interface VulnerabilityFinding {
 
 export interface HybridFinding {
   line: number;
-  vulnerability_type: string;
-  severity: SeverityLevel;
-  confidence: number; // 0-1
-  sources: DetectionSource[];
-  code_snippet: string;
+  end_line: number;
+  cwe: string;
+  rule_id: string;
+  severity: string;
+  confidence: string;
+  message: string;
   explanation: string;
+  code_snippet: string;
+  verdict: string;
+  ai_score: number;
+  ai_available: boolean;
+  language: string;
+  // Legacy fields (kept for backward compat)
+  vulnerability_type?: string;
+  sources?: DetectionSource[];
   remediation?: string;
   cwe_id?: string;
   owasp_category?: string;
@@ -52,27 +61,16 @@ export interface CodeScanResponse {
 export interface HybridScanResponse {
   scan_id: string;
   timestamp: string;
-  code_language: string;
-  scan_type: string;
-  summary: {
-    total_findings: number;
-    critical: number;
-    high: number;
-    medium: number;
-    low: number;
-    info: number;
-    owasp_coverage: Record<string, number>;
-    detection_sources: {
-      semgrep: number;
-      bandit: number;
-      ml: number;
-      hybrid: number;
-    };
-    ml_enabled: boolean;
-  };
+  file: string;
+  language: string;
+  original_language: string;
+  total_candidates: number;
+  confirmed_vulnerabilities: number;
+  false_positives_filtered: number;
+  ai_available: boolean;
+  scan_duration_ms: number;
   findings: HybridFinding[];
-  success: boolean;
-  error?: string;
+  errors: string[];
 }
 
 export interface ZipScanResponse {

@@ -202,18 +202,17 @@ class EnsembleCombiner:
         
         deduplicated = []
         processed_lines: Set[int] = set()
-        
+
         for finding in findings:
-            # Check if we've already processed a nearby line
-            nearby_processed = any(
-                abs(finding.line - pl) <= 2 
-                for pl in processed_lines
-            )
-            
+            # Merge only when the EXACT same line was already seen — a ±2
+            # window caused different-line findings (e.g. DB_USER on line 9
+            # and DB_PASSWORD on line 10) to be incorrectly collapsed into one.
+            nearby_processed = finding.line in processed_lines
+
             if nearby_processed:
-                # Merge with existing finding
+                # Merge with existing finding (same line, different tool)
                 for existing in deduplicated:
-                    if abs(existing.line - finding.line) <= 2:
+                    if existing.line == finding.line:
                         # Merge sources
                         existing.sources.extend(finding.sources)
                         existing.sources = list(set(existing.sources))
@@ -266,7 +265,18 @@ class EnsembleCombiner:
             # Bonus if ML agrees with pattern matching
             if DetectionSource.ML_MODEL in finding.sources and num_sources > 1:
                 finding.confidence = min(finding.confidence + 0.05, 1.0)
-        
+
+            # Veto Rule: ML-ONLY findings are capped below the "vulnerable" threshold.
+            # If no pattern-matching tool (Semgrep / Bandit) corroborates the finding,
+            # the confidence is capped at 0.60 — below the 0.65 "confirmed" threshold.
+            # This prevents a lone ML signal from being reported as a confirmed vuln.
+            if set(finding.sources) == {DetectionSource.ML_MODEL}:
+                original = finding.confidence
+                finding.confidence = min(finding.confidence, 0.60)
+                if original > 0.60:
+                    print(f"[ENSEMBLE] Veto Rule: ML-only finding capped 0.60 "
+                          f"(was {original:.2f}) — {finding.vulnerability_type}")
+
         return findings
     
     def _extract_snippet(self, code: str, line: int, context: int = 1) -> str:

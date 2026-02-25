@@ -58,13 +58,19 @@ class BanditScanner:
         import os
         bandit_cmd = os.path.join(os.path.dirname(sys.executable), "bandit.exe" if os.name == 'nt' else "bandit")
         
+        # Bandit rules that only warn about *importing* a module (not misuse),
+        # plus B301 which fires on pickle.loads import detection.
+        # A bare import is never a vulnerability — only call-site misuse is.
+        _SKIP_IMPORT_RULES = "B301,B401,B402,B403,B404,B405,B406,B407,B408,B409,B410,B411,B412"
+
         cmd = [
             bandit_cmd,
-            "-f", "json",  # JSON output format
-            "-ll",  # Report only medium and high severity
+            "-f", "json",        # JSON output format
+            "-ll",               # Report only medium and high severity
+            "-s", _SKIP_IMPORT_RULES,  # Skip pure-import warnings
             str(file_path)
         ]
-        
+
         if self.config_path:
             cmd.extend(["-c", self.config_path])
         

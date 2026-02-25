@@ -119,7 +119,13 @@ AI-BASED VULNERABILITY SCANNER/
 
 ### Start Backend
 ```bash
+# 1. Activate virtual environment (Windows)
+.\venv_gpu\Scripts\activate
+
+# 2. Go to backend folder
 cd backend
+
+# 3. Run the server
 python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 

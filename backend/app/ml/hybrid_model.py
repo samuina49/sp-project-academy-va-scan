@@ -1,22 +1,25 @@
 """
-Script 3: Hybrid Deep Learning Model (GNN + LSTM)
+Script 3: Enhanced Hybrid Deep Learning Model (GNN + LSTM + Metrics)
 Production-Ready Code for Senior Project: AI-based Vulnerability Scanner
 
 Purpose: Implement hybrid vulnerability detection model combining:
          - Graph Neural Network (GNN) for structural analysis
          - LSTM for sequential analysis
-         - Feature Fusion layer for combining both representations
+         - Code Metrics Branch for complexity & taint features
+         - Feature Fusion layer for combining all representations
 
 Model Architecture:
     Input Code
-        ├─> AST Graph ─> GNN Branch ─┐
-        │                             ├─> Feature Fusion ─> Classification
-        └─> Token Sequence ─> LSTM ──┘
+        ├─> AST Graph ─────────> GNN Branch ────┐
+        ├─> Token Sequence ────> LSTM Branch ───┤
+        │                                        ├─> Feature Fusion ─> Classification
+        └─> Code Metrics ──────> Metrics Branch ┘
+                                  (20 features)
 
 Addresses OWASP Top 10: A01, A03, A04, A05
 
 Author: Senior Project - AI-based Vulnerability Scanner
-Date: 2026-01-25
+Date: 2026-02-07 (Enhanced with Code Metrics)
 """
 
 import torch
@@ -27,7 +30,7 @@ import logging
 
 # PyTorch Geometric for GNN
 try:
-    from torch_geometric.nn import GCNConv, GATConv, global_mean_pool
+    from torch_geometric.nn import GCNConv, GATConv, global_mean_pool, global_max_pool, global_add_pool
     from torch_geometric.data import Data, Batch
     PYG_AVAILABLE = True
 except ImportError:
@@ -36,6 +39,76 @@ except ImportError:
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+class MetricsBranch(nn.Module):
+    """
+    Code Metrics Branch for SECURITY-SPECIFIC ANALYSIS.
+    
+    Processes hand-crafted features for vulnerability detection:
+    - Complexity metrics (cyclomatic complexity, nesting, LOC)
+    - Taint analysis (input → dangerous function flows)
+    - Security patterns (SQL injection, XSS, command injection)
+    
+    These features directly measure vulnerability indicators that
+    GNN and LSTM might miss.
+    
+    Architecture:
+    - Input: 20-dimensional feature vector
+    - 2 fully connected layers with ReLU
+    - Output: Lower-dimensional embedding for fusion
+    """
+    
+    def __init__(
+        self,
+        input_dim: int = 20,  # 20 hand-crafted features
+        hidden_dim: int = 128,
+        output_dim: int = 128,
+        dropout: float = 0.3
+    ):
+        """
+        Initialize Metrics branch.
+        
+        Args:
+            input_dim: Number of input features (20)
+            hidden_dim: Hidden layer dimension
+            output_dim: Output dimension (for fusion)
+            dropout: Dropout rate
+        """
+        super(MetricsBranch, self).__init__()
+        
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.bn1 = nn.LayerNorm(hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.bn2 = nn.LayerNorm(hidden_dim)
+        self.fc3 = nn.Linear(hidden_dim, output_dim)
+        self.dropout = dropout
+        
+        logger.info(f"Metrics Branch initialized: {input_dim} features → {output_dim} dims")
+    
+    def forward(self, metrics: torch.Tensor) -> torch.Tensor:
+        """
+        Forward pass through metrics branch.
+        
+        Args:
+            metrics: Feature tensor [batch_size, 20]
+            
+        Returns:
+            Metrics embedding [batch_size, output_dim]
+        """
+        x = self.fc1(metrics)
+        x = self.bn1(x)
+        x = F.relu(x)
+        x = F.dropout(x, p=self.dropout, training=self.training)
+
+        x = self.fc2(x)
+        x = self.bn2(x)
+        x = F.relu(x)
+        x = F.dropout(x, p=self.dropout, training=self.training)
+
+        x = self.fc3(x)
+
+        return x
 
 
 class GNNBranch(nn.Module):
@@ -141,8 +214,14 @@ class GNNBranch(nn.Module):
             x = F.dropout(x, p=self.dropout, training=self.training)
         
         # Global pooling: aggregate all node features
-        # This creates a single graph-level representation
-        x = global_mean_pool(x, batch)
+        # Using BOTH Mean and Max pooling for stability + salience
+        # Mean provides stable baseline, Max captures critical patterns
+        x_mean = global_mean_pool(x, batch)
+        x_max = global_max_pool(x, batch)
+        
+        # Weighted combination (learnable): Mean for stability, Max for detection
+        # Start with 70% mean, 30% max to prioritize stability
+        x = 0.7 * x_mean + 0.3 * x_max
         
         # Fully connected layers
         x = F.relu(self.fc1(x))
@@ -257,17 +336,17 @@ class LSTMBranch(nn.Module):
 
 class HybridVulnerabilityModel(nn.Module):
     """
-    Hybrid Deep Learning Model for Vulnerability Detection.
+    Enhanced Hybrid Deep Learning Model for Vulnerability Detection.
     
-    Combines:
+    Combines THREE branches:
     1. GNN Branch (Structural Analysis) - Extracts AST/CFG patterns
     2. LSTM Branch (Sequential Analysis) - Extracts token sequence patterns
-    3. Feature Fusion Layer - Combines both representations
-    4. Classification Head - Binary classification (Vulnerable: 0-1)
+    3. Metrics Branch (Security Analysis) - Extracts taint & complexity features
+    4. Feature Fusion Layer - Combines all three representations
+    5. Classification Head - Binary classification (Vulnerable: 0-1)
     
-    This hybrid approach addresses the thesis objective of detecting
-    OWASP Top 10 vulnerabilities (A01, A03, A04, A05) by leveraging
-    both structural and sequential code features.
+    This enhanced hybrid approach addresses OWASP Top 10 vulnerabilities
+    by leveraging structural, sequential, AND security-specific features.
     """
     
     def __init__(
@@ -279,12 +358,15 @@ class HybridVulnerabilityModel(nn.Module):
         lstm_embedding_dim: int = 128,
         lstm_hidden_dim: int = 128,
         lstm_output_dim: int = 64,
+        metrics_input_dim: int = 20,  # NEW: Code metrics
+        metrics_output_dim: int = 32,  # NEW: Metrics embedding dim
         fusion_hidden_dim: int = 128,
         dropout: float = 0.3,
-        use_gat: bool = True
+        use_gat: bool = True,
+        use_metrics: bool = True  # NEW: Enable/disable metrics branch
     ):
         """
-        Initialize Hybrid Model.
+        Initialize Enhanced Hybrid Model.
         
         Args:
             vocab_size: Token vocabulary size
@@ -294,11 +376,16 @@ class HybridVulnerabilityModel(nn.Module):
             lstm_embedding_dim: LSTM embedding dimension
             lstm_hidden_dim: LSTM hidden dimension
             lstm_output_dim: LSTM output dimension
+            metrics_input_dim: Number of code metrics features (20)
+            metrics_output_dim: Metrics branch output dimension
             fusion_hidden_dim: Fusion layer hidden dimension
             dropout: Dropout rate
             use_gat: Use GAT instead of GCN
+            use_metrics: Enable metrics branch (recommended)
         """
         super(HybridVulnerabilityModel, self).__init__()
+        
+        self.use_metrics = use_metrics
         
         # ============================================
         # STRUCTURAL ANALYSIS: GNN Branch
@@ -324,9 +411,22 @@ class HybridVulnerabilityModel(nn.Module):
         )
         
         # ============================================
-        # FEATURE FUSION: Combine GNN + LSTM features
+        # SECURITY ANALYSIS: Metrics Branch (NEW!)
+        # ============================================
+        if self.use_metrics:
+            self.metrics_branch = MetricsBranch(
+                input_dim=metrics_input_dim,
+                hidden_dim=64,
+                output_dim=metrics_output_dim,
+                dropout=dropout
+            )
+        
+        # ============================================
+        # FEATURE FUSION: Combine GNN + LSTM + Metrics features
         # ============================================
         fusion_input_dim = gnn_output_dim + lstm_output_dim
+        if self.use_metrics:
+            fusion_input_dim += metrics_output_dim
         
         self.fusion_layers = nn.Sequential(
             nn.Linear(fusion_input_dim, fusion_hidden_dim),
@@ -356,20 +456,23 @@ class HybridVulnerabilityModel(nn.Module):
     def forward(
         self,
         graph_data: Data,
-        token_ids: torch.Tensor
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        token_ids: torch.Tensor,
+        metrics_features: Optional[torch.Tensor] = None
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
         """
-        Forward pass through hybrid model.
+        Forward pass through enhanced hybrid model.
         
         Args:
             graph_data: PyTorch Geometric Data (AST graph)
             token_ids: Token IDs tensor [batch_size, seq_length]
+            metrics_features: Code metrics tensor [batch_size, 20] (optional)
             
         Returns:
             Tuple of:
             - predictions: Vulnerability probability [batch_size, 1]
             - gnn_features: Features from GNN branch [batch_size, gnn_output_dim]
             - lstm_features: Features from LSTM branch [batch_size, lstm_output_dim]
+            - metrics_features: Features from Metrics branch (if enabled)
         """
         # ============================================
         # Branch 1: Extract structural features (GNN)
@@ -382,10 +485,20 @@ class HybridVulnerabilityModel(nn.Module):
         lstm_features = self.lstm_branch(token_ids)
         
         # ============================================
-        # FEATURE FUSION: Concatenate both representations
+        # Branch 3: Extract security features (Metrics) - NEW!
         # ============================================
-        # This is the key innovation: combining structural and sequential features
-        fused_features = torch.cat([gnn_features, lstm_features], dim=1)
+        metrics_embedding = None
+        if self.use_metrics and metrics_features is not None:
+            metrics_embedding = self.metrics_branch(metrics_features)
+        
+        # ============================================
+        # FEATURE FUSION: Concatenate all representations
+        # ============================================
+        # This is the key innovation: combining structural, sequential, and security features
+        if self.use_metrics and metrics_embedding is not None:
+            fused_features = torch.cat([gnn_features, lstm_features, metrics_embedding], dim=1)
+        else:
+            fused_features = torch.cat([gnn_features, lstm_features], dim=1)
         
         # Pass through fusion layers
         fused_features = self.fusion_layers(fused_features)
@@ -395,7 +508,7 @@ class HybridVulnerabilityModel(nn.Module):
         # ============================================
         predictions = self.classifier(fused_features)
         
-        return predictions, gnn_features, lstm_features
+        return predictions, gnn_features, lstm_features, metrics_embedding
     
     def predict(
         self,

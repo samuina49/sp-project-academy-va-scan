@@ -10,6 +10,9 @@ from app.core.config import settings
 # Import existing routers
 from app.api.v1 import scan, health, hybrid_scan, ai_scan, feedback, xai, report
 
+# Import hybrid pipeline scanner
+from app.api.v1 import hybrid_pipeline_scan
+
 # Import new Phase 8-15 routers
 from app.api.v1 import auth  # Phase 8: Authentication
 from app.api.v1 import project_scan  # Phase 9: Multi-file scanning
@@ -64,6 +67,9 @@ app.include_router(ai_scan.router, prefix="/api/v1", tags=["AI Scanner"])
 app.include_router(feedback.router, prefix="/api/v1", tags=["Feedback"])
 app.include_router(xai.router, prefix="/api/v1", tags=["Explainable AI"])
 app.include_router(report.router, prefix="/api/v1", tags=["Reports"])
+
+# ==================== Hybrid Pattern + AI Scanner ====================
+app.include_router(hybrid_pipeline_scan.router, prefix="/api/v1", tags=["Hybrid Pipeline"])
 
 # ==================== Phase 8: Authentication ====================
 app.include_router(auth.router, prefix="/api/v1", tags=["Authentication"])
