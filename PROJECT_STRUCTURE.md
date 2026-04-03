@@ -147,7 +147,6 @@ npm run dev
 - ✅ ZIP Upload: Working (500MB, 5000 files max)
 - ✅ OWASP Detection: 100% coverage
 - ✅ Severity Levels: CRITICAL/HIGH/MEDIUM/LOW correctly mapped
-- ⚠️ ML Model: Disabled by default (enable in config.py if needed)
 - ✅ Database: SQLite for scan history
 - ✅ Authentication: JWT implemented
 
