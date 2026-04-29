@@ -33,5 +33,6 @@ locust==2.20.1
 # ML dependencies (for future use)
 # Uncomment when implementing GNN + LSTM
 torch>=2.2.0
+torch-geometric>=2.5.0
 transformers>=4.36.2
 tree-sitter>=0.20.4
