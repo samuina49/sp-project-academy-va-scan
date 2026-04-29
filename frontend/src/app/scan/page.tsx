@@ -117,6 +117,7 @@ export default function ScanPage() {
   const [language, setLanguage] = useState<Language>('python');
   const [code, setCode] = useState(CODE_EXAMPLES.python);
   const [fileName, setFileName] = useState('');
+  const [fileSize, setFileSize] = useState<number | null>(null);
   const [zipFile, setZipFile] = useState<File | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
@@ -142,6 +143,7 @@ export default function ScanPage() {
       const content = event.target?.result as string;
       setCode(content);
       setFileName(file.name);
+      setFileSize(file.size);
       
       // Auto-detect language
       const ext = file.name.split('.').pop()?.toLowerCase();
@@ -288,6 +290,15 @@ export default function ScanPage() {
     }
   };
 
+  // Helper to format file sizes
+  const formatBytes = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
   return (
     <div className="min-h-screen p-8">
       <div className="max-w-6xl mx-auto">
@@ -399,7 +410,14 @@ export default function ScanPage() {
                     <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl cursor-pointer bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
                       <FileCode className="w-10 h-10 text-slate-400 mb-2" />
                       {fileName ? (
-                        <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">{fileName}</p>
+                        <div className="text-center">
+                          <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">{fileName}</p>
+                          {fileSize !== null && (
+                            <p className="text-xs text-slate-500 mt-1">
+                              {formatBytes(fileSize)}
+                            </p>
+                          )}
+                        </div>
                       ) : (
                         <>
                           <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
@@ -435,7 +453,7 @@ export default function ScanPage() {
                             {zipFile.name}
                           </p>
                           <p className="text-xs text-slate-500 mt-1">
-                            {(zipFile.size / 1024 / 1024).toFixed(2)} MB
+                            {formatBytes(zipFile.size)}
                           </p>
                         </div>
                       ) : (

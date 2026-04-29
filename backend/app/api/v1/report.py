@@ -408,11 +408,21 @@ async def generate_pdf(request: PDFReportRequest):
         )
     
     try:
+        # --- Add logging for console visibility ---
+        project_name = request.metadata.project_name if request.metadata else "Web Application"
+        print(f"\n[REPORT ENGINE] Starting PDF Report Generation...")
+        print(f"[REPORT ENGINE] Processing {len(request.vulnerabilities)} vulnerabilities for project '{project_name}'")
+        print(f"[REPORT ENGINE] Calculating Risk Metrics... (Score: {request.risk_score}/100)")
+        
         pdf_buffer = generate_pdf_report(request)
         
         # Generate filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"security_report_{timestamp}.pdf"
+        
+        print(f"[REPORT ENGINE] Rendering pages and formatting layout...")
+        print(f"[REPORT ENGINE] PDF successfully generated: {filename}")
+        print(f"[REPORT ENGINE] Exporting report data stream to client...\n")
         
         return StreamingResponse(
             pdf_buffer,

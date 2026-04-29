@@ -144,3 +144,6 @@ frontend/dist/
 !backend/ml/models/.gitkeep
 !backend/data/labeled/*.json
 !backend/data/dummy_dataset.json
+
+# Documentation
+docs/

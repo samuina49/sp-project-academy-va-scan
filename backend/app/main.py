@@ -51,12 +51,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import logging
+
+# Mute noisy loggers from Hugging Face and HTTPX
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("huggingface_hub").setLevel(logging.WARNING)
+
 # Request logging middleware
 @app.middleware("http")
 async def log_requests(request, call_next):
-    print(f"[REQUEST] {request.method} {request.url.path}")
+    # ข้ามการแสดงผล Log ของ Health Check เพื่อไม่ให้รกหน้าจอ
+    if "/api/v1/health" not in request.url.path:
+        print(f"[REQUEST] {request.method} {request.url.path}")
+        
     response = await call_next(request)
-    print(f"[RESPONSE] {request.method} {request.url.path} → {response.status_code}")
+    
+    if "/api/v1/health" not in request.url.path:
+        print(f"[RESPONSE] {request.method} {request.url.path} → {response.status_code}")
+        
     return response
 
 # ==================== Core Routers ====================
