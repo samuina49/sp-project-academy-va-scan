@@ -37,7 +37,7 @@ function inferCweFromTitle(title: string): string {
   if (t.includes('xss') || t.includes('cross-site script') || t.includes('script inject')) return 'CWE-79';
   if (t.includes('path traversal') || t.includes('directory traversal') || t.includes('dir traversal')) return 'CWE-22';
   if ((t.includes('hardcode') || t.includes('hard-code')) &&
-      (t.includes('password') || t.includes('credential') || t.includes('secret') || t.includes('key'))) return 'CWE-798';
+    (t.includes('password') || t.includes('credential') || t.includes('secret') || t.includes('key'))) return 'CWE-798';
   if (t.includes('eval(') || t.includes('code inject') || (t.includes('eval') && t.includes('user'))) return 'CWE-94';
   if (t.includes('pickle') || t.includes('deserializ') || t.includes('unsafe deserial')) return 'CWE-502';
   if (t.includes('ssrf') || t.includes('server-side request')) return 'CWE-918';
@@ -87,38 +87,196 @@ const FALLBACK_REMEDIATION: Record<string, { rec: string; secure: string; vuln: 
 
 // OWASP Category mapping
 const OWASP_CATEGORIES: Record<string, string> = {
+  // A01:2021 - Broken Access Control
+  'CWE-22': 'A01:2021 - Broken Access Control',
+  'CWE-23': 'A01:2021 - Broken Access Control',
+  'CWE-35': 'A01:2021 - Broken Access Control',
+  'CWE-59': 'A01:2021 - Broken Access Control',
+  'CWE-200': 'A01:2021 - Broken Access Control',
+  'CWE-264': 'A01:2021 - Broken Access Control',
+  'CWE-275': 'A01:2021 - Broken Access Control',
+  'CWE-284': 'A01:2021 - Broken Access Control',
+  'CWE-285': 'A01:2021 - Broken Access Control',
+  'CWE-352': 'A01:2021 - Broken Access Control',
+  'CWE-359': 'A01:2021 - Broken Access Control',
+  'CWE-377': 'A01:2021 - Broken Access Control',
+  'CWE-402': 'A01:2021 - Broken Access Control',
+  'CWE-425': 'A01:2021 - Broken Access Control',
+  'CWE-441': 'A01:2021 - Broken Access Control',
+  'CWE-497': 'A01:2021 - Broken Access Control',
+  'CWE-538': 'A01:2021 - Broken Access Control',
+  'CWE-540': 'A01:2021 - Broken Access Control',
+  'CWE-548': 'A01:2021 - Broken Access Control',
+  'CWE-552': 'A01:2021 - Broken Access Control',
+  'CWE-566': 'A01:2021 - Broken Access Control',
+  'CWE-601': 'A01:2021 - Broken Access Control',
+  'CWE-639': 'A01:2021 - Broken Access Control',
+  'CWE-651': 'A01:2021 - Broken Access Control',
+  'CWE-668': 'A01:2021 - Broken Access Control',
+  'CWE-706': 'A01:2021 - Broken Access Control',
+  'CWE-862': 'A01:2021 - Broken Access Control',
+  'CWE-863': 'A01:2021 - Broken Access Control',
+  'CWE-913': 'A01:2021 - Broken Access Control',
+  'CWE-922': 'A01:2021 - Broken Access Control',
+  'CWE-942': 'A01:2021 - Broken Access Control',
+  // A02:2021 - Cryptographic Failures
+  'CWE-261': 'A02:2021 - Cryptographic Failures',
+  'CWE-296': 'A02:2021 - Cryptographic Failures',
+  'CWE-310': 'A02:2021 - Cryptographic Failures',
+  'CWE-319': 'A02:2021 - Cryptographic Failures',
+  'CWE-321': 'A02:2021 - Cryptographic Failures',
+  'CWE-322': 'A02:2021 - Cryptographic Failures',
+  'CWE-323': 'A02:2021 - Cryptographic Failures',
+  'CWE-324': 'A02:2021 - Cryptographic Failures',
+  'CWE-325': 'A02:2021 - Cryptographic Failures',
+  'CWE-326': 'A02:2021 - Cryptographic Failures',
+  'CWE-327': 'A02:2021 - Cryptographic Failures',
+  'CWE-328': 'A02:2021 - Cryptographic Failures',
+  'CWE-295': 'A02:2021 - Cryptographic Failures',
+  'CWE-330': 'A02:2021 - Cryptographic Failures',
+  'CWE-331': 'A02:2021 - Cryptographic Failures',
+  'CWE-335': 'A02:2021 - Cryptographic Failures',
+  'CWE-336': 'A02:2021 - Cryptographic Failures',
+  'CWE-338': 'A02:2021 - Cryptographic Failures',
+  'CWE-340': 'A02:2021 - Cryptographic Failures',
+  'CWE-347': 'A02:2021 - Cryptographic Failures',
+  'CWE-523': 'A02:2021 - Cryptographic Failures',
+  'CWE-720': 'A02:2021 - Cryptographic Failures',
+  'CWE-757': 'A02:2021 - Cryptographic Failures',
+  'CWE-759': 'A02:2021 - Cryptographic Failures',
+  'CWE-760': 'A02:2021 - Cryptographic Failures',
+  'CWE-780': 'A02:2021 - Cryptographic Failures',
+  'CWE-818': 'A02:2021 - Cryptographic Failures',
+  'CWE-916': 'A02:2021 - Cryptographic Failures',
+  // A03:2021 - Injection
+  'CWE-20': 'A03:2021 - Injection',
+  'CWE-74': 'A03:2021 - Injection',
+  'CWE-75': 'A03:2021 - Injection',
+  'CWE-77': 'A03:2021 - Injection',
   'CWE-78': 'A03:2021 - Injection',
   'CWE-79': 'A03:2021 - Injection',
+  'CWE-80': 'A03:2021 - Injection',
+  'CWE-83': 'A03:2021 - Injection',
+  'CWE-87': 'A03:2021 - Injection',
+  'CWE-88': 'A03:2021 - Injection',
   'CWE-89': 'A03:2021 - Injection',
+  'CWE-90': 'A03:2021 - Injection',
+  'CWE-91': 'A03:2021 - Injection',
+  'CWE-93': 'A03:2021 - Injection',
   'CWE-94': 'A03:2021 - Injection',
-  'CWE-943': 'A03:2021 - Injection',
-  'CWE-1336': 'A03:2021 - Injection',
+  'CWE-95': 'A03:2021 - Injection',
+  'CWE-96': 'A03:2021 - Injection',
+  'CWE-97': 'A03:2021 - Injection',
+  'CWE-98': 'A03:2021 - Injection',
+  'CWE-99': 'A03:2021 - Injection',
+  'CWE-100': 'A03:2021 - Injection',
+  'CWE-113': 'A03:2021 - Injection',
+  'CWE-116': 'A03:2021 - Injection',
   'CWE-117': 'A03:2021 - Injection',
-  'CWE-22': 'A01:2021 - Broken Access Control',
-  'CWE-942': 'A01:2021 - Broken Access Control',
-  'CWE-327': 'A02:2021 - Cryptographic Failures',
-  'CWE-326': 'A02:2021 - Cryptographic Failures',
-  'CWE-295': 'A02:2021 - Cryptographic Failures',
+  'CWE-138': 'A03:2021 - Injection',
+  'CWE-184': 'A03:2021 - Injection',
+  'CWE-470': 'A03:2021 - Injection',
+  'CWE-471': 'A03:2021 - Injection',
+  'CWE-564': 'A03:2021 - Injection',
+  'CWE-610': 'A03:2021 - Injection',
+  'CWE-643': 'A03:2021 - Injection',
+  'CWE-644': 'A03:2021 - Injection',
+  'CWE-652': 'A03:2021 - Injection',
+  'CWE-917': 'A03:2021 - Injection',
+  'CWE-943': 'A03:2021 - Injection',
+  'CWE-1236': 'A03:2021 - Injection',
+  'CWE-1336': 'A03:2021 - Injection',
+  // A04:2021 - Insecure Design
+  'CWE-209': 'A04:2021 - Insecure Design',
+  'CWE-256': 'A04:2021 - Insecure Design',
+  'CWE-362': 'A04:2021 - Insecure Design',
+  'CWE-501': 'A04:2021 - Insecure Design',
+  'CWE-522': 'A04:2021 - Insecure Design',
+  'CWE-525': 'A04:2021 - Insecure Design',
+  'CWE-539': 'A04:2021 - Insecure Design',
+  'CWE-579': 'A04:2021 - Insecure Design',
+  'CWE-598': 'A04:2021 - Insecure Design',
+  'CWE-602': 'A04:2021 - Insecure Design',
+  'CWE-642': 'A04:2021 - Insecure Design',
+  'CWE-646': 'A04:2021 - Insecure Design',
+  'CWE-650': 'A04:2021 - Insecure Design',
+  'CWE-653': 'A04:2021 - Insecure Design',
+  'CWE-656': 'A04:2021 - Insecure Design',
+  'CWE-657': 'A04:2021 - Insecure Design',
+  'CWE-799': 'A04:2021 - Insecure Design',
+  'CWE-1078': 'A04:2021 - Insecure Design',
+  // A05:2021 - Security Misconfiguration
+  'CWE-2': 'A05:2021 - Security Misconfiguration',
+  'CWE-11': 'A05:2021 - Security Misconfiguration',
+  'CWE-13': 'A05:2021 - Security Misconfiguration',
+  'CWE-15': 'A05:2021 - Security Misconfiguration',
+  'CWE-16': 'A05:2021 - Security Misconfiguration',
+  'CWE-260': 'A05:2021 - Security Misconfiguration',
+  'CWE-315': 'A05:2021 - Security Misconfiguration',
   'CWE-489': 'A05:2021 - Security Misconfiguration',
-  'CWE-798': 'A07:2021 - Auth Failures',
-  'CWE-347': 'A07:2021 - Auth Failures',
+  'CWE-520': 'A05:2021 - Security Misconfiguration',
+  'CWE-526': 'A05:2021 - Security Misconfiguration',
+  'CWE-537': 'A05:2021 - Security Misconfiguration',
+  'CWE-541': 'A05:2021 - Security Misconfiguration',
+  'CWE-547': 'A05:2021 - Security Misconfiguration',
+  'CWE-611': 'A05:2021 - Security Misconfiguration',
+  'CWE-614': 'A05:2021 - Security Misconfiguration',
+  'CWE-756': 'A05:2021 - Security Misconfiguration',
+  'CWE-776': 'A05:2021 - Security Misconfiguration',
+  'CWE-942': 'A05:2021 - Security Misconfiguration',
+  // A06:2021 - Vulnerable and Outdated Components
+  'CWE-829': 'A06:2021 - Vulnerable Components',
+  'CWE-1035': 'A06:2021 - Vulnerable Components',
+  'CWE-1104': 'A06:2021 - Vulnerable Components',
+  // A07:2021 - Identification and Authentication Failures
+  'CWE-255': 'A07:2021 - Auth Failures',
+  'CWE-259': 'A07:2021 - Auth Failures',
+  'CWE-287': 'A07:2021 - Auth Failures',
+  'CWE-288': 'A07:2021 - Auth Failures',
+  'CWE-290': 'A07:2021 - Auth Failures',
+  'CWE-294': 'A07:2021 - Auth Failures',
+  'CWE-295': 'A07:2021 - Auth Failures',
+  'CWE-297': 'A07:2021 - Auth Failures',
+  'CWE-300': 'A07:2021 - Auth Failures',
+  'CWE-302': 'A07:2021 - Auth Failures',
+  'CWE-304': 'A07:2021 - Auth Failures',
+  'CWE-306': 'A07:2021 - Auth Failures',
+  'CWE-307': 'A07:2021 - Auth Failures',
   'CWE-312': 'A07:2021 - Auth Failures',
+  'CWE-346': 'A07:2021 - Auth Failures',
+  'CWE-384': 'A07:2021 - Auth Failures',
+  'CWE-521': 'A07:2021 - Auth Failures',
+  'CWE-613': 'A07:2021 - Auth Failures',
+  'CWE-620': 'A07:2021 - Auth Failures',
+  'CWE-640': 'A07:2021 - Auth Failures',
+  'CWE-798': 'A07:2021 - Auth Failures',
+  // A08:2021 - Software and Data Integrity Failures
+  'CWE-345': 'A08:2021 - Data Integrity Failures',
+  'CWE-353': 'A08:2021 - Data Integrity Failures',
+  'CWE-426': 'A08:2021 - Data Integrity Failures',
+  'CWE-494': 'A08:2021 - Data Integrity Failures',
   'CWE-502': 'A08:2021 - Data Integrity Failures',
-  'CWE-918': 'A10:2021 - SSRF',
+  'CWE-565': 'A08:2021 - Data Integrity Failures',
+  'CWE-784': 'A08:2021 - Data Integrity Failures',
+  'CWE-829': 'A08:2021 - Data Integrity Failures',
+  'CWE-830': 'A08:2021 - Data Integrity Failures',
+  'CWE-915': 'A08:2021 - Data Integrity Failures',
+  // A09:2021 - Security Logging and Monitoring Failures
+  'CWE-117': 'A09:2021 - Logging Failures',
+  'CWE-223': 'A09:2021 - Logging Failures',
   'CWE-532': 'A09:2021 - Logging Failures',
+  'CWE-778': 'A09:2021 - Logging Failures',
   'CWE-390': 'A09:2021 - Logging Failures',
   'CWE-754': 'A09:2021 - Logging Failures',
-  'CWE-362': 'A04:2021 - Insecure Design',
-  'CWE-1078': 'A04:2021 - Insecure Design',
-  'CWE-862': 'A04:2021 - Insecure Design',
-  'CWE-1035': 'A06:2021 - Vulnerable Components',
+  // A10:2021 - Server-Side Request Forgery (SSRF)
+  'CWE-918': 'A10:2021 - SSRF',
 };
 
 // Remediation database with secure examples - bilingual
-const REMEDIATION_DB: Record<string, { 
-  recommendation: { en: string; th: string }; 
-  vulnerable: string; 
-  secure: string 
+const REMEDIATION_DB: Record<string, {
+  recommendation: { en: string; th: string };
+  vulnerable: string;
+  secure: string
 }> = {
   'CWE-78': {
     recommendation: {
@@ -451,7 +609,7 @@ export default function ReportPage() {
       const parsed = JSON.parse(savedResults);
       if (savedCode) setScannedCode(savedCode);
       if (savedLanguage) setLanguage(savedLanguage);
-      
+
       // Handle different API response formats
       if (parsed.findings && Array.isArray(parsed.findings)) {
         // Hybrid Pipeline scan response (/api/v1/hybrid-scan/code)
@@ -467,8 +625,8 @@ export default function ReportPage() {
             start_line: f.line || 1,
             end_line: f.end_line || f.line || 1,
             code_snippet: f.code_snippet,
-            cwe_id: f.cwe || f.cwe_id,
-            owasp_category: f.cwe ? OWASP_CATEGORIES[f.cwe] : f.owasp_category,
+            cwe_id: (f.cwe || f.cwe_id || '').toUpperCase() || inferCweFromTitle(f.rule_id || f.vulnerability_type || f.message || ''),
+            owasp_category: OWASP_CATEGORIES[(f.cwe || f.cwe_id || '').toUpperCase()] || f.owasp_category || inferOwaspFromTitle(f.rule_id || f.vulnerability_type || f.message || ''),
           })),
         };
         setResults([converted]);
@@ -491,21 +649,21 @@ export default function ReportPage() {
       } else if (parsed.file_results) {
         // ZIP scan response - file_results is an array
         console.log('[REPORT] ZIP scan results:', parsed.file_results);
-        
+
         // Sort files by findings count (most findings first)
-        const sortedResults = [...parsed.file_results].sort((a: FileScanResult, b: FileScanResult) => 
+        const sortedResults = [...parsed.file_results].sort((a: FileScanResult, b: FileScanResult) =>
           (b.findings?.length || 0) - (a.findings?.length || 0)
         );
-        
+
         setResults(sortedResults);
         setIsZipScan(true);
-        
+
         // Find first file with findings and set as default
         const firstWithFindings = sortedResults.findIndex((f: FileScanResult) => (f.findings?.length || 0) > 0);
         if (firstWithFindings >= 0) {
           setSelectedFileIndex(firstWithFindings);
         }
-        
+
         // Build combined code view from all file findings
         const combinedCode = sortedResults.map((file: FileScanResult) => {
           const fileName = file.file_path || 'unknown';
@@ -539,10 +697,10 @@ export default function ReportPage() {
   const mapFinding = (f: VulnerabilityFinding, index: number, filePath?: string): DisplayVuln => {
     const cweId = f.cwe_id || 'CWE-UNKNOWN';
     const remediationData = REMEDIATION_DB[cweId];
-    const defaultRecommendation = uiLanguage === 'th' 
+    const defaultRecommendation = uiLanguage === 'th'
       ? `ตรวจสอบและแก้ไขปัญหาความปลอดภัยที่บรรทัด ${f.start_line} ดูข้อมูลเพิ่มเติมได้ที่ฐานข้อมูล CWE`
       : `Review and fix the security issue at line ${f.start_line}. Consult the CWE database for more information.`;
-    
+
     const remediation = remediationData ? {
       recommendation: remediationData.recommendation[uiLanguage],
       vulnerable: remediationData.vulnerable,
@@ -561,7 +719,7 @@ export default function ReportPage() {
       line_number: f.start_line || 1,
       vulnerability_type: f.rule_id?.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Security Issue',
       cwe_id: cweId,
-      owasp_category: OWASP_CATEGORIES[cweId] || 'Unknown Category',
+      owasp_category: OWASP_CATEGORIES[cweId] || OWASP_CATEGORIES[cweId.toUpperCase()] || inferOwaspFromTitle(f.rule_id || f.message || ''),
       description: f.message || 'Potential security vulnerability detected',
       code_snippet: f.code_snippet,
       confidence: 0.85,
@@ -573,19 +731,19 @@ export default function ReportPage() {
   };
 
   // Map findings with file path context
-  const allVulns: DisplayVuln[] = results.flatMap((r, fileIdx) => 
+  const allVulns: DisplayVuln[] = results.flatMap((r, fileIdx) =>
     (r.findings || []).map((f, findingIdx) => ({
       ...mapFinding(f, fileIdx * 1000 + findingIdx, r.file_path),
     }))
   );
-  
+
   // Filter vulnerabilities by selected file (for ZIP scan) and severity
   const fileFilteredVulns = isZipScan && results.length > 1
     ? allVulns.filter(v => v.file_path === results[selectedFileIndex]?.file_path)
     : allVulns;
-  
-  const filteredVulns = filterSeverity === 'all' 
-    ? fileFilteredVulns 
+
+  const filteredVulns = filterSeverity === 'all'
+    ? fileFilteredVulns
     : fileFilteredVulns.filter(v => v.severity === filterSeverity);
 
   const totalVulns = allVulns.length;
@@ -614,7 +772,7 @@ export default function ReportPage() {
   // Apply decorations to editor
   const applyDecorations = (editor: any, vulns: DisplayVuln[]) => {
     if (!editor) return;
-    
+
     const decorations = vulns.map(vuln => {
       const severityConfig = SEVERITY_CONFIG[vuln.severity as keyof typeof SEVERITY_CONFIG] || SEVERITY_CONFIG.medium;
       return {
@@ -647,7 +805,7 @@ export default function ReportPage() {
   // Handle editor mount
   const handleEditorMount = (editor: any) => {
     editorRef.current = editor;
-    
+
     // Add line decorations for vulnerabilities
     if (isZipScan) {
       const currentFileFindings = results[selectedFileIndex]?.findings || [];
@@ -672,21 +830,21 @@ export default function ReportPage() {
         const vulnTitle = v.vulnerability_type || '';
 
         // Resolve CWE: use scanner value first, infer from title when missing
-        const rawCwe   = (v.cwe_id || '').toUpperCase();
-        const cweKey   = rawCwe && rawCwe !== 'CWE-UNKNOWN' && rawCwe !== 'CWE-'
+        const rawCwe = (v.cwe_id || '').toUpperCase();
+        const cweKey = rawCwe && rawCwe !== 'CWE-UNKNOWN' && rawCwe !== 'CWE-'
           ? v.cwe_id!
           : inferCweFromTitle(vulnTitle);
-        const remedDb  = cweKey ? (REMEDIATION_DB[cweKey] || null) : null;
+        const remedDb = cweKey ? (REMEDIATION_DB[cweKey] || null) : null;
 
         // Resolve OWASP category
         const owaspCat = v.owasp_category && v.owasp_category !== 'Unknown Category'
           ? v.owasp_category
           : (cweKey ? (OWASP_CATEGORIES[cweKey] || '') : '')
-            || inferOwaspFromTitle(vulnTitle);
+          || inferOwaspFromTitle(vulnTitle);
 
         // Context window ±3 lines around the vulnerable line
-        const start   = Math.max(0, lineNum - 4);
-        const end     = Math.min(codeLines.length, lineNum + 3);
+        const start = Math.max(0, lineNum - 4);
+        const end = Math.min(codeLines.length, lineNum + 3);
         const snippet = codeLines
           .slice(start, end)
           .map((ln, i) => `${start + i + 1 === lineNum ? '>' : ' '} ${start + i + 1}: ${ln}`)
@@ -723,23 +881,23 @@ export default function ReportPage() {
         // This is the same logic used by mapFinding so on-screen and PDF are consistent.
         const PLACEHOLDER = '// Apply appropriate security fix based on the vulnerability type';
         const rawSecure = (v.secure_example || '').trim();
-        const rawVuln   = (v.vulnerable_example || '').trim();
-        const resolved  = resolveCodeExamples(cweKey, vulnTitle, v.code_snippet || snippet);
+        const rawVuln = (v.vulnerable_example || '').trim();
+        const resolved = resolveCodeExamples(cweKey, vulnTitle, v.code_snippet || snippet);
         const secureExample = (rawSecure && rawSecure !== PLACEHOLDER) ? rawSecure : resolved.secure;
-        const vulnExample   = (rawVuln   && rawVuln   !== PLACEHOLDER) ? rawVuln   : resolved.vulnerable;
+        const vulnExample = (rawVuln && rawVuln !== PLACEHOLDER) ? rawVuln : resolved.vulnerable;
 
         return {
-          cwe_id:             cweKey || 'See description',
-          severity:           v.severity || 'MEDIUM',
-          message:            v.description || '',
-          line:               lineNum,
-          confidence:         typeof v.confidence === 'number' ? v.confidence / 100 : 0.8,
+          cwe_id: cweKey || 'See description',
+          severity: v.severity || 'MEDIUM',
+          message: v.description || '',
+          line: lineNum,
+          confidence: typeof v.confidence === 'number' ? v.confidence / 100 : 0.8,
           vulnerability_type: vulnTitle || cweKey || 'Vulnerability',
-          owasp_category:     owaspCat || 'OWASP Top 10',
+          owasp_category: owaspCat || 'OWASP Top 10',
           recommendation,
-          secure_example:     secureExample,
+          secure_example: secureExample,
           vulnerable_example: vulnExample,
-          code_snippet:       v.code_snippet || snippet,
+          code_snippet: v.code_snippet || snippet,
         };
       });
 
@@ -767,13 +925,32 @@ export default function ReportPage() {
         alert(`PDF generation failed: ${err.detail || response.statusText}`);
         return;
       }
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `security-report-${new Date().toISOString().split('T')[0]}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
+      const arrayBuffer = await response.arrayBuffer();
+      const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+      const filename = `security-report-${new Date().toISOString().split('T')[0]}.pdf`;
+
+      // Method 1: Try using msSaveBlob (Edge/IE)
+      if ((window.navigator as any).msSaveOrOpenBlob) {
+        (window.navigator as any).msSaveOrOpenBlob(blob, filename);
+        return;
+      }
+
+      // Method 2: Create object URL and force download via link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup after delay
+      setTimeout(() => {
+        if (link.parentNode) {
+          link.parentNode.removeChild(link);
+        }
+        window.URL.revokeObjectURL(url);
+      }, 3000);
     } catch (error) {
       console.error('PDF export failed:', error);
       alert('PDF export failed. Please make sure the backend server is running.');
@@ -828,8 +1005,8 @@ export default function ReportPage() {
 
       if (response.ok) {
         setFeedbackState(prev => ({ ...prev, [vulnId]: feedbackType }));
-        setFeedbackMessage(feedbackType === 'false_positive' 
-          ? '✓ Marked as false positive. Thank you for improving our model!' 
+        setFeedbackMessage(feedbackType === 'false_positive'
+          ? '✓ Marked as false positive. Thank you for improving our model!'
           : '✓ Confirmed as vulnerability. Thank you for your feedback!');
         setTimeout(() => setFeedbackMessage(null), 3000);
       }
@@ -923,7 +1100,7 @@ export default function ReportPage() {
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Executive Summary */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6"
@@ -947,22 +1124,22 @@ export default function ReportPage() {
 
           {/* Severity Counts */}
           <div className="card dark:bg-slate-800 dark:border-slate-700 p-4 text-center border-l-4 border-red-500 cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/50 transition"
-               onClick={() => setFilterSeverity(filterSeverity === 'critical' ? 'all' : 'critical')}>
+            onClick={() => setFilterSeverity(filterSeverity === 'critical' ? 'all' : 'critical')}>
             <div className="text-2xl font-bold text-red-600 dark:text-red-400">{criticalCount}</div>
             <div className="text-xs text-text-muted dark:text-slate-400">{t.report.critical}</div>
           </div>
           <div className="card dark:bg-slate-800 dark:border-slate-700 p-4 text-center border-l-4 border-orange-500 cursor-pointer hover:bg-orange-50 dark:hover:bg-orange-950/50 transition"
-               onClick={() => setFilterSeverity(filterSeverity === 'high' ? 'all' : 'high')}>
+            onClick={() => setFilterSeverity(filterSeverity === 'high' ? 'all' : 'high')}>
             <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">{highCount}</div>
             <div className="text-xs text-text-muted dark:text-slate-400">{t.report.high}</div>
           </div>
           <div className="card dark:bg-slate-800 dark:border-slate-700 p-4 text-center border-l-4 border-yellow-500 cursor-pointer hover:bg-yellow-50 dark:hover:bg-yellow-950/50 transition"
-               onClick={() => setFilterSeverity(filterSeverity === 'medium' ? 'all' : 'medium')}>
+            onClick={() => setFilterSeverity(filterSeverity === 'medium' ? 'all' : 'medium')}>
             <div className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{mediumCount}</div>
             <div className="text-xs text-text-muted dark:text-slate-400">{t.report.medium}</div>
           </div>
           <div className="card dark:bg-slate-800 dark:border-slate-700 p-4 text-center border-l-4 border-blue-500 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-950/50 transition"
-               onClick={() => setFilterSeverity(filterSeverity === 'low' ? 'all' : 'low')}>
+            onClick={() => setFilterSeverity(filterSeverity === 'low' ? 'all' : 'low')}>
             <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{lowCount + infoCount}</div>
             <div className="text-xs text-text-muted dark:text-slate-400">{t.report.lowInfo}</div>
           </div>
@@ -983,7 +1160,7 @@ export default function ReportPage() {
 
         {/* No Vulnerabilities */}
         {totalVulns === 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="card dark:bg-slate-800 dark:border-slate-700 p-12 text-center"
@@ -1011,7 +1188,7 @@ export default function ReportPage() {
 
         {/* Split View: Code + Vulnerabilities */}
         {totalVulns > 0 && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -1046,7 +1223,7 @@ export default function ReportPage() {
                 <MonacoEditor
                   height="100%"
                   language={isZipScan && results[selectedFileIndex]?.language ? results[selectedFileIndex].language : (language === 'typescript' ? 'typescript' : language === 'javascript' ? 'javascript' : 'python')}
-                  value={isZipScan 
+                  value={isZipScan
                     ? (results[selectedFileIndex]?.source_code || `// Source code not available for: ${results[selectedFileIndex]?.file_path || 'unknown'}`)
                     : (scannedCode || '// No code available')}
                   theme={theme === 'dark' ? 'vs-dark' : 'vs-light'}
@@ -1102,7 +1279,7 @@ export default function ReportPage() {
                               {t.report.line} {vuln.line_number}
                             </span>
                             {vuln.cwe_id && vuln.cwe_id !== 'CWE-UNKNOWN' && (
-                              <a 
+                              <a
                                 href={`https://cwe.mitre.org/data/definitions/${vuln.cwe_id.replace('CWE-', '')}.html`}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -1171,11 +1348,10 @@ export default function ReportPage() {
                         <div className="flex items-center justify-between">
                           <span className="text-xs text-text-muted dark:text-slate-400">{t.report.wasAccurate}</span>
                           {feedbackState[vuln.id] ? (
-                            <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${
-                              feedbackState[vuln.id] === 'confirmed' 
-                                ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300' 
+                            <span className={`text-xs px-3 py-1.5 rounded-full font-medium ${feedbackState[vuln.id] === 'confirmed'
+                                ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
                                 : 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300'
-                            }`}>
+                              }`}>
                               {feedbackState[vuln.id] === 'confirmed' ? `✓ ${t.report.confirmed}` : `⚠ ${t.report.markedFalsePositive}`}
                             </span>
                           ) : (

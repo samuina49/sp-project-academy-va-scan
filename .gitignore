@@ -14,8 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -50,6 +50,7 @@ ipython_config.py
 .venv
 env/
 venv/
+venv_gpu/
 ENV/
 env.bak/
 venv.bak/
@@ -146,4 +147,3 @@ frontend/dist/
 !backend/data/dummy_dataset.json
 
 # Documentation
-docs/

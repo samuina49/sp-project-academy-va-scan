@@ -556,6 +556,11 @@ class Settings(BaseSettings):
 | 14 | Compliance & Reporting | ✅ Complete |
 | 15 | Infrastructure Security | ✅ Complete |
 
+## 📚 Detailed Documentation
+
+Comprehensive academic documentation, including system architecture, installation manuals, user guides, and source code documentation (Appendices), can be found in the `docs/` directory:
+- [Source Code Documentation (Appendix B)](docs/APPENDIX_B_SOURCE_CODE.md)
+
 ## 🎓 Academic Use
 
 This project is suitable for:
